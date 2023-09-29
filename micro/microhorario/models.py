@@ -71,16 +71,16 @@ class Horario(Base):
     cod_turma: Mapped[str] = mapped_column("cod-turma", primary_key=True)
     # ForeignKey("turmas.cod-turma"), primary_key=True)
     dia: Mapped[str] = mapped_column("dia", String(3), primary_key=True)
-    hora_inicio: Mapped[int] = mapped_column("hora-inicio", nullable=False)
-    hora_fim: Mapped[int] = mapped_column("hora-fim", nullable=False)
+    hora_inicio: Mapped[int] = mapped_column("hora-inicio", primary_key=True)
+    hora_fim: Mapped[int] = mapped_column("hora-fim", nullable=True)
 
 
-class Vaga(Base):
-    __tablename__ = "vagas"
+class Alocacao(Base):
+    __tablename__ = "alocacao"
 
     cod_disciplina: Mapped[str] = mapped_column("cod-disciplina", primary_key=True)
     # ForeignKey("disciplinas.cod-disciplina"), primary_key=True)
     cod_turma: Mapped[str] = mapped_column("cod-turma", primary_key=True)
     # ForeignKey("turmas.cod-turma"), primary_key=True)
-    destino: Mapped[str] = mapped_column("destino", String(3), primary_key=True)
+    destino: Mapped[str] = mapped_column("destino", String(80), primary_key=True)
     vagas: Mapped[int] = mapped_column("vagas", nullable=False)
