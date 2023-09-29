@@ -6,3 +6,6 @@ venv/
 
 # env stuff
 **/*.env
+
+# idea
+.idea/

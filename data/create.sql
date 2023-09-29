@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS disciplinas (
     nome_disciplina TEXT NOT NULL,
     ementa TEXT,
     creditos SMALLINT NOT NULL,
-    FOREIGN KEY (cod_depto) REFERENCES departamentos(cod_depto)                     
+    FOREIGN KEY (cod_depto) REFERENCES departamentos(cod_depto)
 );
 
 CREATE TABLE IF NOT EXISTS prerequisitos (
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS semestres (
     PRIMARY KEY (cod_disciplina, cod_curriculo),
     FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina),
     FOREIGN KEY (cod_curriculo) REFERENCES curriculos(cod_curriculo)
-)
+);
 
 CREATE TABLE IF NOT EXISTS usuarios (
     cod_usuario CHAR(7) PRIMARY KEY,
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS grades (
     cod_usuario CHAR(7) NOT NULL,
     conteudo TEXT NOT NULL,
     FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
-)
+);
 
 CREATE TABLE IF NOT EXISTS historico (
     cod_usuario CHAR(7) NOT NULL,
