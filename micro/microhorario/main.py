@@ -28,7 +28,7 @@ def baixa_microhorario(full: bool = False) -> Microhorario:
     """Baixa todos os dados do microhorario"""
     m: Microhorario = Microhorario.download()
     if full:
-        # m.coletar_extra()
+        m.coletar_extra()
         pass
     return m
 
@@ -39,7 +39,7 @@ def configura_banco(eng: Engine):
 
 
 def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
-    from sqlalchemy import delete, text
+    from sqlalchemy import text
 
     with Session(eng) as session:
         if is_full:
@@ -82,7 +82,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     cod_disciplina=d.codigo,
                     cod_depto=d.departamento.codigo,
                     nome_disciplina=d.nome,
-                    ementa=d.ementa,
+                    ementa=d.ementa[:1000],
                     creditos=d.creditos
                 ))
             # atualiza o banco para poder adicionar o resto
@@ -95,11 +95,13 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                 # aborta caso prerequisitos seja None
                 if d.prerequisitos is None:
                     continue
-                for p in d.prerequisitos:
-                    session.add(Prerequisitos(
-                        cod_disc_orig=d.codigo,
-                        cod_disc_depen=p
-                    ))
+                for i, grupo_prereq in enumerate(d.prerequisitos):
+                    for depen in grupo_prereq:
+                        session.add(Prerequisitos(
+                            cod_disc_orig=d.codigo,
+                            grupo_prereq=i,
+                            cod_disc_depen=depen.codigo
+                        ))
             # atualiza o banco para poder adicionar o resto
             session.commit()
 
@@ -173,8 +175,8 @@ def main(full: bool = False):
     engine = create_engine(conn_str, echo=False)
 
     # cria as tabelas
-    print("[MAIN] Criando as tabelas")
-    configura_banco(engine)
+    # print("[MAIN] Criando as tabelas")
+    # configura_banco(engine)
 
     # baixa os dados
     print("[MAIN] Baixando o microhorario")
