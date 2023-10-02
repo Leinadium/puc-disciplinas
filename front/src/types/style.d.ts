@@ -1,0 +1,1 @@
+export type GenericColor = "default" | "yellow" | "green";
