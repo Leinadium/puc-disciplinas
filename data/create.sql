@@ -28,6 +28,7 @@ CREATE TABLE IF NOT EXISTS turmas (
     cod_turma CHAR(3) NOT NULL,
     cod_disciplina CHAR(7) NOT NULL,
     nome_professor TEXT NOT NULL,
+    shf SMALLINT NOT NULL,
     PRIMARY KEY (cod_turma, cod_disciplina),
     FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina),
     FOREIGN KEY (nome_professor) REFERENCES professores(nome_professor)
@@ -62,7 +63,8 @@ CREATE TABLE IF NOT EXISTS semestres (
     cod_curriculo SMALLINT NOT NULL,
     semestre SMALLINT NOT NULL,
     PRIMARY KEY (cod_disciplina, cod_curriculo),
-    FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina),
+    -- não é verdade: pode ser que não existe mais a disciplina do currículo, ou mudou o nome
+    -- FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina),
     FOREIGN KEY (cod_curriculo) REFERENCES curriculos(cod_curriculo)
 );
 
