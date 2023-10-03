@@ -82,7 +82,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     cod_disciplina=d.codigo,
                     cod_depto=d.departamento.codigo,
                     nome_disciplina=d.nome,
-                    ementa=d.ementa[:1000],
+                    ementa=d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA',
                     creditos=d.creditos
                 ))
             # atualiza o banco para poder adicionar o resto
