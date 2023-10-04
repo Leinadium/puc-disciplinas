@@ -128,12 +128,13 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
         print("[ADICIONA_NO_BANCO] Adicionando as alocacaoes")
         for disc in m.disciplinas:
             for turma in disc.turmas:
-                session.add(Alocacao(
-                    cod_disciplina=disc.codigo,
-                    cod_turma=turma.codigo,
-                    destino=f"{turma.alocacao.destino.codigo} ({turma.alocacao.destino.nome})",
-                    vagas=turma.alocacao.vagas,
-                ))
+                for alocacao in turma.alocacoes:
+                    session.add(Alocacao(
+                        cod_disciplina=disc.codigo,
+                        cod_turma=turma.codigo,
+                        destino=f"{alocacao.destino.codigo} ({alocacao.destino.nome})",
+                        vagas=alocacao.vagas,
+                    ))
 
         session.commit()
 
