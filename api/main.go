@@ -3,24 +3,28 @@ package main
 import (
 	"fmt"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
-	"net/http"
-	"os"
-
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"os"
 )
 
 func main() {
+	// carrega as variaveis de ambiente do .env
 	loadEnv()
+	// pega a secret key
+	secretKey, ok := os.LookupEnv("SECRET_KEY")
+	if !ok {
+		panic("SECRET_KEY nao encontrada")
+	}
 
+	// construtor do gin
+	// base
 	r := gin.Default()
-
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-
+	// para sessoes
+	r.Use(sessions.Sessions("loginsession", cookie.NewStore([]byte(secretKey))))
+	// controllers
 	r.GET("/disciplinas", controllers.GetDisciplinas)
 
 	_ = r.Run()
