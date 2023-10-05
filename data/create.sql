@@ -54,13 +54,13 @@ CREATE TABLE IF NOT EXISTS alocacoes (
 );
 
 CREATE TABLE IF NOT EXISTS curriculos (
-    cod_curriculo SMALLINT PRIMARY KEY,
+    cod_curriculo VARCHAR(11) PRIMARY KEY,
     nome_curriculo TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS semestres (
     cod_disciplina CHAR(7) NOT NULL,
-    cod_curriculo SMALLINT NOT NULL,
+    cod_curriculo VARCHAR(11) NOT NULL,
     semestre SMALLINT NOT NULL,
     PRIMARY KEY (cod_disciplina, cod_curriculo),
     -- não é verdade: pode ser que não existe mais a disciplina do currículo, ou mudou o nome
@@ -70,8 +70,8 @@ CREATE TABLE IF NOT EXISTS semestres (
 
 CREATE TABLE IF NOT EXISTS usuarios (
     cod_usuario CHAR(7) PRIMARY KEY,
-    cod_curriculo SMALLINT NOT NULL,
     nome_usuario TEXT NOT NULL,
+    cod_curriculo VARCHAR(11),
     FOREIGN KEY (cod_curriculo) REFERENCES curriculos(cod_curriculo)
 );
 
@@ -82,11 +82,12 @@ CREATE TABLE IF NOT EXISTS grades (
     FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
 );
 
-CREATE TABLE IF NOT EXISTS historico (
+CREATE TABLE IF NOT EXISTS historicos (
     cod_usuario CHAR(7) NOT NULL,
     cod_disciplina CHAR(7) NOT NULL,
     semestre SMALLINT NOT NULL,
-    PRIMARY KEY (cod_usuario, cod_disciplina),
+    grau SMALLINT,  -- a disciplina pode nao ter nota
+    PRIMARY KEY (cod_usuario, cod_disciplina, semestre),
     FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
     -- sem foreign key para disciplinas,
     -- pois pode ser que o usuário tenha cursado disciplinas que não estão mais no currículo
