@@ -34,6 +34,8 @@ def parse_historico(html: bytes) -> tuple[list[Historia], str | None]:
     ultimo_periodo: str = ""
     i_periodo: int = 0
 
+    todas_disciplinas: set[str] = set()
+
     # pega as linhas da tabela
     # cada linha é um <tr> com class "tab_linha"
     for linha in body.find_all('tr'):
@@ -41,8 +43,16 @@ def parse_historico(html: bytes) -> tuple[list[Historia], str | None]:
         disciplina_tag: bs4.Tag = linha.find('span', class_='tab_col_valor_Disciplina')
         grau_tag: bs4.Tag = linha.find('span', class_='tab_col_valor_Grau')
         situacao_tag: bs4.Tag = linha.find('span', class_='tab_col_valor_Situacao')
+        grupo_tag: bs4.Tag = linha.find('span', class_='tab_col_valor_Grupo')
 
         if None not in (periodo_tag, disciplina_tag, grau_tag, situacao_tag):
+            # converte o nome da disciplina para o codigo
+            disciplina_str = disciplina_tag.text.strip()[:7]
+
+            # ignora se a disciplina ja foi verificada
+            if disciplina_str in todas_disciplinas:
+                continue
+
             # verifica se é uma situação valida
             situacao = situacao_tag.text.strip()
             if situacao not in ('AP', 'CP', 'RF', 'RM'):
@@ -61,9 +71,16 @@ def parse_historico(html: bytes) -> tuple[list[Historia], str | None]:
                 grau_int = int(float(grau.replace(',', '.')) * 10)
             except ValueError:
                 grau_int = None
-            # converte o nome da disciplina para o codigo
-            disciplina_str = disciplina_tag.text.strip()[:7]
+
             # adiciona na lista
             ret.append(Historia(i_periodo, disciplina_str, grau_int))
+
+            # se grupo nao for nulo, adiciona o grupo como se fosse uma disciplina
+            # pois o grupo pode estar no curriculo
+            if grupo_tag is not None:
+                grupo_str = grupo_tag.text.strip()[:7]
+                if grupo_str not in todas_disciplinas:
+                    ret.append(Historia(i_periodo, grupo_str, grau_int))
+                    todas_disciplinas.add(grupo_str)
 
     return ret, cod_curriculo
