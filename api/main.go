@@ -22,9 +22,13 @@ func main() {
 	// construtor do gin
 	// base
 	r := gin.Default()
+
 	// para sessoes
 	r.Use(sessions.Sessions("loginsession", cookie.NewStore([]byte(secretKey))))
-	// controllers
+
+	// rotas
+	r.POST("/login", controllers.Login)
+	r.POST("/logout", controllers.Logout)
 	r.GET("/disciplinas", controllers.GetDisciplinas)
 
 	_ = r.Run()
