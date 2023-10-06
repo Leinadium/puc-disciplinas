@@ -79,7 +79,7 @@ def parse_historico(html: bytes) -> tuple[list[Historia], str | None]:
             # pois o grupo pode estar no curriculo
             if grupo_tag is not None:
                 grupo_str = grupo_tag.text.strip()[:7]
-                if grupo_str not in todas_disciplinas:
+                if grupo_str not in todas_disciplinas and grupo_str:
                     ret.append(Historia(i_periodo, grupo_str, grau_int))
                     todas_disciplinas.add(grupo_str)
 
