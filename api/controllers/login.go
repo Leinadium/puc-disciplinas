@@ -113,7 +113,10 @@ func checkNovoUsuario(c *gin.Context, usuario, nome string) {
 		return
 	}
 
-	db.Save(&models.Usuario{
+	// vai dar erro se o usuario ja existir
+	// mas tudo bem
+	db.Create(&models.Usuario{
 		CodUsuario: usuario, NomeUsuario: nome,
 	})
+
 }
