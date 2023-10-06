@@ -29,7 +29,7 @@ func main() {
 	// rotas
 	r.POST("/login", controllers.Login)
 	r.POST("/logout", controllers.Logout)
-	r.GET("/disciplinas", controllers.GetDisciplinas)
+	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
 
 	_ = r.Run()
 }
