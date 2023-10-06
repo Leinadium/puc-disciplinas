@@ -64,7 +64,7 @@ def login():
             }
         )
     except requests.exceptions.ConnectionError:
-        return {"message": "Não foi possível se conectar ao servidor"}, 500
+        return {"message": "Não foi possível se conectar ao SAU"}, 500
 
     # tenta pegar a tag do nome do usuario
     soup = bs4.BeautifulSoup(r.text, features='html.parser')
