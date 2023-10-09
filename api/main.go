@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -26,10 +27,16 @@ func main() {
 	// para sessoes
 	r.Use(sessions.Sessions("loginsession", cookie.NewStore([]byte(secretKey))))
 
+	// configuracao do cors
+	r.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"http://localhost:5173"}, // temporario
+	}))
+
 	// rotas
 	r.POST("/login", controllers.Login)
 	r.POST("/logout", controllers.Logout)
 	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
+	r.GET("/disciplinas/pesquisa", controllers.GetDisciplinasPesquisa)
 
 	_ = r.Run()
 }
