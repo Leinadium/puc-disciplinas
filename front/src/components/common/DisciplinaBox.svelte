@@ -19,9 +19,9 @@
     </div>
     
     <div class="numeros">
-        <span id="creditos">{info.creditos} <span class="small">crd</span></span>
-        <span id="turmas">{info.qtdTurmas} <span class="small">tur</span></span>
-        <span id="vagas">{info.qtdVagas} <span class="small">vgs</span></span>
+        <span id="creditos">{info.creditos}<span class="small">crd</span></span>
+        <span id="turmas">{info.qtdTurmas}<span class="small">tur</span></span>
+        <span id="vagas">{info.qtdVagas}<span class="small">vgs</span></span>
     </div>
 </GenericBox>
 
@@ -30,7 +30,8 @@
     .textos {
         display: flex;
         flex-flow: column nowrap;
-        justify-content: space-between;
+        justify-content: flex-start;
+        height: 70%;
     }
 
     .small {
@@ -38,16 +39,18 @@
     }
 
     #nome {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
         overflow: hidden;
-        white-space: nowrap;
+        /* white-space: nowrap; */
         text-overflow: ellipsis;
     }
 
     .numeros {
-        font-size: 0.7rem;
+        font-size: 0.5rem;
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-around;
+        align-items: flex-end;
+        height: 30%;
     }
 </style>
