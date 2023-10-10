@@ -92,3 +92,24 @@ CREATE TABLE IF NOT EXISTS historicos (
     -- sem foreign key para disciplinas,
     -- pois pode ser que o usuário tenha cursado disciplinas que não estão mais no currículo
 );
+
+CREATE TABLE IF NOT EXISTS avaliacoes_disciplina (
+    cod_usuario CHAR(7) NOT NULL,
+    cod_disciplina CHAR(7) NOT NULL,
+    nota_avaliacao SMALLINT NOT NULL,
+    data_avaliacao DATE NOT NULL,
+    PRIMARY KEY (cod_usuario, cod_disciplina),
+    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
+    -- FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina)
+);
+
+
+CREATE TABLE IF NOT EXISTS avaliacoes_professores (
+    cod_usuario CHAR(7) NOT NULL,
+    nome_professor TEXT NOT NULL,
+    nota_avaliacao SMALLINT NOT NULL,
+    data_avaliacao DATE NOT NULL,
+    PRIMARY KEY (cod_usuario, nome_professor),
+    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
+    -- FOREIGN KEY (nome_professor) REFERENCES professores(nome_professor)
+);
