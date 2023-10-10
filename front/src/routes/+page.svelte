@@ -1,10 +1,8 @@
 <script lang="ts">
     import MainPage from "../components/MainPage.svelte";
-	import DisciplinaSearch from "../components/common/DisciplinaSearch.svelte";
-	import MainGrade from "../components/grade/MainGrade.svelte";
+	import GradePage from "../components/grade/GradePage.svelte";
 </script>
 
 <MainPage>
-    <!-- <MainGrade /> -->
-    <DisciplinaSearch />
+    <GradePage />
 </MainPage>
