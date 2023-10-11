@@ -2,8 +2,9 @@ import type { DiaDisciplina, Escolha, EscolhaInfoExtra, HoraDisciplina } from ".
 
 
 function formatHora(h: HoraDisciplina): string {
-    const f = (h: number) => h.toString().padStart(2, '0') + 'h'
-    return f(h) + '-' + f(h + 1);
+    // const f = (h: number) => h.toString().padStart(2, '0') + 'h'
+    // return f(h) + '-' + f(h + 1);
+    return h.toString().padStart(2, '0') + 'h';
 }
 
 function removeExtraFromEscolha(e: EscolhaInfoExtra): Escolha {

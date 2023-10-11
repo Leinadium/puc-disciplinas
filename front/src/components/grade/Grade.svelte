@@ -78,27 +78,36 @@
 	table {
         table-layout: fixed;
         border-collapse: collapse;
-		height: 60%;
-        width: min(70vw, 900px);
+		height: 100%;
+        width: 100%;
 
         border: 3px solid purple;
 	}
 
     td, th {
         border: 1px solid black;
-        padding: 10px;
+        padding: 5px;
         margin: 0;
         height: 100%;
-        /* width: 10%; */
+        width: 100%;
     }
 
     tr {
-        height: 50px;
+        height: 60px;
     }
 
-    /* primeiro td deve ser menor */
+    /* primeiro td (horas) */
     td:first-child, th:first-child {
-        width: 10% !important;
+        /* width: 10% !important; */
+        width: 40px;
+        padding: 0;
+        font-size: 0.8em;
         white-space: nowrap;
+        text-align: center;
+    }
+
+    thead > tr {
+        height: 20px;
+        padding: 0;
     }
 </style>
