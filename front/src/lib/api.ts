@@ -1,11 +1,12 @@
-import type { ErrorApi, ListaDisciplinasApi } from "../types/api";
-import type { DisciplinaBasica } from "../types/disciplinas";
+import type { ErrorApi, ListaCodigosApi, ListaDisciplinasApi } from "../types/api";
+import type { DisciplinaBasica, DisciplinaCodigo } from "../types/disciplinas";
 
-const API_URL = 'http://localhost:8080/disciplinas/pesquisa?query='
+const BASE_API_URL = 'http://localhost:8080'
 
-export async function pesquisarDisciplinas(texto: string): Promise<DisciplinaBasica[]> {
-    let res = await fetch(API_URL + texto);
-    if (res.status != 200) {
+
+async function genericFetch(url: string): Promise<any> {
+    let res = await fetch(url, { credentials: 'include' });
+    if (res.status !== 200) {
         let body: ErrorApi | undefined = await res.json();
         if (body && body.message) {
             throw new Error(body.message);
@@ -13,8 +14,20 @@ export async function pesquisarDisciplinas(texto: string): Promise<DisciplinaBas
             throw new Error("Erro ao acessar a API");
         }
     }
+    return res.json();
+}
 
-    let body: ListaDisciplinasApi = await res.json();
-    let disciplinas: DisciplinaBasica[] = body.data;
-    return disciplinas
+export async function coletarDisciplinasInfo(): Promise<DisciplinaBasica[] | null> {
+    let body: ListaDisciplinasApi = await genericFetch(BASE_API_URL + '/pesquisa/info');
+    return body.data;
+}
+
+export async function coletarDisciplinasPodeCursar(): Promise<DisciplinaCodigo[] | null> {
+    let body: ListaCodigosApi = await genericFetch(BASE_API_URL + '/pesquisa/podecursar');
+    return body.data;
+}
+
+export async function coletarDisciplinasFaltaCursar(): Promise<DisciplinaCodigo[] | null> {
+    let body: ListaCodigosApi = await genericFetch(BASE_API_URL + '/pesquisa/faltacursar');
+    return body.data;
 }

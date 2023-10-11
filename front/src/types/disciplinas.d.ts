@@ -6,6 +6,10 @@ export type DisciplinaBasica = {
     qtdTurmas: number,
 }
 
+export type DisciplinaCodigo = {
+    codigo: string,
+}
+
 export type Escolha = {
     nome: string,
     codigo: string,
