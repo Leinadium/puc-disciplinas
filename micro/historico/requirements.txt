@@ -2,6 +2,6 @@ requests
 beautifulsoup4
 flask
 sqlalchemy
-psycopg2
+# psycopg2
 psycopg2-binary
 python-dotenv
