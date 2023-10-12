@@ -38,6 +38,10 @@ func main() {
 	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
 	r.GET("/disciplinas/pesquisa", controllers.GetDisciplinasPesquisa)
 
+	r.GET("/pesquisa/info", controllers.GetDisciplinasInformacoes)
+	r.GET("/pesquisa/podecursar", controllers.GetDisciplinasPodeCursar)
+	r.GET("/pesquisa/faltacursar", controllers.GetDisciplinasFaltaCursar)
+
 	_ = r.Run()
 }
 
