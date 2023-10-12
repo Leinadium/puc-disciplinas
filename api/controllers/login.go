@@ -5,6 +5,7 @@ import (
 	"github.com/Leinadium/puc-disciplinas/api/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm/clause"
 	"net/http"
 	"net/url"
 )
@@ -115,7 +116,7 @@ func checkNovoUsuario(c *gin.Context, usuario, nome string) {
 
 	// vai dar erro se o usuario ja existir
 	// mas tudo bem
-	db.Create(&models.Usuario{
+	db.Clauses(clause.OnConflict{DoNothing: true}).Create(&models.Usuario{
 		CodUsuario: usuario, NomeUsuario: nome,
 	})
 
