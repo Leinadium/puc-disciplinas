@@ -29,15 +29,20 @@ func main() {
 
 	// configuracao do cors
 	r.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"http://localhost:5173"}, // temporario
+		AllowOrigins:     []string{"http://localhost:5173"}, // temporario
+		AllowCredentials: true,
 	}))
 
 	// rotas
+	// rotas de autenticacao
 	r.POST("/login", controllers.Login)
 	r.POST("/logout", controllers.Logout)
+	r.GET("/login", controllers.CheckLogin)
+
 	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
 	r.GET("/disciplinas/pesquisa", controllers.GetDisciplinasPesquisa)
 
+	// rotas para a barra de pesquisa das disciplinas
 	r.GET("/pesquisa/info", controllers.GetDisciplinasInformacoes)
 	r.GET("/pesquisa/podecursar", controllers.GetDisciplinasPodeCursar)
 	r.GET("/pesquisa/faltacursar", controllers.GetDisciplinasFaltaCursar)

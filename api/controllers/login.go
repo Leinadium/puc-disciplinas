@@ -20,12 +20,26 @@ func getLoginFromSession(c *gin.Context) (string, bool) {
 	return usuario.(string), true
 }
 
+// CheckLogin Rota de checagem de login
+func CheckLogin(c *gin.Context) {
+	usuario, ok := getLoginFromSession(c)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Não logado",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Logado",
+		"nome":    usuario,
+	})
+}
+
 // Login Rota de Login
 func Login(c *gin.Context) {
 	usuario := c.PostForm("usuario")
 	senha := c.PostForm("senha")
-	println(usuario)
-	println(senha)
 
 	if usuario == "" || senha == "" {
 		c.JSON(400, gin.H{
