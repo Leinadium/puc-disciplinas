@@ -1,6 +1,10 @@
 <script lang="ts">
 	import Container from "./Container.svelte";
 
+	import { checkLogin } from "$lib/api";
+	import { onMount } from "svelte";
+
+	onMount(checkLogin);
 </script>
 
 <div id="grade-page">
