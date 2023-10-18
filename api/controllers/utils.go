@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"github.com/Leinadium/puc-disciplinas/api/models"
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -20,4 +21,15 @@ func GetDbOrSetError(c *gin.Context) *gorm.DB {
 		return nil
 	}
 	return db
+}
+
+// GetLoginFromSession Pega o login a partir da sessao
+// Retorna o nome do usuario ou "" se nao estiver logado
+func GetLoginFromSession(c *gin.Context) (string, bool) {
+	session := sessions.Default(c)
+	usuario := session.Get(keyLoginSession)
+	if usuario == nil {
+		return "", false
+	}
+	return usuario.(string), true
 }

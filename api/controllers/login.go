@@ -10,19 +10,9 @@ import (
 	"net/url"
 )
 
-// Pega o login a partir da sessao
-func getLoginFromSession(c *gin.Context) (string, bool) {
-	session := sessions.Default(c)
-	usuario := session.Get(keyLoginSession)
-	if usuario == nil {
-		return "", false
-	}
-	return usuario.(string), true
-}
-
 // CheckLogin Rota de checagem de login
 func CheckLogin(c *gin.Context) {
-	usuario, ok := getLoginFromSession(c)
+	usuario, ok := GetLoginFromSession(c)
 	if !ok {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Não logado",

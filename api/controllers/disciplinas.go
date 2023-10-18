@@ -32,7 +32,7 @@ func GetDisciplinasLista(c *gin.Context) {
 
 	// pega o usuario e executa a query
 	var err error
-	if usuario, ok := getLoginFromSession(c); ok {
+	if usuario, ok := GetLoginFromSession(c); ok {
 		println("usuario: " + usuario)
 		err = db.Raw(queries.QUERY_LISTA_LATERAL_LOGIN, sql.Named("name", usuario)).Scan(&results).Error
 	} else {
@@ -101,7 +101,7 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 	var results []resultCodigo
 
 	// pega o usuario
-	var usuario, ok = getLoginFromSession(c)
+	var usuario, ok = GetLoginFromSession(c)
 	if ok {
 		println("usuario: " + usuario)
 		query := db.Model(&models.Historico{}).Select("cod_disciplina").Where("cod_usuario = ?", usuario)
@@ -110,8 +110,6 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 			return
 		}
-
-		println("len results: " + string(rune(len(results))))
 	}
 	c.JSON(http.StatusOK, gin.H{"data": results})
 }
@@ -126,7 +124,7 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 	var results []resultCodigo
 
 	// pega o usuario
-	var usuario, ok = getLoginFromSession(c)
+	var usuario, ok = GetLoginFromSession(c)
 	if ok {
 		query := db.Raw(queries.QUERY_FALTA_CURSAR, sql.Named("name", usuario))
 		if err := query.Find(&results).Error; err != nil {
