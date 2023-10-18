@@ -25,5 +25,5 @@ type resultQuery struct {
 
 type resultAlg struct {
 	CodDisciplina string                   `json:"cod"`
-	Nota          controllers.RoundedFloat `json:"nota"`
+	Valor         controllers.RoundedFloat `json:"val"`
 }

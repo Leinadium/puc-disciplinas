@@ -42,7 +42,7 @@ def pegar_recomendacoes(grade: Grade, cookies: RequestsCookieJar) -> list[Respos
 
 
 def filtra_resposta(resposta: list[Resposta]) -> list[Resposta]:
-    resposta.sort(key=lambda x: x["nota"], reverse=True)
+    resposta.sort(key=lambda x: x['val'], reverse=True)
     return resposta[:20]
 
 
