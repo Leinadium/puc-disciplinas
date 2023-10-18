@@ -23,15 +23,29 @@ FROM disciplinas d
 GROUP BY d.cod_disciplina, d.nome_disciplina, d.creditos
 `
 
-//const QUERY_PODE_CURSAR = `
-//SELECT d.cod_disciplina as codigo, (h.cod_disciplina IS NOT NULL) as cursada
-//FROM disciplinas d
-//    LEFT JOIN (
-//        SELECT h.cod_disciplina
-//        FROM historicos h
-//        WHERE h.cod_usuario = @name
-//    ) h ON d.cod_disciplina = h.cod_disciplina;
-//`
+const QUERY_PODE_CURSAR = `
+SELECT DISTINCT p.cod_disc_orig
+FROM prerequisitos p
+WHERE (p.cod_disc_orig, p.grupo_prereq) NOT IN (
+    SELECT pp.cod_disc_orig, pp.grupo_prereq
+    FROM prerequisitos pp
+    WHERE pp.cod_disc_depen NOT IN (
+        SELECT cod_disciplina
+        FROM historicos h
+        WHERE h.cod_usuario = @name
+    )
+)
+UNION DISTINCT
+SELECT DISTINCT cod_disciplina
+FROM disciplinas
+WHERE cod_disciplina NOT IN (
+    SELECT cod_disc_orig
+    FROM prerequisitos
+) AND cod_disciplina NOT IN (
+    SELECT cod_disciplina
+    FROM historicos h
+    WHERE h.cod_usuario = @name
+);`
 
 const QUERY_FALTA_CURSAR = `
 SELECT d.cod_disciplina

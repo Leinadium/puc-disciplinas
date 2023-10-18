@@ -56,3 +56,26 @@ WHERE d.cod_disciplina IN (
 GROUP BY d.cod_disciplina, d.nome_disciplina, d.creditos
 ------------------------------------------------
 ------------------------------------------------
+---------- PODE CURSAR -------------------------
+SELECT DISTINCT p.cod_disc_orig
+FROM prerequisitos p
+WHERE (p.cod_disc_orig, p.grupo_prereq) NOT IN (
+    SELECT pp.cod_disc_orig, pp.grupo_prereq
+    FROM prerequisitos pp
+    WHERE pp.cod_disc_depen NOT IN (
+        SELECT cod_disciplina
+        FROM historicos h
+        WHERE h.cod_usuario = '1910462'
+    )
+)
+UNION DISTINCT
+SELECT DISTINCT cod_disciplina
+FROM disciplinas
+WHERE cod_disciplina NOT IN (
+    SELECT cod_disc_orig
+    FROM prerequisitos
+) AND cod_disciplina NOT IN (
+    SELECT cod_disciplina
+    FROM historicos h
+    WHERE h.cod_usuario = '1910462'
+)

@@ -3,7 +3,6 @@ package controllers
 import (
 	"database/sql"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/queries"
-	"github.com/Leinadium/puc-disciplinas/api/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -104,8 +103,8 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 	var usuario, ok = GetLoginFromSession(c)
 	if ok {
 		println("usuario: " + usuario)
-		query := db.Model(&models.Historico{}).Select("cod_disciplina").Where("cod_usuario = ?", usuario)
-
+		// query := db.Model(&models.Historico{}).Select("cod_disciplina").Where("cod_usuario = ?", usuario)
+		query := db.Raw(queries.QUERY_PODE_CURSAR, sql.Named("name", usuario))
 		if err := query.Find(&results).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 			return
