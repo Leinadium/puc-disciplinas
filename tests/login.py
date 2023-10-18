@@ -15,7 +15,7 @@ class Grade(TypedDict):
 
 class Resposta(TypedDict):
     cod: str
-    nota: float
+    val: float
 
 
 def executar_login(usuario: str, senha: str) -> RequestsCookieJar:
