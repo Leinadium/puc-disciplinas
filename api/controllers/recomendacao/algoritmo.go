@@ -34,9 +34,17 @@ func executaAlgoritmo(discs []resultQuery) []resultAlg {
 		nota = (notaC * 41) + (notaH * 19) + (notaO * 8) + (notaP * 28) + (notaA * 21)
 		nota /= 41 + 19 + 8 + 28 + 21
 
+		// salva o resultado
 		res = append(res, resultAlg{
 			CodDisciplina: disc.CodDisciplina,
 			Valor:         controllers.RoundedFloat(nota),
+			Pesos: resultPesos{
+				Conteudo:  controllers.RoundedFloat(notaC),
+				Horario:   controllers.RoundedFloat(notaH),
+				Opiniao:   controllers.RoundedFloat(notaO),
+				Professor: controllers.RoundedFloat(notaP),
+				Avaliacao: controllers.RoundedFloat(notaA),
+			},
 		})
 	}
 	return res

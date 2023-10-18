@@ -26,4 +26,13 @@ type resultQuery struct {
 type resultAlg struct {
 	CodDisciplina string                   `json:"cod"`
 	Valor         controllers.RoundedFloat `json:"val"`
+	Pesos         resultPesos              `json:"pes"`
+}
+
+type resultPesos struct {
+	Conteudo  controllers.RoundedFloat `json:"c"`
+	Horario   controllers.RoundedFloat `json:"h"`
+	Opiniao   controllers.RoundedFloat `json:"o"`
+	Professor controllers.RoundedFloat `json:"p"`
+	Avaliacao controllers.RoundedFloat `json:"a"`
 }
