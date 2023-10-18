@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
+	"github.com/Leinadium/puc-disciplinas/api/controllers/recomendacao"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
@@ -38,14 +39,15 @@ func main() {
 	r.POST("/login", controllers.Login)
 	r.POST("/logout", controllers.Logout)
 	r.GET("/login", controllers.CheckLogin)
-
+	// DEPRECIATED rotas para coletar as disciplinas
 	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
 	r.GET("/disciplinas/pesquisa", controllers.GetDisciplinasPesquisa)
-
 	// rotas para a barra de pesquisa das disciplinas
 	r.GET("/pesquisa/info", controllers.GetDisciplinasInformacoes)
 	r.GET("/pesquisa/podecursar", controllers.GetDisciplinasPodeCursar)
 	r.GET("/pesquisa/faltacursar", controllers.GetDisciplinasFaltaCursar)
+	// recomendacao
+	r.GET("/recomendacao", recomendacao.GetRecomendacao)
 
 	_ = r.Run()
 }
