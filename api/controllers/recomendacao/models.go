@@ -1,5 +1,7 @@
 package recomendacao
 
+import "github.com/Leinadium/puc-disciplinas/api/controllers"
+
 type inputRecomendacao struct {
 	Escolhas []inputEscolha `json:"escolhas"`
 }
@@ -22,6 +24,6 @@ type resultQuery struct {
 }
 
 type resultAlg struct {
-	CodDisciplina string  `json:"cod"`
-	Nota          float64 `json:"nota"`
+	CodDisciplina string                   `json:"cod"`
+	Nota          controllers.RoundedFloat `json:"nota"`
 }

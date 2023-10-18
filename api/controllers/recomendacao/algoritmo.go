@@ -1,5 +1,7 @@
 package recomendacao
 
+import "github.com/Leinadium/puc-disciplinas/api/controllers"
+
 // executaAlgoritmo executa o algoritmo de recomendacao
 // Pesos:
 // Conteudo = C1 + C2, onde
@@ -32,7 +34,10 @@ func executaAlgoritmo(discs []resultQuery) []resultAlg {
 		nota = (notaC * 41) + (notaH * 19) + (notaO * 8) + (notaP * 28) + (notaA * 21)
 		nota /= 41 + 19 + 8 + 28 + 21
 
-		res = append(res, resultAlg{CodDisciplina: disc.CodDisciplina, Nota: nota})
+		res = append(res, resultAlg{
+			CodDisciplina: disc.CodDisciplina,
+			Nota:          controllers.RoundedFloat(nota),
+		})
 	}
 	return res
 }

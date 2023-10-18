@@ -5,6 +5,7 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 type MicroErrorProxy struct {
@@ -32,4 +33,10 @@ func GetLoginFromSession(c *gin.Context) (string, bool) {
 		return "", false
 	}
 	return usuario.(string), true
+}
+
+type RoundedFloat float64
+
+func (f RoundedFloat) MarshalJSON() ([]byte, error) {
+	return []byte(strconv.FormatFloat(float64(f)*100, 'f', 1, 32)), nil
 }
