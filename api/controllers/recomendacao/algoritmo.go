@@ -17,7 +17,7 @@ import "github.com/Leinadium/puc-disciplinas/api/controllers"
 //
 // Avaliacao = avg(GrausDaDisciplina) / 100
 //
-// Valor final: (Conteudo * 0.4) + (Horario * 0.2) + (Opiniao * 0.1) + (Professor * 0.1) + (Avaliacao * 0.2)
+// Valor final: (Conteudo * 41) + (Horario * 19) + (Opiniao * 8) + (Professor * 28) + (Avaliacao * 21)
 func executaAlgoritmo(discs []resultQuery) []resultAlg {
 	var res []resultAlg
 	var nota float64
@@ -31,8 +31,8 @@ func executaAlgoritmo(discs []resultQuery) []resultAlg {
 
 		// faz a media ponderada
 		// os pesos foram derivados das entrevistas
-		nota = (notaC * 41) + (notaH * 19) + (notaO * 8) + (notaP * 28) + (notaA * 21)
-		nota /= 41 + 19 + 8 + 28 + 21
+		nota = (notaC * 41.0) + (notaH * 19.0) + (notaO * 8.0) + (notaP * 28.0) + (notaA * 21.0)
+		nota /= 41 + 19 + 8 + 28 + 21.0
 
 		// salva o resultado
 		res = append(res, resultAlg{
@@ -62,7 +62,7 @@ func calculaConteudo(c1 bool, c21 int, c22 int) float64 {
 	}
 	v2 := 0.0
 	if c22 != 0.0 {
-		v2 = float64(c21) / float64(c22)
+		v2 = 0.5 * float64(c21) / float64(c22)
 	}
 	return v1 + v2
 }

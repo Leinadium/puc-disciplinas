@@ -36,7 +36,7 @@ func GetRecomendacao(c *gin.Context) {
 
 	// gerando a parte das turmas do sql
 	// para cada escolha, é preciso gerar o fragmento sql:
-	// (cod_disciplina = 'INF1350' AND cod_turma = '3WA')
+	// (cod_disciplina = 'XXX0000' AND cod_turma = '0XX')
 	// e junta-los com OR
 	var escolhas string
 	for i, escolha := range input.Escolhas {
@@ -59,6 +59,7 @@ func GetRecomendacao(c *gin.Context) {
 
 	// fazendo a substituicao das escolhas na query
 	querySql := strings.Replace(queries.QUERY_RECOMENDACAO, "@escolhas", escolhas, 1)
+	println(querySql)
 	query := db.Raw(querySql, sql.Named("usuario", usuario))
 	// executando a query
 	var results []resultQuery
@@ -69,7 +70,6 @@ func GetRecomendacao(c *gin.Context) {
 
 	// executando o algoritmo
 	resultsAlg := executaAlgoritmo(results)
-	println(resultsAlg[:20])
 
 	c.JSON(http.StatusOK, gin.H{"data": resultsAlg})
 }
