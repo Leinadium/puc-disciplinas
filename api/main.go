@@ -22,7 +22,6 @@ func main() {
 	}
 
 	// construtor do gin
-	// base
 	r := gin.Default()
 
 	// para sessoes
@@ -36,18 +35,22 @@ func main() {
 
 	// rotas
 	// rotas de autenticacao
-	r.POST("/login", controllers.Login)
-	r.POST("/logout", controllers.Logout)
-	r.GET("/login", controllers.CheckLogin)
+	authGroup := r.Group("")
+	authGroup.POST("/login", controllers.Login)
+	authGroup.POST("/logout", controllers.Logout)
+	authGroup.GET("/login", controllers.CheckLogin)
 	// DEPRECIATED rotas para coletar as disciplinas
-	r.GET("/disciplinas/lista", controllers.GetDisciplinasLista)
-	r.GET("/disciplinas/pesquisa", controllers.GetDisciplinasPesquisa)
+	disciplinasGroup := r.Group("/disciplinas")
+	disciplinasGroup.GET("/lista", controllers.GetDisciplinasLista)
+	disciplinasGroup.GET("/pesquisa", controllers.GetDisciplinasPesquisa)
 	// rotas para a barra de pesquisa das disciplinas
-	r.GET("/pesquisa/info", controllers.GetDisciplinasInformacoes)
-	r.GET("/pesquisa/podecursar", controllers.GetDisciplinasPodeCursar)
-	r.GET("/pesquisa/faltacursar", controllers.GetDisciplinasFaltaCursar)
+	pesquisaGroup := r.Group("/pesquisa")
+	pesquisaGroup.GET("/info", controllers.GetDisciplinasInformacoes)
+	pesquisaGroup.GET("/podecursar", controllers.GetDisciplinasPodeCursar)
+	pesquisaGroup.GET("/faltacursar", controllers.GetDisciplinasFaltaCursar)
 	// recomendacao
-	r.GET("/recomendacao", recomendacao.GetRecomendacao)
+	gradeGroup := r.Group("/grade")
+	gradeGroup.GET("/recomendacao", recomendacao.GetRecomendacao)
 
 	_ = r.Run()
 }
