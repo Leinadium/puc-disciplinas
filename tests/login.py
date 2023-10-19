@@ -32,8 +32,10 @@ def executar_login(usuario: str, senha: str) -> RequestsCookieJar:
 
 
 def pegar_recomendacoes(grade: Grade, cookies: RequestsCookieJar) -> list[Resposta]:
-    url = "http://localhost:8080/recomendacao"
+    url = "http://localhost:8080/grade/recomendacao"
     response = get(url, json=grade, cookies=cookies)
+
+    print(f"size: {len(response.content)}")
 
     if response.status_code == 200:
         return response.json()['data']
