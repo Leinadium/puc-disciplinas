@@ -4,10 +4,11 @@ import "github.com/Leinadium/puc-disciplinas/api/controllers"
 
 // executaAlgoritmo executa o algoritmo de recomendacao
 // Pesos:
-// Conteudo = C1 + C2, onde
 //
-//	C1 = {0.5: se a disciplina estiver no curriculo do aluno, 0: caso contrario}
-//	C2 = 0.5 * #AlunosDoCurriculoQueFizeramADisciplina/#AlunosDoCurriculo
+//	Conteudo = {
+//		1: se a disciplina estiver no curriculo do aluno,
+//		0.5 * #AlunosDoCurriculoQueFizeramADisciplina/#AlunosDoCurriculo: caso contrario
+//	}
 //
 // Horario = #TurmasComHorarioLivres/#TurmasDaDisciplina
 //
@@ -56,26 +57,22 @@ func executaAlgoritmo(discs []resultQuery) []resultAlg {
 //
 // C2 = 0.5 * #AlunosDoCurriculoQueFizeramADisciplina / #AlunosDoCurriculo
 func calculaConteudo(c1 bool, c21 int, c22 int) float64 {
-	v1 := 0.0
 	if c1 {
-		v1 = 0.5
+		return 1.0
+	} else if c22 != 0 {
+		return float64(c21) / float64(c22)
 	}
-	v2 := 0.0
-	if c22 != 0.0 {
-		v2 = 0.5 * float64(c21) / float64(c22)
-	}
-	return v1 + v2
+	return 0.0
 }
 
 // calculaHorario calcula o valor de horario
 //
 // Horario = #TurmasComHorarioLivres / #TurmasDaDisciplina
 func calculaHorario(h1, h2 int) float64 {
-	res := 0.0
 	if h2 != 0 {
-		res = float64(h1) / float64(h2)
+		return float64(h1) / float64(h2)
 	}
-	return res
+	return 0.0
 }
 
 // calculaOpiniao calcula o valor de opiniao
