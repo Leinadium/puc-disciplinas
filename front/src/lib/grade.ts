@@ -1,13 +1,15 @@
-import type { DiaDisciplina, Escolha, EscolhaInfoExtra, HoraDisciplina } from "../types/disciplinas";
+import type { UIDiaDisciplina, UIHoraDisciplina, UIDisciplinaResumo, UIDisciplinaCodigo, UIEscolha } from "../types/ui";
+import type { EscolhaInfoExtra, LoadDisciplinasResponse} from "../types/data";
+import { coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "./api";
 
 
-function formatHora(h: HoraDisciplina): string {
+export function formatHora(h: UIHoraDisciplina): string {
     // const f = (h: number) => h.toString().padStart(2, '0') + 'h'
     // return f(h) + '-' + f(h + 1);
     return h.toString().padStart(2, '0') + 'h';
 }
 
-function removeExtraFromEscolha(e: EscolhaInfoExtra): Escolha {
+export function removeExtraFromEscolha(e: EscolhaInfoExtra): UIEscolha {
     return {
         nome: e.nome,
         codigo: e.codigo,
@@ -16,9 +18,9 @@ function removeExtraFromEscolha(e: EscolhaInfoExtra): Escolha {
     };
 }
 
-function generateGrade(
-    dias: DiaDisciplina[],
-    horas: HoraDisciplina[],
+export function generateGrade(
+    dias: UIDiaDisciplina[],
+    horas: UIHoraDisciplina[],
     escolhas: EscolhaInfoExtra[]) {
     // a resposta deve ser um objeto de objetos de escolhas
     // o primeiro nivel representa as horas
@@ -29,11 +31,11 @@ function generateGrade(
 
     let res: any = {};
 
-    const checkInicio = (e: EscolhaInfoExtra, dia: DiaDisciplina, hora: HoraDisciplina) => {
+    const checkInicio = (e: EscolhaInfoExtra, dia: UIDiaDisciplina, hora: UIHoraDisciplina) => {
         return e.dia === dia && e.inicio === hora;
     }
 
-    const checkDurante = (e: EscolhaInfoExtra, dia: DiaDisciplina, hora: HoraDisciplina) => {
+    const checkDurante = (e: EscolhaInfoExtra, dia: UIDiaDisciplina, hora: UIHoraDisciplina) => {
         return e.dia === dia && e.inicio <= hora && e.horas + e.inicio > hora;
     }
 
@@ -58,4 +60,43 @@ function generateGrade(
     }
     return res;
 }
-export { generateGrade, removeExtraFromEscolha, formatHora };
+
+export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
+    console.log("loadAllInfos");
+
+    let disciplinas = new Map<string, UIDisciplinaResumo>();
+    let faltaCursar = new Set<string>();
+    let podeCursar = new Set<string>();
+
+    try {
+        // salva as disciplinas
+        let fDisciplinas = await coletarDisciplinasInfo();
+        if (fDisciplinas) {
+            fDisciplinas.forEach((d: UIDisciplinaResumo) => {
+                disciplinas.set(d.codigo, d);           // salva a disciplina
+            });
+        }
+        // salva os falta cursar
+        let fFaltaCursar = await coletarDisciplinasFaltaCursar();
+        if (fFaltaCursar) {
+            faltaCursar.clear()
+            fFaltaCursar.forEach((c: UIDisciplinaCodigo) => faltaCursar.add(c.codigo));
+        }
+        // salva os pode cursar
+        let fPodeCursar = await coletarDisciplinasPodeCursar();
+        if (fPodeCursar) {
+            podeCursar.clear()
+            fPodeCursar.forEach((c: UIDisciplinaCodigo) => podeCursar.add(c.codigo));
+        }
+        
+        return {
+            disciplinasMap: disciplinas,
+            faltaCursar: faltaCursar,
+            podeCursar: podeCursar,
+        }
+
+    } catch (e: any) {
+        console.log(e.message);     // TODO
+        return null;
+    }
+}

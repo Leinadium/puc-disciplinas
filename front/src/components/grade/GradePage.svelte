@@ -1,14 +1,16 @@
 <script lang="ts">
-	import Container from "./Container.svelte";
+	import GradeContainer from "./GradeContainer.svelte";
 
 	import { checkLogin } from "$lib/api";
 	import { onMount } from "svelte";
 
-	onMount(checkLogin);
+	onMount(async () => {
+		await checkLogin()	// verifica o login
+	});
 </script>
 
 <div id="grade-page">
-	<Container />
+	<GradeContainer />
 </div>
 
 <style>

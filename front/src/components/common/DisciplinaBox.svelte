@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { DisciplinaBasica } from "../../types/disciplinas";
+	import type { UIDisciplinaResumo } from "../../types/ui";
     import GenericBox from "./GenericBox.svelte";
 
-    export let info: DisciplinaBasica = {
+    export let info: UIDisciplinaResumo = {
         codigo: "INF9999",
         nome: "Técnicas de Programação II",
         creditos: 6,

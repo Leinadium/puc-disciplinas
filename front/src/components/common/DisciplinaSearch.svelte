@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { DisciplinaBasica } from "../../types/disciplinas";
-	import DisciplinaBox from "./DisciplinaBox.svelte";
+    import type { UIDisciplinaResumo } from "../../types/ui";
+    import DisciplinaBox from "./DisciplinaBox.svelte";
 
-    let disciplinas: DisciplinaBasica[] = [];
+    let disciplinas: UIDisciplinaResumo[] = [];
 
     let queryStr: string = "";
     let queryLast: string = "";

@@ -2,7 +2,8 @@
 	import EscolhaBox from "./EscolhaBox.svelte";
     import { formatHora, generateGrade, removeExtraFromEscolha } from "$lib/grade";
 
-    import type { DiaDisciplina, EscolhaInfoExtra, HoraDisciplina, Escolha } from "../../types/disciplinas";
+    import type { UIDiaDisciplina, UIHoraDisciplina, UIEscolha } from "../../types/ui";
+    import type { EscolhaInfoExtra } from "../../types/data";
 
     export let info: EscolhaInfoExtra[] = [
         {
@@ -35,8 +36,8 @@
     ];
 
 
-    const diasColunas: DiaDisciplina[] = ["SEG", "TER", "QUA", "QUI", "SEX"];
-    const horasLinhas: HoraDisciplina[] = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+    const diasColunas: UIDiaDisciplina[] = ["SEG", "TER", "QUA", "QUI", "SEX"];
+    const horasLinhas: UIHoraDisciplina[] = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
     // grade horaria a partir das disciplinas
     let g: any = {}
@@ -88,8 +89,11 @@
         border: 1px solid black;
         padding: 5px;
         margin: 0;
-        height: 100%;
         width: 100%;
+    }
+
+    td {
+        height: 100%;
     }
 
     tr {

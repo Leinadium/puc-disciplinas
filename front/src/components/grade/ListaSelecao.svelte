@@ -1,19 +1,12 @@
 <script lang="ts">
-	import { coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "$lib/api";
-	import type { DisciplinaBasica, DisciplinaCodigo } from "../../types/disciplinas";
+	import type { UIDisciplinaResumo } from "../../types/ui";
 	import DisciplinaBox from "../common/DisciplinaBox.svelte";
-	import { onMount } from "svelte";
-
+	
+    export let disciplinas: Map<string, UIDisciplinaResumo>;
+    export let faltaCursar: Set<string>;
+    export let podeCursar: Set<string>;
+    
     type ModoPesquisa = "codigo" | "nome" | null;
-
-
-    /** mapa de codigo -> conteudo da disciplina. Contem as informacoes necessarias de todas as disciplinas */
-    let disciplinas: Map<string, DisciplinaBasica> = new Map<string, DisciplinaBasica>();
-
-    /** conjunto de codigo de disciplinas que o usuario ainda nao cursou */
-    let faltaCursar: Set<string> = new Set<string>();
-    /** conjunto de codigo de disciplinas que o usuario pode cursar */
-    let podeCursar: Set<string> = new Set<string>();
 
     /** conjunto contendo as iniciais das disciplinas */
     let iniciais: Set<string> = new Set<string>();
@@ -25,41 +18,20 @@
     let disciplinasExibidas: string[] = [];
     let modoPesquisa: ModoPesquisa = null;
 
+    $: {
+        disciplinas.forEach((d: UIDisciplinaResumo) => {
+            iniciais.add(d.codigo.toUpperCase().substring(0, 3)); // salva a inicial
+        });
+    }
 
-    /**
-     * Carrega todas as disciplinas,
-     * falta cursar e pode cursar
-     */
-    onMount(async () => {
-        try {
-            // salva as disciplinas
-            let fDisciplinas = await coletarDisciplinasInfo();
-            if (fDisciplinas) {
-                fDisciplinas.forEach((d: DisciplinaBasica) => {
-                    disciplinas.set(d.codigo, d);           // salva a disciplina
-                    iniciais.add(d.codigo.toUpperCase().substring(0, 3)); // salva a inicial
-                });
-            }
-            // salva os falta cursar
-            let fFaltaCursar = await coletarDisciplinasFaltaCursar();
-            if (fFaltaCursar) {
-                faltaCursar.clear()
-                fFaltaCursar.forEach((c: DisciplinaCodigo) => faltaCursar.add(c.codigo));
-            }
-            // salva os pode cursar
-            let fPodeCursar = await coletarDisciplinasPodeCursar();
-            if (fPodeCursar) {
-                podeCursar.clear()
-                fPodeCursar.forEach((c: DisciplinaCodigo) => podeCursar.add(c.codigo));
-            }
-        } catch (e: any) {
-            console.log(e.message);     // TODO
-        }
-    });
-
-    /** filtros para serem usados na pesquisa*/
-    const filtroFaltaCursar = (s: string) => faltaCursar.size == 0 || faltaCursar.has(s);
-    const filtroPodeCursar = (s: string) => podeCursar.size == 0 || podeCursar.has(s);
+    /** filtro de disciplinas nao cursadas que estao no curriculo */
+    function filtroFaltaCursar(s: string) {
+        return faltaCursar.size == 0 || faltaCursar.has(s)
+    };
+    /** filtro de disciplina que o usuario pode cursar */
+    function filtroPodeCursar(s: string){
+        podeCursar.size == 0 || podeCursar.has(s)
+    };
 
     
     /** Executa a pesquisa,a atualizando o valor do resultado*/
@@ -79,10 +51,12 @@
 
         // se nao, a pesquisa deve ser feita pelo nome
         else {
-            const filtro = (d: DisciplinaBasica) => d.nome.toUpperCase().includes(texto) && filtroFaltaCursar(d.codigo) && filtroPodeCursar(d.codigo);
+            const filtro = (d: UIDisciplinaResumo) => d.nome.toUpperCase().includes(texto) && filtroFaltaCursar(d.codigo) && filtroPodeCursar(d.codigo);
             disciplinasExibidas = Array.from(disciplinas.values()).filter((d) => filtro(d)).map((d) => d.codigo);
             // ordena alfabeticamente pelo nome
-            disciplinasExibidas.sort((a: string, b: string) => disciplinas.get(a)!.nome.localeCompare(disciplinas.get(b)!.nome));   
+            disciplinasExibidas.sort(
+                (a: string, b: string) => disciplinas.get(a)!.nome.localeCompare(disciplinas.get(b)!.nome)
+            );   
             modoPesquisa = "nome";
         }
         console.log(modoPesquisa, disciplinasExibidas.length);
@@ -122,6 +96,7 @@
 
 <style>
     #lista-selecao {
+        box-sizing: border-box;
         width: 15%;
         height: 100%;
         overflow-y: scroll;

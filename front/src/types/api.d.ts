@@ -1,4 +1,4 @@
-import type { DisciplinaBasica, DisciplinaCodigo } from "./disciplinas"
+import type { DisciplinaBasica, DisciplinaCodigo, DisciplinaRecomendacao } from "./disciplinas"
 
 export type ErrorApi ={
     message: string
@@ -10,4 +10,8 @@ export type ListaDisciplinasApi = {
 
 export type ListaCodigosApi = {
     data: DisciplinaCodigo[]
+}
+
+export type ListaRecomendacoesApi = {
+    data: DisciplinaRecomendacao[]
 }

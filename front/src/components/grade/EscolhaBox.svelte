@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Escolha } from "../../types/disciplinas";
+	import type { UIEscolha } from "../../types/ui";
     import GenericBox from "../common/GenericBox.svelte";
 
-    export let info: Escolha = {
+    export let info: UIEscolha = {
         codigo: "INF9999",
         nome: "Técnicas de Programação II",
         turma: "3WA",
