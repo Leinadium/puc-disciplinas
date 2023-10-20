@@ -8,11 +8,6 @@ import (
 	"strconv"
 )
 
-type MicroErrorProxy struct {
-	Message string
-	Code    int
-}
-
 func GetDbOrSetError(c *gin.Context) *gorm.DB {
 	db, err := models.GetDB()
 	if err != nil {

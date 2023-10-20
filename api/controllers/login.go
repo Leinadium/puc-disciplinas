@@ -10,6 +10,11 @@ import (
 	"net/url"
 )
 
+type microErrorProxy struct {
+	Message string
+	Code    int
+}
+
 // CheckLogin Rota de checagem de login
 func CheckLogin(c *gin.Context) {
 	usuario, ok := GetLoginFromSession(c)
@@ -81,12 +86,12 @@ func Logout(c *gin.Context) {
 	})
 }
 
-func fazLoginUsuarioMicro(usuario, senha string) (string, *MicroErrorProxy) {
+func fazLoginUsuarioMicro(usuario, senha string) (string, *microErrorProxy) {
 	res, err := http.PostForm(urlMicroLogin, url.Values{
 		"usuario": {usuario}, "senha": {senha},
 	})
 	if err != nil {
-		return "", &MicroErrorProxy{Message: "Não foi possível acessar o serviço de login", Code: 500}
+		return "", &microErrorProxy{Message: "Não foi possível acessar o serviço de login", Code: 500}
 	}
 	defer res.Body.Close()
 
@@ -94,12 +99,12 @@ func fazLoginUsuarioMicro(usuario, senha string) (string, *MicroErrorProxy) {
 
 	// primeiro, tenta fazer um match generico
 	if err = json.NewDecoder(res.Body).Decode(&bodyParsed); err != nil {
-		return "", &MicroErrorProxy{Message: "Responsa inválida do serviço de login", Code: 500}
+		return "", &microErrorProxy{Message: "Responsa inválida do serviço de login", Code: 500}
 	}
 
 	// veja se o codigo foi erro e tem o campo de messagem na resposta
 	if res.StatusCode >= 400 && bodyParsed["message"] != "" {
-		return "", &MicroErrorProxy{Message: bodyParsed["message"], Code: res.StatusCode}
+		return "", &microErrorProxy{Message: bodyParsed["message"], Code: res.StatusCode}
 	}
 
 	var nome = bodyParsed["nome"]
@@ -108,7 +113,7 @@ func fazLoginUsuarioMicro(usuario, senha string) (string, *MicroErrorProxy) {
 	}
 
 	// se nao deu match nem num erro, nem numa resposta, retorna erro
-	return "", &MicroErrorProxy{Message: "Não foi possível fazer login", Code: 500}
+	return "", &microErrorProxy{Message: "Não foi possível fazer login", Code: 500}
 }
 
 // checkNovoUsuario checa se o usuario ja existe ou precisa criar
