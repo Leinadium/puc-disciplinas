@@ -31,6 +31,7 @@ func main() {
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"}, // temporario
 		AllowCredentials: true,
+		AllowHeaders:     []string{"Origin", "Content-Type"},
 	}))
 
 	// rotas
@@ -50,7 +51,7 @@ func main() {
 	pesquisaGroup.GET("/faltacursar", controllers.GetDisciplinasFaltaCursar)
 	// recomendacao
 	gradeGroup := r.Group("/grade")
-	gradeGroup.GET("/recomendacao", recomendacao.GetRecomendacao)
+	gradeGroup.POST("/recomendacao", recomendacao.GetRecomendacao)
 
 	_ = r.Run()
 }
