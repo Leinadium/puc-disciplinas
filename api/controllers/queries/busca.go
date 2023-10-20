@@ -24,7 +24,7 @@ GROUP BY d.cod_disciplina, d.nome_disciplina, d.creditos
 `
 
 const QUERY_PODE_CURSAR = `
-SELECT DISTINCT p.cod_disc_orig
+SELECT DISTINCT p.cod_disc_orig AS cod_disciplina
 FROM prerequisitos p
 WHERE (p.cod_disc_orig, p.grupo_prereq) NOT IN (
     SELECT pp.cod_disc_orig, pp.grupo_prereq
