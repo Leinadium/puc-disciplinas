@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
+	"github.com/Leinadium/puc-disciplinas/api/controllers/disciplinas"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/recomendacao"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
@@ -40,15 +41,12 @@ func main() {
 	authGroup.POST("/login", controllers.Login)
 	authGroup.POST("/logout", controllers.Logout)
 	authGroup.GET("/login", controllers.CheckLogin)
-	// DEPRECIATED rotas para coletar as disciplinas
-	disciplinasGroup := r.Group("/disciplinas")
-	disciplinasGroup.GET("/lista", controllers.GetDisciplinasLista)
-	disciplinasGroup.GET("/pesquisa", controllers.GetDisciplinasPesquisa)
+
 	// rotas para a barra de pesquisa das disciplinas
 	pesquisaGroup := r.Group("/pesquisa")
-	pesquisaGroup.GET("/info", controllers.GetDisciplinasInformacoes)
-	pesquisaGroup.GET("/podecursar", controllers.GetDisciplinasPodeCursar)
-	pesquisaGroup.GET("/faltacursar", controllers.GetDisciplinasFaltaCursar)
+	pesquisaGroup.GET("/info", disciplinas.GetDisciplinasInformacoes)
+	pesquisaGroup.GET("/podecursar", disciplinas.GetDisciplinasPodeCursar)
+	pesquisaGroup.GET("/faltacursar", disciplinas.GetDisciplinasFaltaCursar)
 	// recomendacao
 	gradeGroup := r.Group("/grade")
 	gradeGroup.POST("/recomendacao", recomendacao.GetRecomendacao)
