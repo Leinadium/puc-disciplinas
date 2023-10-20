@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { UIDisciplinaResumo } from "../../types/ui";
-    import DisciplinaBox from "./DisciplinaBox.svelte";
+    import DisciplinaBox from "../common/DisciplinaBox.svelte";
 
     let disciplinas: UIDisciplinaResumo[] = [];
 

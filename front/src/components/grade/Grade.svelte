@@ -46,37 +46,52 @@
 </script>
 
 
-<table>
-	<thead>
-		<tr>
-            <th></th>
-            {#each diasColunas as dia}
-                <th>{dia.toUpperCase()}</th>
-            {/each}
-		</tr>
-	</thead>
-	<tbody>
-        {#each horasLinhas as h}
+<div id="grade">
+    <table>
+        <thead>
             <tr>
-                <td>{formatHora(h)}</td>
-                {#each diasColunas as d}
-                    {#if !!g[h][d] }
-                        <td rowspan={g[h][d]['horas']}>
-                            <EscolhaBox info={removeExtraFromEscolha(g[h][d])} />
-                        </td>
-                    {:else if g[h][d] === null}
-                        <td></td>
-                    {/if}
+                <th></th>
+                {#each diasColunas as dia}
+                    <th>{dia.toUpperCase()}</th>
                 {/each}
             </tr>
-        {/each}
+        </thead>
+        <tbody>
+            {#each horasLinhas as h}
+                <tr>
+                    <td>{formatHora(h)}</td>
+                    {#each diasColunas as d}
+                        {#if !!g[h][d] }
+                            <td rowspan={g[h][d]['horas']}>
+                                <EscolhaBox info={removeExtraFromEscolha(g[h][d])} />
+                            </td>
+                        {:else if g[h][d] === null}
+                            <td></td>
+                        {/if}
+                    {/each}
+                </tr>
+            {/each}
 
-	</tbody>
-</table>
-
+        </tbody>
+    </table>
+</div>
 
 <style>
+    #grade {
+        box-sizing: border-box;
+        /* posicionamento da grade no container */
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 1;
+
+        overflow-y: scroll;
+        
+        border: 1px solid #ccc;
+        
+        /* para compensar a barra de scroll*/
+        padding-right: 10px;
+    }
 	table {
+        box-sizing: border-box;
         table-layout: fixed;
         border-collapse: collapse;
 		height: 100%;

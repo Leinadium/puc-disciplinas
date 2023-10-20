@@ -23,15 +23,15 @@
 </script>
 
 <div id="grade-container">
-    <Grade />
-    <ListaSelecao 
-        {disciplinas}
-        {faltaCursar}
-        {podeCursar}
-    />
     <ListaRecomendacao
         {disciplinas}
         {escolhidas}
+        {faltaCursar}
+        {podeCursar}
+    />
+    <Grade />
+    <ListaSelecao 
+        {disciplinas}
         {faltaCursar}
         {podeCursar}
     />
@@ -40,15 +40,17 @@
 
 <style>
     #grade-container {
-        width: min(80vw, 1000px);
-        height: 500px;
+        box-sizing: border-box;
+        max-width: min(80vw, 1000px);
+        height: 600px;
+        width: 100%;
 
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-between;
-        align-items: stretch;
-        gap: 1rem;
+        display: inline-grid;
+        grid-template-columns: 84% 15%;
+        grid-template-rows: 19% 80%;
+        place-content: stretch;
+        gap: 1%;
 
-        overflow-y: scroll;
+        border: 3px solid blue;
     }
 </style>

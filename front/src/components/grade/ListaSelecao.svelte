@@ -96,8 +96,12 @@
 
 <style>
     #lista-selecao {
+        /* posicionamento da grade no container */
+        grid-column: 2 / span 1;
+        grid-row: 2 / span 1;
+
         box-sizing: border-box;
-        width: 15%;
+        width: 100%;
         height: 100%;
         overflow-y: scroll;
 
