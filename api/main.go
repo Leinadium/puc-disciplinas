@@ -50,6 +50,9 @@ func main() {
 	// recomendacao
 	gradeGroup := r.Group("/grade")
 	gradeGroup.POST("/recomendacao", recomendacao.GetRecomendacao)
+	// informacao
+	disciplinaGroup := r.Group("/disciplina")
+	disciplinaGroup.GET("/info", disciplinas.GetDisciplinaInfoCompleta)
 
 	_ = r.Run()
 }

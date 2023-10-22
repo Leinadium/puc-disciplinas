@@ -90,7 +90,7 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// pega o codigo da disciplina
-	codDisciplina := c.Query("codigo")
+	codDisciplina := c.Query("c")
 	if codDisciplina == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Codigo da disciplina nao informado"})
 		return
@@ -111,4 +111,13 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 		return
 	}
+
+	println("resultsInfo: ", len(resultsInfo))
+	println("resultsTurmas: ", len(resultsTurmas))
+
+	// cria a resposta
+	var resposta respostaDisciplina
+	resposta.From(resultsInfo, resultsTurmas)
+
+	c.JSON(http.StatusOK, gin.H{"data": resposta})
 }

@@ -32,8 +32,8 @@ type resultTurmas struct {
 	NomeProfessor string `json:"nomeProfessor" gorm:"column:nome_professor"`
 	Shf           int    `json:"shf" gorm:"column:shf"`
 	Dia           string `json:"dia" gorm:"column:dia"`
-	HoraInicio    string `json:"horaInicio" gorm:"column:hora_inicio"`
-	HoraFim       string `json:"horaFim" gorm:"column:hora_fim"`
+	HoraInicio    int    `json:"horaInicio" gorm:"column:hora_inicio"`
+	HoraFim       int    `json:"horaFim" gorm:"column:hora_fim"`
 	Destino       string `json:"destino" gorm:"column:destino"`
 	Vagas         int    `json:"vagas" gorm:"column:vagas"`
 }
