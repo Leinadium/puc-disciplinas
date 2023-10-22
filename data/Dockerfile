@@ -7,6 +7,7 @@ ENV POSTGRES_DB=tcc
 
 # copia o script de inicializacao
 COPY create.sql /docker-entrypoint-initdb.d/
+COPY carga /docker-entrypoint-initdb.d
 
 # expoe a porta 5432
 EXPOSE 5432
