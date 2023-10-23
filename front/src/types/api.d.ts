@@ -1,17 +1,22 @@
-import type { DisciplinaBasica, DisciplinaCodigo, DisciplinaRecomendacao } from "./disciplinas"
+import type { DisciplinaInfo, DisciplinaRecomendacao } from "./data"
+import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
-export type ErrorApi ={
+export type ErrorApi = {
     message: string
 }
 
 export type ListaDisciplinasApi = {
-    data: DisciplinaBasica[]
+    data: UIDisciplinaResumo[]
 }
 
 export type ListaCodigosApi = {
-    data: DisciplinaCodigo[]
+    data: UIDisciplinaCodigo[]
 }
 
 export type ListaRecomendacoesApi = {
     data: DisciplinaRecomendacao[]
+}
+
+export type DisciplinaInfoApi = {
+    data: DisciplinaInfo
 }

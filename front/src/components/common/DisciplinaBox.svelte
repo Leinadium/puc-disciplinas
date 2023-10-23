@@ -1,18 +1,25 @@
 <script lang="ts">
 	import type { UIDisciplinaResumo } from "../../types/ui";
     import GenericBox from "./GenericBox.svelte";
+    import { createEventDispatcher } from "svelte";
 
     export let info: UIDisciplinaResumo = {
-        codigo: "INF9999",
-        nome: "Técnicas de Programação II",
-        creditos: 6,
-        qtdTurmas: 3,
-        qtdVagas: 120
+        codigo: "XXX9999",
+        nome: "Sem nome",
+        creditos: 0,
+        qtdTurmas: 0,
+        qtdVagas: 0
     };
+
+    let dispatch = createEventDispatcher();
+
+    const popup = () => {
+        dispatch("popup", info.codigo);
+    }
 
 </script>
 
-<GenericBox color="green">
+<GenericBox color="green" clickCallback={popup}>
     <div class="textos">
         <span id="codigo">{info.codigo.toUpperCase()}</span>
         <span id="nome">{info.nome.toUpperCase()}</span>

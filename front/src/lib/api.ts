@@ -1,15 +1,16 @@
-import type { ErrorApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
-import type { DisciplinaBasica, DisciplinaCodigo, DisciplinaRecomendacao } from "../types/disciplinas";
-import type { DisciplinaEscolha } from "../types/grade";
+import type { DisciplinaInfoApi, ErrorApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
+import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtual } from "../types/data";
+import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
 import { userStore } from "./stores";
 
 const BASE_API_URL = 'http://localhost:8080'
-const DISCIPLINA_INFO_URL = BASE_API_URL + '/pesquisa/info';
-const DISCIPLINA_PODE_CURSAR_URL = BASE_API_URL + '/pesquisa/podecursar';
-const DISCIPLINA_FALTA_CURSAR_URL = BASE_API_URL + '/pesquisa/faltacursar';
+const DISCIPLINAS_INFO_URL = BASE_API_URL + '/pesquisa/info';
+const DISCIPLINAS_PODE_CURSAR_URL = BASE_API_URL + '/pesquisa/podecursar';
+const DISCIPLINAS_FALTA_CURSAR_URL = BASE_API_URL + '/pesquisa/faltacursar';
 const RECOMENDACAO_URL = BASE_API_URL + '/grade/recomendacao';
 const LOGIN_URL = BASE_API_URL + '/login';
+const DISCIPLINA_INFO_URL = BASE_API_URL + '/disciplina/info';
 
 
 async function genericFetch(url: string): Promise<any> {
@@ -27,10 +28,10 @@ async function genericFetch(url: string): Promise<any> {
 
 /**
  * Coleta as informações básicas de todas as disciplinas 
- * @returns {DisciplinaBasica[] | null} Lista de disciplinas
+ * @returns {UIDisciplinaResumo[] | null} Lista de disciplinas
  */
-export async function coletarDisciplinasInfo(): Promise<DisciplinaBasica[] | null> {
-    let body: ListaDisciplinasApi = await genericFetch(DISCIPLINA_INFO_URL);
+export async function coletarDisciplinasInfo(): Promise<UIDisciplinaResumo[] | null> {
+    let body: ListaDisciplinasApi = await genericFetch(DISCIPLINAS_INFO_URL);
     return body.data;
 }
 
@@ -38,8 +39,8 @@ export async function coletarDisciplinasInfo(): Promise<DisciplinaBasica[] | nul
  * Coleta os códigos de todas as disciplinas que o usuário pode cursar
  * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
  */
-export async function coletarDisciplinasPodeCursar(): Promise<DisciplinaCodigo[] | null> {
-    let body: ListaCodigosApi = await genericFetch(DISCIPLINA_PODE_CURSAR_URL);
+export async function coletarDisciplinasPodeCursar(): Promise<UIDisciplinaCodigo[] | null> {
+    let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_PODE_CURSAR_URL);
     return body.data;
 }
 
@@ -47,8 +48,8 @@ export async function coletarDisciplinasPodeCursar(): Promise<DisciplinaCodigo[]
  * Coleta os códigos de todas as disciplinas que o usuário ainda não cursou
  * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
  */
-export async function coletarDisciplinasFaltaCursar(): Promise<DisciplinaCodigo[] | null> {
-    let body: ListaCodigosApi = await genericFetch(DISCIPLINA_FALTA_CURSAR_URL);
+export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodigo[] | null> {
+    let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_FALTA_CURSAR_URL);
     return body.data;
 }
 
@@ -57,10 +58,8 @@ export async function coletarDisciplinasFaltaCursar(): Promise<DisciplinaCodigo[
  * @param {DisciplinaEscolha[]} escolhas Lista de disciplinas escolhidas
  * @returns {DisciplinaRecomendacao[] | null} Lista de disciplinas recomendadas
  */
-export async function coletarRecomendacoes(escolhas: DisciplinaEscolha[]): Promise<DisciplinaRecomendacao[] | null> {
+export async function coletarRecomendacoes(escolhas: GradeAtual): Promise<DisciplinaRecomendacao[] | null> {
     // nao da para usar o generic fetch, pois precisa ser um post
-    console.log("escolhas: ");
-    console.log(escolhas);
     try {
         let res = await fetch(RECOMENDACAO_URL, {
             method: "POST",
@@ -104,6 +103,16 @@ export async function fazerLogin(usuario: string, senha: string): Promise<string
     } catch (e: any) {
         throw new Error("Erro ao acessar a API de login");
     }
+}
+
+/**
+ * Coleta as informações completas de uma disciplina
+ * @param {string} codigo Código da disciplina
+ * @returns {DisciplinaInfo | null} Informações da disciplina
+ */
+export async function coletarDisciplinaInfo(codigo: string): Promise<DisciplinaInfo | null> {
+    let body: DisciplinaInfoApi = await genericFetch(DISCIPLINA_INFO_URL + `?c=${codigo}`);
+    return body.data;
 }
 
 /**

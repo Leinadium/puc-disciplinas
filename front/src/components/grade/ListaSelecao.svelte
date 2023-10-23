@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from "svelte";
 	import type { UIDisciplinaResumo } from "../../types/ui";
 	import DisciplinaBox from "../common/DisciplinaBox.svelte";
 	
@@ -18,31 +19,31 @@
     let disciplinasExibidas: string[] = [];
     let modoPesquisa: ModoPesquisa = null;
 
-    $: {
-        disciplinas.forEach((d: UIDisciplinaResumo) => {
-            iniciais.add(d.codigo.toUpperCase().substring(0, 3)); // salva a inicial
-        });
-    }
-
     /** filtro de disciplinas nao cursadas que estao no curriculo */
     function filtroFaltaCursar(s: string) {
         return faltaCursar.size == 0 || faltaCursar.has(s)
     };
     /** filtro de disciplina que o usuario pode cursar */
     function filtroPodeCursar(s: string){
-        podeCursar.size == 0 || podeCursar.has(s)
+        return podeCursar.size == 0 || podeCursar.has(s)
     };
-
     
     /** Executa a pesquisa,a atualizando o valor do resultado*/
-    const pesquisar = (texto: string) => {
-        // se a query for menor que tres letras, nao precisa fazer nada
-        if (texto.length < 3) return;
+    function pesquisar(texto: string) {
+        // se nao tiver nenhum texto, exibe as disciplinas que faltam cursar
+        if (texto.length == 0) {
+            disciplinasExibidas = Array.from(disciplinas.keys()).filter((c) => filtroFaltaCursar(c));
+            // ordena alfabeticamente pelo codigo
+            disciplinasExibidas.sort();
+            modoPesquisa = null;
+            return;
+        }
+
         texto = texto.toUpperCase();
 
         // se a query comecar com uma inicial e depois for composta só de numeros, entao a pesquisa deve ser feita pelo codigo
         if (iniciais.has(texto.substring(0, 3)) && texto.substring(3).match(/^[0-9]*$/)) {
-            const filtro = (c: string) => c.startsWith(texto) && filtroFaltaCursar(c) && filtroPodeCursar(c);
+            const filtro = (c: string) => c.startsWith(texto) && filtroPodeCursar(c);
             disciplinasExibidas = Array.from(disciplinas.keys()).filter((c) => filtro(c));
             // ordena alfabeticamente pelo codigo
             disciplinasExibidas.sort();
@@ -51,7 +52,7 @@
 
         // se nao, a pesquisa deve ser feita pelo nome
         else {
-            const filtro = (d: UIDisciplinaResumo) => d.nome.toUpperCase().includes(texto) && filtroFaltaCursar(d.codigo) && filtroPodeCursar(d.codigo);
+            const filtro = (d: UIDisciplinaResumo) => d.nome.toUpperCase().includes(texto) // && filtroPodeCursar(d.codigo);
             disciplinasExibidas = Array.from(disciplinas.values()).filter((d) => filtro(d)).map((d) => d.codigo);
             // ordena alfabeticamente pelo nome
             disciplinasExibidas.sort(
@@ -60,11 +61,10 @@
             modoPesquisa = "nome";
         }
         console.log(modoPesquisa, disciplinasExibidas.length);
-
     }
 
     /** Executa uma pesquisa (se for um novo valor) com o resultado */
-    const pesquisarChange = (e: Event) => {
+    function pesquisarChange(e: Event) {
         let value = (e.target as HTMLInputElement).value;
         if (value !== queryLast) {
             queryLast = value;
@@ -72,8 +72,15 @@
         }
     }
 
-</script>
+    function refresh() {
+        disciplinas.forEach((d: UIDisciplinaResumo) => {
+            iniciais.add(d.codigo.toUpperCase().substring(0, 3)); // salva a inicial
+        });
+        pesquisar('');
+    }
+    $: disciplinas, refresh();
 
+</script>
 
 <div id="lista-selecao">
     <div id="pesquisa">
@@ -87,7 +94,10 @@
     <div id="resultados">
         {#each disciplinasExibidas as cod}
             {#if disciplinas.has(cod)}
-                <DisciplinaBox info={disciplinas.get(cod)} />
+                <DisciplinaBox 
+                    info={disciplinas.get(cod)}
+                    on:popup
+                />
             {/if}
         {/each}
     </div>
@@ -107,7 +117,7 @@
 
         display: flex;
         flex-flow: column nowrap;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: stretch;
         gap: 1rem;
 

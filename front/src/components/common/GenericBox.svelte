@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { GenericColor } from "../../types/style";
     export let color: GenericColor = "default";
+    export let clickCallback: () => void = () => {};
 
     // export let height: string = "100px";
     // export let width: string = "100px";
@@ -8,7 +9,10 @@
     // $: customStyle = "--height: " + height + "; --width: " + width + ";"
 </script>
 
-<div class="generic-box {color}">
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div class="generic-box {color}" on:click={clickCallback}>
     <slot></slot>
 </div>
 
