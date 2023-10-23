@@ -5,11 +5,11 @@
     import { createEventDispatcher } from "svelte";
     import { filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { DisciplinaRecomendacao, Escolha } from "../../types/data";
+    import type { DisciplinaRecomendacao, GradeAtual } from "../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;
-    export let escolhidas: Escolha[];
+    export let escolhidas: GradeAtual;
     export let faltaCursar: Set<string>;
     export let podeCursar: Set<string>;
 
@@ -60,16 +60,22 @@
 
     {#if isLogged}
         <div id="lista-disciplinas">
-            {#each disciplinasExibidas as disciplina}
-                {#if disciplinas.has(disciplina.cod)}
-                    <div class="disciplina-recomendada">
-                        <DisciplinaBox
-                            info={disciplinas.get(disciplina.cod)}
-                            on:click={() => dispatch("click", disciplina.cod)}
-                        />
-                    </div>
-                {/if}
-            {/each}
+            {#if disciplinasExibidas.length > 0}   
+                {#each disciplinasExibidas as disciplina}
+                    {#if disciplinas.has(disciplina.cod)}
+                        <div class="disciplina-recomendada">
+                            <DisciplinaBox
+                                info={disciplinas.get(disciplina.cod)}
+                                on:click={() => dispatch("click", disciplina.cod)}
+                            />
+                        </div>
+                    {/if}
+                {/each}
+            {:else}
+                <div id="aviso">
+                    <span>Carregando as recomendações...</span>
+                </div>
+            {/if}
         </div>
     {:else}
         <div id="aviso">

@@ -38,7 +38,7 @@
         display: flex;
         flex-flow: column nowrap;
         justify-content: flex-start;
-        height: 70%;
+        height: 100%;
     }
 
     .small {
@@ -47,7 +47,7 @@
 
     #nome {
         font-size: 0.65rem;
-        overflow: hidden;
+        overflow-x: hidden;
         /* white-space: nowrap; */
         text-overflow: ellipsis;
     }
@@ -58,6 +58,6 @@
         flex-flow: row nowrap;
         justify-content: space-around;
         align-items: flex-end;
-        height: 30%;
+        height: 100%;
     }
 </style>

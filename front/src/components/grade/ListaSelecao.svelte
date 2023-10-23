@@ -94,10 +94,12 @@
     <div id="resultados">
         {#each disciplinasExibidas as cod}
             {#if disciplinas.has(cod)}
-                <DisciplinaBox 
-                    info={disciplinas.get(cod)}
-                    on:popup
-                />
+                <div class="disciplina-selecao">
+                    <DisciplinaBox 
+                        info={disciplinas.get(cod)}
+                        on:popup
+                    />
+                </div>
             {/if}
         {/each}
     </div>
@@ -143,6 +145,12 @@
         justify-content: flex-start;
         align-items: stretch;
         gap: 1rem;
+    }
+
+    .disciplina-selecao {
+        width: 100%;
+        height: 25%;
+        flex: 1;
     }
 
     
