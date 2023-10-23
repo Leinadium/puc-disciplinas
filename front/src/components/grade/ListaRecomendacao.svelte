@@ -5,11 +5,11 @@
     import { createEventDispatcher } from "svelte";
     import { filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { DisciplinaRecomendacao, GradeAtual } from "../../types/data";
+    import type { DisciplinaRecomendacao, Escolha } from "../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;
-    export let escolhidas: GradeAtual;
+    export let escolhidas: Escolha[];
     export let faltaCursar: Set<string>;
     export let podeCursar: Set<string>;
 
@@ -66,7 +66,7 @@
                         <div class="disciplina-recomendada">
                             <DisciplinaBox
                                 info={disciplinas.get(disciplina.cod)}
-                                on:click={() => dispatch("click", disciplina.cod)}
+                                on:popup
                             />
                         </div>
                     {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { createEventDispatcher } from "svelte";
 	import type { UIDisciplinaResumo } from "../../types/ui";
 	import DisciplinaBox from "../common/DisciplinaBox.svelte";
 	
@@ -79,6 +79,8 @@
         pesquisar('');
     }
     $: disciplinas, refresh();
+
+    let dispatch = createEventDispatcher();
 
 </script>
 

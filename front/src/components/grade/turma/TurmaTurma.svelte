@@ -25,13 +25,13 @@
 <div class="turma-turma">
     <div class="turma-row">
         <span class="turma-grande">{codigo}</span>   
-        <span class="turma-dest">{destino}</span>
+        <span class="turma-dest overflow">{destino}</span>
     </div>
     <span class="turma-vagas">
         {vagas}
         <span class="turma-vagas-texto">vagas</span>
     </span>
-    <span class="turma-medio">{professor}</span>
+    <span class="turma-medio overflow">{professor}</span>
     
     <span class="turma-horarios">{horariosFinal}</span>
     
@@ -43,7 +43,7 @@
         text-align: center;
     }
 
-    span {
+    .overflow {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

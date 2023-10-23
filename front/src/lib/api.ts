@@ -1,5 +1,5 @@
 import type { DisciplinaInfoApi, ErrorApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtual } from "../types/data";
+import type { DisciplinaInfo, DisciplinaRecomendacao, Escolha } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
 import { userStore } from "./stores";
@@ -58,7 +58,7 @@ export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodig
  * @param {DisciplinaEscolha[]} escolhas Lista de disciplinas escolhidas
  * @returns {DisciplinaRecomendacao[] | null} Lista de disciplinas recomendadas
  */
-export async function coletarRecomendacoes(escolhas: GradeAtual): Promise<DisciplinaRecomendacao[] | null> {
+export async function coletarRecomendacoes(escolhas: Escolha[]): Promise<DisciplinaRecomendacao[] | null> {
     // nao da para usar o generic fetch, pois precisa ser um post
     try {
         let res = await fetch(RECOMENDACAO_URL, {

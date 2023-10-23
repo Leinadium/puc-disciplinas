@@ -10,13 +10,16 @@
 </script>
 
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="generic-box {color}" on:click={clickCallback}>
+<a href="/#" class="generic-box {color}" on:click={clickCallback}>
     <slot></slot>
-</div>
+</a>
 
 <style>
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+
     .generic-box {
         box-sizing: border-box;
         /* width: min(100px, 10vw); */

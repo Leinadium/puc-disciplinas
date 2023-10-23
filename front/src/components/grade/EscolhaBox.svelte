@@ -45,7 +45,7 @@
     span {
         /* width: 90%; */
         overflow: hidden;
-        white-space: nowrap;
+        /* white-space: nowrap; */
         text-overflow: ellipsis;
     }
 

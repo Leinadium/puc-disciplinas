@@ -31,7 +31,7 @@ export type PesosRecomendacao = {
 }
 
 export type GradeAtual = {
-    escolhas: DisciplinaEscolha[], 
+    escolhas: Escolha[], 
 }
 
 export type Escolha = {

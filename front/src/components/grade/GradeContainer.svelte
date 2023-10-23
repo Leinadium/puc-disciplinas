@@ -6,7 +6,6 @@
 	import { loadAllInfos } from "$lib/grade";
 	import type { UIDisciplinaResumo } from "../../types/ui";
     import type { Escolha } from "../../types/data";
-	import Popup from "../common/Popup.svelte";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
