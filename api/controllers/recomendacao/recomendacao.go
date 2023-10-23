@@ -59,7 +59,6 @@ func GetRecomendacao(c *gin.Context) {
 
 	// fazendo a substituicao das escolhas na query
 	querySql := strings.Replace(queries.QUERY_RECOMENDACAO, "@escolhas", escolhas, 1)
-	println(querySql)
 	query := db.Raw(querySql, sql.Named("usuario", usuario))
 	// executando a query
 	var results []resultQuery
