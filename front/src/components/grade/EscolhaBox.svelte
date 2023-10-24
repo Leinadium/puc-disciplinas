@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from "svelte/transition";
-	import type { EscolhaSimples } from "../../types/data";
+	import type { EscolhaSimples, RemoveDisciplinaEvent } from "../../types/data";
 	import type { UIEscolha } from "../../types/ui";
     import GenericBox from "../common/GenericBox.svelte";
     import { createEventDispatcher } from "svelte";
@@ -15,14 +15,14 @@
     let showBtn: boolean = false;
 
     let dispatchPopup = createEventDispatcher<{popup: string}>();
-    let dispatchRemove = createEventDispatcher<{remove: EscolhaSimples}>();
+    let dispatchRemove = createEventDispatcher<{remove: RemoveDisciplinaEvent}>();
 
     const popup = () => {
         dispatchPopup("popup", info.codigo);
     }
 
     const remove = () => {
-        dispatchRemove("remove", {disciplina: info.codigo, turma: info.turma});
+        dispatchRemove("remove", {disciplina: info.codigo});
     }
 
     const toggleBtn = () => {

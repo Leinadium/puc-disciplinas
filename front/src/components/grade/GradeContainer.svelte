@@ -5,7 +5,7 @@
 	import ListaPesquisa from "./ListaPesquisa.svelte";
 	import { adicionarTurmaNaGrade, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, SubmitTurmaEvent } from "../../types/data";
+    import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
@@ -52,7 +52,7 @@
         closePopup();
     }
 
-    function removeDisciplina(e: CustomEvent<SubmitTurmaEvent>) {
+    function removeDisciplina(e: CustomEvent<RemoveDisciplinaEvent>) {
         gradeAtual = removeDisciplinaNaGrade(e.detail.disciplina, gradeAtual);
     }
 
