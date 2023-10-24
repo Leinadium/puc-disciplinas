@@ -49,14 +49,14 @@ func main() {
 	pesquisaGroup.GET("/faltacursar", disciplinas.GetDisciplinasFaltaCursar)
 	// recomendacao
 	recomendacaoGroup := r.Group("/recomendacao")
-	recomendacaoGroup.POST("/", recomendacao.GetRecomendacao)
+	recomendacaoGroup.POST("", recomendacao.GetRecomendacao)
 	// informacao
 	disciplinaGroup := r.Group("/disciplina")
 	disciplinaGroup.GET("/info", disciplinas.GetDisciplinaInfoCompleta)
 	// grade
 	gradeGroup := r.Group("/grade")
-	gradeGroup.POST("/", controllers.PostGrade)
-	gradeGroup.GET("/", controllers.GetGrade)
+	gradeGroup.POST("", controllers.PostGrade)
+	gradeGroup.GET("", controllers.GetGrade)
 
 	_ = r.Run()
 }
