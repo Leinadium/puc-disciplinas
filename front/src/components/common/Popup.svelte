@@ -7,8 +7,11 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div id="popup" on:click|preventDefault={close}>
-    <slot></slot>
+<div id="popup">
+    <div id="popup-background" on:click|preventDefault={close}></div>
+    <div id="popup-content">
+        <slot></slot>
+    </div>
 </div>
 
 <style>
@@ -23,5 +26,16 @@
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    #popup-background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
+    }
+
+    #popup-content {
+        z-index: 3;
     }
 </style>
