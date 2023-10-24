@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { DisciplinaHorariosInfo } from "../../../types/data";
+    import type { DisciplinaHorariosInfo } from "../../../types/data";
 
     export let codigo: string;
     export let professor: string;
@@ -19,14 +19,13 @@
     });
 
     $: horariosFinal = horariosMapeado.join(", ") + (shf > 0 ? ` (${shf}h)`: '');
-
+    
 </script>
 
-<div class="turma-turma">
-    <div class="turma-row">
-        <span class="turma-grande">{codigo}</span>   
-        <span class="turma-dest overflow">{destino}</span>
-    </div>
+<a href="/#" class="turma-turma" on:click|preventDefault>
+    <span class="turma-grande">{codigo}</span>   
+    <span class="turma-dest overflow">{destino}</span>
+
     <span class="turma-vagas">
         {vagas}
         <span class="turma-vagas-texto">vagas</span>
@@ -35,12 +34,17 @@
     
     <span class="turma-horarios">{horariosFinal}</span>
     
-</div>
+</a>
 
 <style>
-    div {
+    a {
         box-sizing: border-box;
         text-align: center;
+    }
+
+    a {
+        text-decoration: none;
+        color: #000;
     }
 
     .overflow {
@@ -62,8 +66,6 @@
 
         background: #eee;
         border-radius: 15px;
-
-        cursor: pointer;
     }
 
     .turma-turma:hover {
@@ -96,11 +98,17 @@
         font-weight: normal;
     }
 
-    .turma-row {
+    .turma-horarios {
+        font-size: 0.8rem;
+        font-style: italic;
+        white-space: nowrap;
+    }
+
+    /* .turma-row {
         display: flex;
         flex-flow: row nowrap;
         justify-content: center;
         align-items: flex-end;
         gap: 3%;
-    }
+    } */
 </style>

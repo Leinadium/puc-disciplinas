@@ -3,15 +3,21 @@
 	import Grade from "./Grade.svelte";
 	import ListaRecomendacao from "./ListaRecomendacao.svelte";
 	import ListaSelecao from "./ListaSelecao.svelte";
-	import { loadAllInfos } from "$lib/grade";
+	import { adicionarTurmaNaGrade, loadAllInfos } from "$lib/grade";
 	import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { Escolha } from "../../types/data";
+    import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
-    let escolhidas: Escolha[] = [];
+    let gradeAtual: GradeAtualExtra = {escolhas: []}
     let faltaCursar: Set<string> = new Set<string>();
     let podeCursar: Set<string> = new Set<string>();
+
+    let escolhidas: EscolhasSimples;
+    $: escolhidas = gradeAtual.escolhas.map(e => {
+        return {disciplina: e.codigo, turma: e.turma}
+    })
+    $: console.log(escolhidas);
 
     onMount(async () => {
         let infos = await loadAllInfos();
@@ -20,20 +26,31 @@
             faltaCursar = infos.faltaCursar;
             podeCursar = infos.podeCursar;
         }
-
-        console.log('disciplinas', disciplinas);
-        console.log('faltaCursar', faltaCursar);
-        console.log('podeCursar', podeCursar);
     })
 
     // popup da selecao de turma
     let turmaCodigo: string = "";
     let isTurmaOpen: boolean = false;
-    const openPopup = (e: any) => {
+    const openPopup = (e: CustomEvent<string>) => {
         turmaCodigo = e.detail;
         isTurmaOpen = true;
     };
     const closePopup = () => isTurmaOpen = false;
+
+    function submitTurma(e: CustomEvent<SubmitTurmaEvent>) {
+        const escolha = e.detail;
+        const escolhaInfoExtra: EscolhaInfoExtra = {
+            codigo: escolha.disciplina,
+            nome: disciplinas.get(escolha.disciplina)?.nome ?? "",
+            turma: escolha.turma.codigo,
+            professor: escolha.turma.professor,
+            horarios: escolha.turma.horarios,
+        }
+
+        gradeAtual = adicionarTurmaNaGrade(escolhaInfoExtra, gradeAtual);
+        
+        closePopup();
+    }
 
 </script>
 
@@ -41,10 +58,10 @@
     {#if isTurmaOpen}
         <TurmaSelecao 
             codigoDisciplina={turmaCodigo}
-            on:close={closePopup} 
+            on:close={closePopup}
+            on:submit={submitTurma}
         />
     {/if}
-
 
     <ListaRecomendacao
         {disciplinas}
@@ -53,7 +70,11 @@
         {podeCursar}
         on:popup={openPopup}
     />
-    <Grade />
+
+    <Grade
+        info={gradeAtual.escolhas}
+    />
+
     <ListaSelecao 
         {disciplinas}
         {faltaCursar}
@@ -67,7 +88,7 @@
     #grade-container {
         box-sizing: border-box;
         max-width: min(80vw, 1000px);
-        height: 600px;
+        height: 700px;
         width: 100%;
 
         display: inline-grid;

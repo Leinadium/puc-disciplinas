@@ -1,8 +1,19 @@
 <script lang="ts">
-	import type { DisciplinaTurmasInfo } from "../../../types/data";
-	import TurmaTurma from "./TurmaTurma.svelte";
+	import type { DisciplinaTurmaInfo, SubmitTurmaEvent } from "../../../types/data";
+    import { createEventDispatcher } from "svelte";
+    import TurmaTurma from "./TurmaTurma.svelte";
 
-    export let turmas: DisciplinaTurmasInfo[];
+    export let disciplina: string = "";
+    export let turmas: DisciplinaTurmaInfo[];
+
+    let dispatch = createEventDispatcher<{submit:SubmitTurmaEvent}>();
+
+    const handleClick = (turma: DisciplinaTurmaInfo) => {
+        dispatch("submit", {
+            disciplina: disciplina,
+            turma: turma
+        });
+    }
 </script>
 
 <div id="container-turmas">
@@ -15,6 +26,7 @@
                 vagas={alocacao.vagas}
                 horarios={turma.horarios}
                 shf={turma.shf}
+                on:click={() => {handleClick(turma)}}
             />
         {/each}
     {/each}

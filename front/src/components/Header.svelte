@@ -1,12 +1,10 @@
 <script lang="ts">
-	import LoginTeste from "./login/LoginTeste.svelte";
-
     export let titulo: String = "Titulo";
 </script>
 
 <header>
     <h1>{titulo}</h1>
-    <LoginTeste />
+    
 </header>
 
 <style>

@@ -3,13 +3,13 @@
     import { userStore } from "$lib/stores";
     import DisciplinaBox from "../common/DisciplinaBox.svelte";
     import { createEventDispatcher } from "svelte";
-    import { filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
+    import { filtrarPesos, filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { DisciplinaRecomendacao, Escolha } from "../../types/data";
+    import type { DisciplinaRecomendacao, EscolhasSimples } from "../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;
-    export let escolhidas: Escolha[];
+    export let escolhidas: EscolhasSimples;
     export let faltaCursar: Set<string>;
     export let podeCursar: Set<string>;
 
@@ -46,7 +46,6 @@
             disciplinasExibidas = filtrarRecomendacoes(
                 req, qtdRecomendacao, podeCursar, faltaCursar, modoRecomendacao
             );
-            console.log(disciplinasExibidas);
         } else {
             console.log("Erro ao carregar as recomendacoes");
         }
@@ -66,6 +65,7 @@
                         <div class="disciplina-recomendada">
                             <DisciplinaBox
                                 info={disciplinas.get(disciplina.cod)}
+                                pesos={filtrarPesos(disciplina.pes)}
                                 on:popup
                             />
                         </div>

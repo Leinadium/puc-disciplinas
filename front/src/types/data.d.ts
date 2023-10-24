@@ -5,9 +5,7 @@ export type EscolhaInfoExtra = {
     codigo: string,
     turma: string,
     professor: string,
-    dia: DiaDisciplina,
-    inicio: HoraDisciplina,
-    horas: number,
+    horarios: DisciplinaHorariosInfo[],
 }
 
 export type LoadDisciplinasResponse = {
@@ -30,14 +28,20 @@ export type PesosRecomendacao = {
     a: number,
 }
 
-export type GradeAtual = {
-    escolhas: Escolha[], 
+export type GradeAtualExtra = {
+    escolhas: EscolhaInfoExtra[],
 }
 
-export type Escolha = {
+export type GradeAtual = {
+    escolhas: EscolhaSimples[], 
+}
+
+export type EscolhaSimples = {
     disciplina: string,
     turma: string,
 }
+
+export type EscolhasSimples = EscolhaSimples[]
 
 export type DisciplinaInfo = {
     codigo: string,
@@ -49,7 +53,7 @@ export type DisciplinaInfo = {
     qtdAlunos: number,
     avaliacaoMedia: number,
     qtdAvaliacoes: number,
-    turmas: DisciplinaTurmasInfo[],
+    turmas: DisciplinaTurmaInfo[],
 }
 
 export type DisciplinaPreRequisitosInfo = {
@@ -57,7 +61,7 @@ export type DisciplinaPreRequisitosInfo = {
     preReqs: string[],
 }
 
-export type DisciplinaTurmasInfo = {
+export type DisciplinaTurmaInfo = {
     codigo: string,
     professor: string,
     shf: number,
@@ -74,4 +78,9 @@ export type DisciplinaHorariosInfo = {
 export type DisciplinaAlocacoesInfo = {
     destino: string,
     vagas: number,
+}
+
+export type SubmitTurmaEvent = {
+    disciplina: string,
+    turma: DisciplinaTurmaInfo
 }

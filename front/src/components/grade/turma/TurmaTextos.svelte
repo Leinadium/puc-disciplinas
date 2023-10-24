@@ -5,8 +5,6 @@
     export let preReqs: DisciplinaPreRequisitosInfo[];
 
     const join = (arr: string[]) => arr.join(', ');
-
-    console.log(preReqs);
 </script>
 
 <div id="textos">

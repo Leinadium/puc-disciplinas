@@ -1,40 +1,21 @@
 <script lang="ts">
 	import EscolhaBox from "./EscolhaBox.svelte";
-    import { formatHora, generateGrade, removeExtraFromEscolha } from "$lib/grade";
+    import { formatHora, generateGrade, getDuracao, removeExtraFromEscolha } from "$lib/grade";
 
-    import type { UIDiaDisciplina, UIHoraDisciplina, UIEscolha } from "../../types/ui";
+    import type { UIDiaDisciplina, UIHoraDisciplina } from "../../types/ui";
     import type { EscolhaInfoExtra } from "../../types/data";
 
     export let info: EscolhaInfoExtra[] = [
-        {
-            codigo: "INF1350",
-            nome: "Programação Reativa",
-            turma: "3WA",
-            professor: "Adriano de Souza",
-            dia: "SEG",
-            inicio: 9,
-            horas: 2,
-        }, 
-        {
-            codigo: "INF1350",
-            nome: "Programação Reativa",
-            turma: "3WA",
-            professor: "Adriano de Souza",
-            dia: "QUA",
-            inicio: 9,
-            horas: 2,
-        }, 
         {
             codigo: "ENG4403",
             nome: "Engenharia de Dados",
             turma: "3WA",
             professor: "Marcos Villas",
-            dia: "QUA",
-            inicio: 7,
-            horas: 2,
+            horarios: [
+                {dia: "QUA", inicio: 7, fim: 9}
+            ]
         }, 
     ];
-
 
     const diasColunas: UIDiaDisciplina[] = ["SEG", "TER", "QUA", "QUI", "SEX"];
     const horasLinhas: UIHoraDisciplina[] = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
@@ -62,7 +43,7 @@
                     <td>{formatHora(h)}</td>
                     {#each diasColunas as d}
                         {#if !!g[h][d] }
-                            <td rowspan={g[h][d]['horas']}>
+                            <td rowspan={getDuracao(g[h][d], d)}>
                                 <EscolhaBox info={removeExtraFromEscolha(g[h][d])} />
                             </td>
                         {:else if g[h][d] === null}

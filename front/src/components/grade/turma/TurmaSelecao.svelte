@@ -50,16 +50,16 @@
                     />
                     
                 </div>
-
                 <div id="turmas">
                     <span id="selecione">Selecione uma das turmas abaixo</span>
-                    <ContainerTurmas 
-                        turmas={info.turmas}>
-                    </ContainerTurmas>
+                    <ContainerTurmas
+                        disciplina={info.codigo}
+                        turmas={info.turmas}
+                        on:submit
+                    />
                     <a id="voltar" href="/#">Voltar à grade</a>
                 </div>
             </div>
-        
         {:else}
             <div id="no-info">Sem informação</div>
         {/if}
@@ -75,7 +75,7 @@
     }
 
     #turma-selecao {
-        max-width: min(80vw, 1000px);
+        width: min(80vw, 1000px);
         height: 600px;
         padding: 2%;
 

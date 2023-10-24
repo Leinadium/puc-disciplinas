@@ -7,7 +7,7 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div id="popup" on:click={close}>
+<div id="popup" on:click|preventDefault={close}>
     <slot></slot>
 </div>
 

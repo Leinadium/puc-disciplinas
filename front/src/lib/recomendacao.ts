@@ -1,4 +1,6 @@
-import type { DisciplinaRecomendacao } from "../types/data";
+import type { DisciplinaRecomendacao, PesosRecomendacao } from "../types/data";
+import type { GenericColor } from "../types/style";
+import type { UIPeso, UITag } from "../types/ui";
 
 export type ModoRecomendacao = "todas" | "eletivas" | "faltacursar";
 
@@ -53,4 +55,13 @@ export function filtrarRecomendacoes(
     res.sort((a, b) => b.val - a.val);
     // retorna as primeiras n recomendações
     return res.slice(0, n);
+}
+
+/**
+ * Filtra os pesos que estão acima do corte para exibir na barra de recomendações.
+ * @param pesos Pesos da recomendação
+ */
+export function filtrarPesos(pesos: PesosRecomendacao): UIPeso[] {
+    const corte = 0.6;
+    return Object.entries(pesos).filter((v) => v[1] > corte).map((v) => v[0] as UIPeso);
 }

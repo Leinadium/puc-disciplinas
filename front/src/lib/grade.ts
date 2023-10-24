@@ -1,5 +1,5 @@
 import type { UIDiaDisciplina, UIHoraDisciplina, UIDisciplinaResumo, UIDisciplinaCodigo, UIEscolha } from "../types/ui";
-import type { EscolhaInfoExtra, LoadDisciplinasResponse} from "../types/data";
+import type { EscolhaInfoExtra, GradeAtualExtra, LoadDisciplinasResponse} from "../types/data";
 import { coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "./api";
 
 
@@ -18,6 +18,14 @@ export function removeExtraFromEscolha(e: EscolhaInfoExtra): UIEscolha {
     };
 }
 
+export function getDuracao(e: EscolhaInfoExtra, dia: UIDiaDisciplina): number {
+    for (let h of e.horarios) {
+        if (h.dia === dia)
+            return h.fim - h.inicio;
+    }
+    return 0;
+}
+
 export function generateGrade(
     dias: UIDiaDisciplina[],
     horas: UIHoraDisciplina[],
@@ -32,11 +40,19 @@ export function generateGrade(
     let res: any = {};
 
     const checkInicio = (e: EscolhaInfoExtra, dia: UIDiaDisciplina, hora: UIHoraDisciplina) => {
-        return e.dia === dia && e.inicio === hora;
+        for (let h of e.horarios) {
+            if (h.dia === dia && h.inicio === hora)
+                return true;
+        }
+        return false;
     }
 
     const checkDurante = (e: EscolhaInfoExtra, dia: UIDiaDisciplina, hora: UIHoraDisciplina) => {
-        return e.dia === dia && e.inicio <= hora && e.horas + e.inicio > hora;
+        for (let h of e.horarios) {
+            if (h.dia === dia && h.inicio <= hora && h.fim > hora)
+                return true;
+        }
+        return false;
     }
 
     for (let hora of horas) {
@@ -58,6 +74,7 @@ export function generateGrade(
         }
         res[hora] = linha;
     }
+    console.log(res);
     return res;
 }
 
@@ -99,4 +116,15 @@ export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
         console.log(e.message);     // TODO
         return null;
     }
+}
+
+/**
+ * Adiciona uma escolha na grade, retornando a própria grade
+ * @param escolha nova escolha
+ * @param grade grade atual
+ * @returns a propria grade
+ */
+export function adicionarTurmaNaGrade(escolha: EscolhaInfoExtra, grade: GradeAtualExtra): GradeAtualExtra {
+    grade.escolhas.push(escolha);
+    return grade;
 }

@@ -151,8 +151,7 @@
 
     .disciplina-selecao {
         width: 100%;
-        height: 25%;
-        flex: 1;
+        height: 20%;
     }
 
     

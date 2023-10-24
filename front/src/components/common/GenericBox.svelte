@@ -10,7 +10,7 @@
 </script>
 
 
-<a href="/#" class="generic-box {color}" on:click={clickCallback}>
+<a href="/#" class="generic-box {color}" on:click|preventDefault={clickCallback}>
     <slot></slot>
 </a>
 
@@ -38,6 +38,7 @@
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-between;
+        align-items: center;
     }
 
     .default {
