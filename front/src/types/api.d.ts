@@ -1,4 +1,4 @@
-import type { DisciplinaInfo, DisciplinaRecomendacao } from "./data"
+import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtualExtra } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
 export type ErrorApi = {
@@ -19,4 +19,8 @@ export type ListaRecomendacoesApi = {
 
 export type DisciplinaInfoApi = {
     data: DisciplinaInfo
+}
+
+export type GradeGetApi = {
+    data: GradeAtualExtra
 }

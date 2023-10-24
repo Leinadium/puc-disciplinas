@@ -1,16 +1,19 @@
-import type { DisciplinaInfoApi, ErrorApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples } from "../types/data";
+import type { DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
+import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
 import { userStore } from "./stores";
 
 const BASE_API_URL = 'http://localhost:8080'
-const DISCIPLINAS_INFO_URL = BASE_API_URL + '/pesquisa/info';
-const DISCIPLINAS_PODE_CURSAR_URL = BASE_API_URL + '/pesquisa/podecursar';
-const DISCIPLINAS_FALTA_CURSAR_URL = BASE_API_URL + '/pesquisa/faltacursar';
-const RECOMENDACAO_URL = BASE_API_URL + '/grade/recomendacao';
-const LOGIN_URL = BASE_API_URL + '/login';
-const DISCIPLINA_INFO_URL = BASE_API_URL + '/disciplina/info';
+const DISCIPLINAS_INFO_URL          = BASE_API_URL + '/pesquisa/info';
+const DISCIPLINAS_PODE_CURSAR_URL   = BASE_API_URL + '/pesquisa/podecursar';
+const DISCIPLINAS_FALTA_CURSAR_URL  = BASE_API_URL + '/pesquisa/faltacursar';
+const RECOMENDACAO_URL              = BASE_API_URL + '/recomendacao';
+const DISCIPLINA_INFO_URL           = BASE_API_URL + '/disciplina/info';
+const GRADE_URL                     = BASE_API_URL + "/grade";
+const LOGIN_URL                     = BASE_API_URL + '/login';
+const LOGOUT_URL                    = BASE_API_URL + '/logout';
+
 
 
 async function genericFetch(url: string): Promise<any> {
@@ -75,7 +78,6 @@ export async function coletarRecomendacoes(escolhas: EscolhasSimples): Promise<D
     } catch (e: any) {
         throw new Error("Erro ao acessar a API de recomendação");
     }
-
 }
 
 export async function fazerLogin(usuario: string, senha: string): Promise<string> {
@@ -144,4 +146,35 @@ export async function checkLogin(): Promise<boolean> {
     } catch (e: any) {
         throw new Error("Erro ao acessar a API de login");
     }
+}
+
+/**
+ * Armazena uma grade horária
+ * @param grade Grade horaria para salvar
+ */
+export async function armazenarGrade(grade: GradeAtualExtra): Promise<string | null> {
+    try {
+        let res = await fetch(GRADE_URL, {
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(grade),
+            credentials: 'include',
+        });
+
+        let data = await res.json();
+        return data.id;
+    } catch (e: any) {
+        throw new Error("Erro ao acessar a API de login");
+    }
+}
+
+/**
+ * Coleta as informações de uma grade
+ * @param codigo Código da grade
+ */
+export async function colegarGrade(codigo: string): Promise<GradeAtualExtra | null> {
+    let body: GradeGetApi = await genericFetch(GRADE_URL + `?id=${codigo}`);
+    return body.data;
 }
