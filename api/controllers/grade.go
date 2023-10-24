@@ -6,10 +6,6 @@ import (
 	"net/http"
 )
 
-type inputGrade struct {
-	Escolhas string `json:"escolhas"`
-}
-
 func PostGrade(c *gin.Context) {
 	// pega o db
 	var db = GetDbOrSetError(c)
@@ -25,8 +21,8 @@ func PostGrade(c *gin.Context) {
 	}
 
 	// pega o corpo da requisicao
-	var input inputGrade
-	if err := c.ShouldBindJSON(&input); err != nil {
+	input, err := c.GetRawData()
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Erro no corpo da requisicao"})
 		return
 	}
@@ -35,7 +31,7 @@ func PostGrade(c *gin.Context) {
 	var grade = models.Grade{
 		CodGrade:   GenerateRandomString(8),
 		CodUsuario: usuario,
-		Conteudo:   input.Escolhas,
+		Conteudo:   string(input),
 	}
 	if err := db.Create(&grade).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao salvar grade"})
