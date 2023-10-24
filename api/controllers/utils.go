@@ -5,7 +5,9 @@ import (
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	"math/rand"
 	"strconv"
+	"time"
 )
 
 func GetDbOrSetError(c *gin.Context) *gorm.DB {
@@ -34,4 +36,18 @@ type RoundedFloat float64
 
 func (f RoundedFloat) MarshalJSON() ([]byte, error) {
 	return []byte(strconv.FormatFloat(float64(f)*100, 'f', 1, 32)), nil
+}
+
+var letras = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func GenerateRandomString(n int) string {
+	// gera uma seed
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	// gera um sequencia
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letras[r.Intn(len(letras))]
+	}
+	return string(b)
 }
