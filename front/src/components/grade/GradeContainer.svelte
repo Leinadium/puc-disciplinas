@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import Grade from "./Grade.svelte";
-	import ListaRecomendacao from "./ListaRecomendacao.svelte";
-	import ListaPesquisa from "./ListaPesquisa.svelte";
+	import ListaRecomendacao from "./recomendacao/ListaRecomendacao.svelte";
+	import ListaPesquisa from "./lateral/ListaPesquisa.svelte";
 	import { adicionarTurmaNaGrade, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import type { UIDisciplinaResumo } from "../../types/ui";
     import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
+	import GrupoBotoes from "./botoes/GrupoBotoes.svelte";
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
     let gradeAtual: GradeAtualExtra = {escolhas: []}
@@ -86,6 +87,9 @@
         {faltaCursar}
         {podeCursar}
         on:popup={openPopup}
+    />
+
+    <GrupoBotoes
     />
 </div>
 

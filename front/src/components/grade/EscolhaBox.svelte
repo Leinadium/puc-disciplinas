@@ -45,8 +45,8 @@
         
         {#if showBtn }
             <div id="wrapper-btn" transition:fade={{duration: 200}}>
-                <a class="btn" id="remover" href="/#" on:click|preventDefault={remove}>x</a>
                 <a class="btn" id="informacao" href="/#" on:click|preventDefault={popup}>i</a>
+                <a class="btn" id="remover" href="/#" on:click|preventDefault={remove}>x</a>
             </div>
         {/if}
     </div>
@@ -79,6 +79,8 @@
         align-items: center;
 
         font-weight: bold;
+
+        max-height: 30%;
     }
 
     .lower {
@@ -102,6 +104,9 @@
     #nome {
         width: 100%;
         font-size: 0.75rem;
+        
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     #professor {

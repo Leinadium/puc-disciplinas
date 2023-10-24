@@ -71,11 +71,20 @@
 
         </tbody>
     </table>
-    {#if true}
+    {#if shf.length > 0}
         <div id="shf">
-            {#each shf as e}
-                <EscolhaBox info={removeExtraFromEscolha(e)} on:popup on:remove />
-            {/each}
+            <span id="titulo-shf">Sem horário definido / À distância</span>
+            <div id="lista-shf">
+                {#each shf as e}
+                    <div class="disciplina-shf">
+                        <EscolhaBox 
+                            info={removeExtraFromEscolha(e)}
+                            on:popup
+                            on:remove
+                        />
+                    </div>    
+                {/each}
+            </div>
         </div>
     {/if}
     
@@ -144,7 +153,43 @@
 
         background: rgba(255, 0, 0, 0.8);
 
+        box-sizing: border-box;
         height: 20%;
         width: 100%;
-    } 
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: flex-start;
+        align-items: center;
+
+    }
+
+    #lista-shf {
+        width: 100%;
+        height: 100%;
+        overflow-x: scroll;
+
+        box-sizing: border-box;
+        padding: 0 1% 1% 1%;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: flex-end;
+        gap: 2%;
+    }
+
+    #titulo-shf {
+        box-sizing: border-box;
+        padding: 0.2rem;
+        font-size: 0.8rem;
+        font-style: italic;
+    }
+
+    .disciplina-shf {
+        flex-shrink: 0;
+        width: fit-content;
+        height: 100%;
+        max-width: 20%;
+        
+    }
 </style>

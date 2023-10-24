@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { coletarRecomendacoes } from "$lib/api";
     import { userStore } from "$lib/stores";
-    import DisciplinaBox from "../common/DisciplinaBox.svelte";
+    import DisciplinaBox from "../../common/DisciplinaBox.svelte";
     import { createEventDispatcher } from "svelte";
     import { filtrarPesos, filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
-    import type { UIDisciplinaResumo } from "../../types/ui";
-    import type { DisciplinaRecomendacao, EscolhasSimples } from "../../types/data";
+    import type { UIDisciplinaResumo } from "../../../types/ui";
+    import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;

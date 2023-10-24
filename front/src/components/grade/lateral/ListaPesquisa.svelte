@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
-	import type { UIDisciplinaResumo } from "../../types/ui";
-	import DisciplinaBox from "../common/DisciplinaBox.svelte";
+	import type { UIDisciplinaResumo } from "../../../types/ui";
+	import DisciplinaBox from "../../common/DisciplinaBox.svelte";
 	
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let faltaCursar: Set<string>;
