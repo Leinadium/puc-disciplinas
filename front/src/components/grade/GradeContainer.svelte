@@ -17,7 +17,6 @@
     $: escolhidas = gradeAtual.escolhas.map(e => {
         return {disciplina: e.codigo, turma: e.turma}
     })
-    $: console.log(escolhidas);
 
     onMount(async () => {
         let infos = await loadAllInfos();
@@ -45,6 +44,7 @@
             turma: escolha.turma.codigo,
             professor: escolha.turma.professor,
             horarios: escolha.turma.horarios,
+            shf: escolha.turma.shf
         }
 
         gradeAtual = adicionarTurmaNaGrade(escolhaInfoExtra, gradeAtual);

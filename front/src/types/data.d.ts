@@ -6,6 +6,7 @@ export type EscolhaInfoExtra = {
     turma: string,
     professor: string,
     horarios: DisciplinaHorariosInfo[],
+    shf: number,
 }
 
 export type LoadDisciplinasResponse = {

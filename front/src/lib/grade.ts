@@ -74,7 +74,6 @@ export function generateGrade(
         }
         res[hora] = linha;
     }
-    console.log(res);
     return res;
 }
 

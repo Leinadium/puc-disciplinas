@@ -13,12 +13,24 @@
             professor: "Marcos Villas",
             horarios: [
                 {dia: "QUA", inicio: 7, fim: 9}
-            ]
+            ],
+            shf: 0,
         }, 
     ];
 
+    $: console.log(info);
+
     const diasColunas: UIDiaDisciplina[] = ["SEG", "TER", "QUA", "QUI", "SEX"];
     const horasLinhas: UIHoraDisciplina[] = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+    // copia das escolhas que é SHF ou a distância)
+    let shf: EscolhaInfoExtra[] = [];
+    
+    function filtroShfDistancia(e: EscolhaInfoExtra) {
+        return e.shf > 0 || e.horarios.filter(h => h.dia === "xxx").length > 0
+    };
+
+    $: shf = info.filter(filtroShfDistancia);
 
     // grade horaria a partir das disciplinas
     let g: any = {}
@@ -59,10 +71,19 @@
 
         </tbody>
     </table>
+    {#if true}
+        <div id="shf">
+            {#each shf as e}
+                <EscolhaBox info={removeExtraFromEscolha(e)} on:popup on:remove />
+            {/each}
+        </div>
+    {/if}
+    
 </div>
 
 <style>
     #grade {
+        position: relative;
         box-sizing: border-box;
         /* posicionamento da grade no container */
         grid-column: 1 / span 1;
@@ -114,4 +135,16 @@
         height: 20px;
         padding: 0;
     }
+
+    #shf {
+        z-index: 3;
+        position: sticky;
+        bottom: 0;
+        left: 0;
+
+        background: rgba(255, 0, 0, 0.8);
+
+        height: 20%;
+        width: 100%;
+    } 
 </style>
