@@ -8,6 +8,7 @@
     import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
 	import GrupoBotoes from "./botoes/GrupoBotoes.svelte";
+	import { armazenarGrade } from "$lib/api";
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
     let gradeAtual: GradeAtualExtra = {escolhas: []}
@@ -18,6 +19,9 @@
     $: escolhidas = gradeAtual.escolhas.map(e => {
         return {disciplina: e.codigo, turma: e.turma}
     })
+
+    let enableSalvar: boolean;
+    $: enableSalvar = gradeAtual.escolhas.length > 0;
 
     onMount(async () => {
         let infos = await loadAllInfos();
@@ -57,6 +61,10 @@
         gradeAtual = removeDisciplinaNaGrade(e.detail.disciplina, gradeAtual);
     }
 
+    function handleLimpar() {
+        gradeAtual.escolhas = [];
+    }
+
 </script>
 
 <div id="grade-container">
@@ -90,6 +98,9 @@
     />
 
     <GrupoBotoes
+        {enableSalvar}
+        {gradeAtual}
+        on:limpar={handleLimpar}
     />
 </div>
 

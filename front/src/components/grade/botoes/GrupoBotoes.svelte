@@ -2,16 +2,47 @@
 	import { createEventDispatcher } from "svelte";
 	import BotaoGenerico from "./BotaoGenerico.svelte";
 	import JanelaSalvar from "./JanelaSalvar.svelte";
+	import type { GradeAtualExtra, SalvarGradeEvent } from "../../../types/data";
+	import { armazenarGrade } from "$lib/api";
+	import type { LoadingStatus } from "../../../types/api";
+	import { page } from "$app/stores";
+
+    export let gradeAtual: GradeAtualExtra;
+    export let enableSalvar: boolean = false;
+
+    let status: LoadingStatus | null = null;
+    let linkCodigo: string | null = null;
+
+    const currentUrl = $page.url.pathname;
 
     let dispatch = createEventDispatcher();
-
-    const salvar = () => {dispatch("salvar")}
+    async function salvar() {
+        status = "loading";
+        try {
+            let codigo = await armazenarGrade(gradeAtual);
+            if (codigo !== null) {
+                linkCodigo = currentUrl + "?g=" + codigo;
+                status = "success";
+            } else {
+                status = "error";
+            }
+        } catch (e) {
+            console.log(e);
+            status = "error"
+        }
+    }
     const limpar = () => {dispatch("limpar")}
 </script>
 
-<JanelaSalvar />
+{#if status !== null}
+    <JanelaSalvar 
+        status={status}
+        link={linkCodigo}
+    />
+{/if}
+
 <div class="grupo-botoes">
-    <BotaoGenerico text="Salvar grade" on:click={salvar} />
+    <BotaoGenerico enable={enableSalvar} text="Salvar grade" on:click={salvar} />
 </div>
 
 <style>

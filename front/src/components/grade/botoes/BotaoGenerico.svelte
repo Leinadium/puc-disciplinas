@@ -1,11 +1,12 @@
 <script lang="ts">
 	import type { GenericColor } from "../../../types/style";
 
+    export let enable: boolean = true;
     export let text: string = "";
     export let color: GenericColor = "white";
 </script>
 
-<button type="button" class="{color}" on:click|preventDefault>
+<button type="button" class="{color}" on:click|preventDefault disabled={!enable}>
     {text}
 </button>
 
@@ -19,6 +20,10 @@
 
         font-size: 0.8em;
         cursor: pointer;
+    }
+
+    button:disabled {
+        cursor: not-allowed;
     }
 
     .green {

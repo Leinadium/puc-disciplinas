@@ -89,3 +89,7 @@ export type SubmitTurmaEvent = {
 export type RemoveDisciplinaEvent = {
     disciplina: string,
 }
+
+export type SalvarGradeEvent = {
+    codigo: string,
+}

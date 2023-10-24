@@ -4,7 +4,7 @@ import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
 import { userStore } from "./stores";
 
-const BASE_API_URL = 'http://localhost:8080'
+const BASE_API_URL = 'http://localhost:8080';
 const DISCIPLINAS_INFO_URL          = BASE_API_URL + '/pesquisa/info';
 const DISCIPLINAS_PODE_CURSAR_URL   = BASE_API_URL + '/pesquisa/podecursar';
 const DISCIPLINAS_FALTA_CURSAR_URL  = BASE_API_URL + '/pesquisa/faltacursar';
@@ -13,7 +13,6 @@ const DISCIPLINA_INFO_URL           = BASE_API_URL + '/disciplina/info';
 const GRADE_URL                     = BASE_API_URL + "/grade";
 const LOGIN_URL                     = BASE_API_URL + '/login';
 const LOGOUT_URL                    = BASE_API_URL + '/logout';
-
 
 
 async function genericFetch(url: string): Promise<any> {

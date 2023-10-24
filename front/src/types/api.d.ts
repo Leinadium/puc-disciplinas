@@ -1,6 +1,8 @@
 import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtualExtra } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
+export type LoadingStatus = "loading" | "success" | "error";
+
 export type ErrorApi = {
     message: string
 }

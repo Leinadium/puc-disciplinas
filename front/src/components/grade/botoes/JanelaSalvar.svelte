@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { onMount } from "svelte";
     import Popup from "../../common/Popup.svelte";
-    type Status = "loading" | "success" | "error";
-
-    let status: Status = "loading";
-    let link: string | null;
+	import type { LoadingStatus } from "../../../types/api";
+    
+    export let status: LoadingStatus = "loading";
+    export let link: string | null;
+    
     let copyStatus: boolean = false;
-
     function copyLink() {
         if (link != null) {
             navigator.clipboard.writeText(link);
