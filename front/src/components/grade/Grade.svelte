@@ -44,7 +44,11 @@
                     {#each diasColunas as d}
                         {#if !!g[h][d] }
                             <td rowspan={getDuracao(g[h][d], d)}>
-                                <EscolhaBox info={removeExtraFromEscolha(g[h][d])} />
+                                <EscolhaBox 
+                                    info={removeExtraFromEscolha(g[h][d])} 
+                                    on:popup
+                                    on:remove
+                                />
                             </td>
                         {:else if g[h][d] === null}
                             <td></td>

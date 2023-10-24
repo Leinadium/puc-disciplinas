@@ -2,8 +2,8 @@
 	import { onMount } from "svelte";
 	import Grade from "./Grade.svelte";
 	import ListaRecomendacao from "./ListaRecomendacao.svelte";
-	import ListaSelecao from "./ListaSelecao.svelte";
-	import { adicionarTurmaNaGrade, loadAllInfos } from "$lib/grade";
+	import ListaPesquisa from "./ListaPesquisa.svelte";
+	import { adicionarTurmaNaGrade, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import type { UIDisciplinaResumo } from "../../types/ui";
     import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
@@ -52,6 +52,10 @@
         closePopup();
     }
 
+    function removeDisciplina(e: CustomEvent<SubmitTurmaEvent>) {
+        gradeAtual = removeDisciplinaNaGrade(e.detail.disciplina, gradeAtual);
+    }
+
 </script>
 
 <div id="grade-container">
@@ -73,9 +77,11 @@
 
     <Grade
         info={gradeAtual.escolhas}
+        on:popup={openPopup}
+        on:remove={removeDisciplina}
     />
 
-    <ListaSelecao 
+    <ListaPesquisa 
         {disciplinas}
         {faltaCursar}
         {podeCursar}

@@ -1,5 +1,5 @@
 import type { UIDiaDisciplina, UIHoraDisciplina, UIDisciplinaResumo, UIDisciplinaCodigo, UIEscolha } from "../types/ui";
-import type { EscolhaInfoExtra, GradeAtualExtra, LoadDisciplinasResponse} from "../types/data";
+import type { EscolhaInfoExtra, EscolhaSimples, GradeAtualExtra, LoadDisciplinasResponse} from "../types/data";
 import { coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "./api";
 
 
@@ -126,5 +126,15 @@ export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
  */
 export function adicionarTurmaNaGrade(escolha: EscolhaInfoExtra, grade: GradeAtualExtra): GradeAtualExtra {
     grade.escolhas.push(escolha);
+    return grade;
+}
+
+/**
+ * Remove uma disciplina da grade, retornando a própria grade
+ * @param escolha disciplina a ser removida
+ * @param grade a propria grade
+ */
+export function removeDisciplinaNaGrade(disciplina: string, grade: GradeAtualExtra): GradeAtualExtra {
+    grade.escolhas = grade.escolhas.filter(e => e.codigo !== disciplina);
     return grade;
 }
