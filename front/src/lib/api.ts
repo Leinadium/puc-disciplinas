@@ -175,5 +175,5 @@ export async function armazenarGrade(grade: GradeAtualExtra): Promise<string | n
  */
 export async function colegarGrade(codigo: string): Promise<GradeAtualExtra | null> {
     let body: GradeGetApi = await genericFetch(GRADE_URL + `?id=${codigo}`);
-    return body.data;
+    return JSON.parse(body.data);
 }

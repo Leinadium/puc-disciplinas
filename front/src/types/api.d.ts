@@ -24,5 +24,5 @@ export type DisciplinaInfoApi = {
 }
 
 export type GradeGetApi = {
-    data: GradeAtualExtra
+    data: string
 }

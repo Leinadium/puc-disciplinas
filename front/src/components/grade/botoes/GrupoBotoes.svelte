@@ -38,6 +38,7 @@
     <JanelaSalvar 
         status={status}
         link={linkCodigo}
+        on:close={() => {status = null}}
     />
 {/if}
 

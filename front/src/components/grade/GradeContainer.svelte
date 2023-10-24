@@ -8,7 +8,9 @@
     import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent } from "../../types/data";
 	import TurmaSelecao from "./turma/TurmaSelecao.svelte";
 	import GrupoBotoes from "./botoes/GrupoBotoes.svelte";
-	import { armazenarGrade } from "$lib/api";
+	import { colegarGrade } from "$lib/api";
+
+    export let codigoGrade: string | null = null;
 
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
     let gradeAtual: GradeAtualExtra = {escolhas: []}
@@ -24,12 +26,27 @@
     $: enableSalvar = gradeAtual.escolhas.length > 0;
 
     onMount(async () => {
+        // carrega as informacoes das disciplinas
         let infos = await loadAllInfos();
         if (infos != null) {
             disciplinas = infos.disciplinasMap;
             faltaCursar = infos.faltaCursar;
             podeCursar = infos.podeCursar;
         }
+        // carrega a grade se existir
+        if (codigoGrade !== null) {
+            try {
+                let r = await colegarGrade(codigoGrade);
+                if (r !== null) {
+                    gradeAtual = r;
+                } else {
+                    console.log("Grade nao encontrada");
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        }
+
     })
 
     // popup da selecao de turma

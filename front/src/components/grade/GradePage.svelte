@@ -3,14 +3,27 @@
 
 	import { checkLogin } from "$lib/api";
 	import { onMount } from "svelte";
+	import { page } from "$app/stores";
 
-	onMount(async () => {
-		await checkLogin()	// verifica o login
+	let codigoGrade: string | null = null;
+
+	onMount(() => {
+		// verifica o login
+		checkLogin()	
+
+		// verifica se a pagina possui um codigo de grade
+		const params = $page.url.searchParams;
+		const codigo = params.get("g");
+		if (codigo !== null) {
+			// salva o codigo e apaga da historia
+			codigoGrade = codigo;
+			window.history.replaceState({}, "", $page.url.pathname);
+		}
 	});
 </script>
 
 <div id="grade-page">
-	<GradeContainer />
+	<GradeContainer {codigoGrade} />
 </div>
 
 <style>

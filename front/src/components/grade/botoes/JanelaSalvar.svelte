@@ -1,6 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-    import Popup from "../../common/Popup.svelte";
+	import Popup from "../../common/Popup.svelte";
 	import type { LoadingStatus } from "../../../types/api";
     
     export let status: LoadingStatus = "loading";
@@ -14,14 +13,9 @@
             setTimeout(() => {copyStatus = false}, 2000);
         }
     }
-
-    onMount(() => {
-        status = "success";
-        link = "testetstestse";
-    });
 </script>
 
-<Popup>
+<Popup on:close>
     <div id="janela-salvar">
         {#if status == "loading"}
             <div id="loading">Carregando...</div>
@@ -32,7 +26,8 @@
             </div>
             
             <div id="div-link">
-                <span id="link">{link}</span>
+                <input type="text" id="link" value={link}>
+
                 {#if copyStatus}
                     <span id="texto-minusculo">Copiado!</span>
                 {:else}
@@ -81,8 +76,13 @@
 
     #texto-minusculo {
         font-size: 0.8rem;
-        color: #888;
+        color: #444;
         text-decoration: none;
+
+        box-sizing: border-box;
+        padding: 5px;
+        border: 1px solid #444;
+        border-radius: 5px;
     }
     
     #div-link {
@@ -98,8 +98,10 @@
         border-radius: 10px;
         padding: 1% 5%;
         background: #fff;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         font-weight: 100;
         color: #444;
+        
+        white-space: nowrap;
     }
 </style>
