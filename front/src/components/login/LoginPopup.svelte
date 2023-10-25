@@ -16,7 +16,7 @@
     async function login() {
         try {
             status = "loading";
-            statusMessage = "";
+            statusMessage = "Carregando...";
             
             let nome: string = await fazerLogin(usuario, senha);
             userStore.set(nome);
@@ -38,7 +38,7 @@
 </script>
 
 <Popup on:close>
-    <div id="login-popup">
+    <form id="login-popup" on:submit|preventDefault={login}>
         <div id="login-textos">
             <p>
                 Faça seu login utilizando seu usuário e senha do SAU da PUC-Rio.   
@@ -70,7 +70,7 @@
             </button>
         </div>
         
-    </div>
+    </form>
 </Popup>
 
 <style>
@@ -164,6 +164,10 @@
 
     .loading {
         color: #aaa;
+    }
+
+    .success {
+        color: transparent;
     }
 
 </style>

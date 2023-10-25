@@ -1,7 +1,5 @@
 <script lang="ts">
-	import { userStore } from "$lib/stores";
 	import LoginHeader from "./login/LoginHeader.svelte";
-	import LoginPopup from "./login/LoginPopup.svelte";
 
     export let titulo: String = "Titulo";
 </script>
@@ -71,5 +69,6 @@
         flex-flow: row nowrap;
         justify-content: flex-end;
         align-items: center;
+        gap: 10%;
     }
 </style>

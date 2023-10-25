@@ -26,3 +26,8 @@ export type DisciplinaInfoApi = {
 export type GradeGetApi = {
     data: string
 }
+
+export type PostHistoricoApi = {
+    inseridos: number,
+    curriculo: string,
+}

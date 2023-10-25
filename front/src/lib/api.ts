@@ -1,5 +1,5 @@
-import type { CheckLoginApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra } from "../types/data";
+import type { DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, PostHistoricoApi } from "../types/api";
+import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra, PostHistorico } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
 import { hasCurriculo, userStore } from "./stores";
@@ -13,6 +13,7 @@ const DISCIPLINA_INFO_URL           = BASE_API_URL + '/disciplina/info';
 const GRADE_URL                     = BASE_API_URL + "/grade";
 const LOGIN_URL                     = BASE_API_URL + '/login';
 const LOGOUT_URL                    = BASE_API_URL + '/logout';
+const HISTORICO_URL                 = BASE_API_URL + '/historico';
 
 
 async function genericFetch(url: string): Promise<any> {
@@ -197,4 +198,27 @@ export async function armazenarGrade(grade: GradeAtualExtra): Promise<string | n
 export async function colegarGrade(codigo: string): Promise<GradeAtualExtra | null> {
     let body: GradeGetApi = await genericFetch(GRADE_URL + `?id=${codigo}`);
     return JSON.parse(body.data);
+}
+
+/**
+ * Insere o historico no sistema
+ * @param file Arquivo do histórico
+ */
+export async function armazenarHistorico(file: any): Promise<PostHistorico> {
+    try {
+        let formData = new FormData();
+        formData.append('historico', file);
+
+        let res = await fetch(HISTORICO_URL, {
+            method: "POST",
+            body: formData,
+            credentials: 'include',
+        });
+
+        let body: PostHistoricoApi = await res.json();
+        return body as PostHistorico;
+        
+    } catch (e: any) {
+        throw new Error("Erro ao acessar a API de login");
+    }
 }

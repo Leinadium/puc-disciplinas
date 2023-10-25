@@ -93,3 +93,8 @@ export type RemoveDisciplinaEvent = {
 export type SalvarGradeEvent = {
     codigo: string,
 }
+
+export type PostHistorico = {
+    inseridos: number,
+    curriculo: string,
+}
