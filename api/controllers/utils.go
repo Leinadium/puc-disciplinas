@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"database/sql"
 	"github.com/Leinadium/puc-disciplinas/api/models"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
@@ -28,14 +27,12 @@ func GetLoginFromSession(c *gin.Context) (models.Usuario, bool) {
 	session := sessions.Default(c)
 	usuario := session.Get(keyLoginSession)
 	nome := session.Get(keyNomeSession)
-	curriculo := session.Get(keyCurriculoSession)
-	if usuario == nil || nome == nil || curriculo == nil {
+	if usuario == nil || nome == nil {
 		return models.Usuario{}, false
 	}
 	u := models.Usuario{
-		CodUsuario:   usuario.(string),
-		NomeUsuario:  nome.(string),
-		CodCurriculo: sql.NullString{String: curriculo.(string)},
+		CodUsuario:  usuario.(string),
+		NomeUsuario: nome.(string),
 	}
 
 	return u, true

@@ -25,11 +25,22 @@ func CheckLogin(c *gin.Context) {
 		return
 	}
 
+	// pra pegar o curriculo, precisa ver no banco
+	curriculo := false
+	var db = GetDbOrSetError(c)
+	if db != nil {
+		// vendo no banco
+		var u models.Usuario
+		if err := db.Select("cod_curriculo").First(&u, "cod_usuario = ?", usuario.CodUsuario).Error; err == nil {
+			curriculo = u.CodCurriculo.Valid
+		}
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"message":   "Logado",
 		"usuario":   usuario.CodUsuario,
 		"nome":      usuario.NomeUsuario,
-		"curriculo": usuario.CodCurriculo.Valid,
+		"curriculo": curriculo,
 	})
 }
 
