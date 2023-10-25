@@ -57,7 +57,7 @@
                         turmas={info.turmas}
                         on:submit
                     />
-                    <a id="voltar" href="/#">Voltar à grade</a>
+                    <a id="voltar" href="/#" on:click|preventDefault={close}>Voltar à grade</a>
                 </div>
             </div>
         {:else}
