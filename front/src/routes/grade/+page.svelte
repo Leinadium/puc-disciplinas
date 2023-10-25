@@ -59,9 +59,6 @@
     }
 
 	onMount(async () => {
-		// verifica o login
-		await checkLogin()
-
         // carrega as informacoes das disciplinas
         let infos = await loadAllInfos();
         if (infos != null) {

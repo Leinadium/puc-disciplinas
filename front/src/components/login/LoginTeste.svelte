@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fazerLogin } from "$lib/api";
+	import { fazerLogin, fazerLogout } from "$lib/api";
     import { userStore } from "$lib/stores";
 
     let usuario: string = "";
@@ -13,10 +13,17 @@
             console.log(error);
         }
     }
+
+    const logout = async () => {
+        if (await fazerLogout()) {
+            userStore.set(null);
+        }
+    }
 </script>
 
 <div id="login-teste">
     <input type="text" bind:value={usuario} />
     <input type="password" bind:value={senha} />
     <button on:click={login}>Login</button>
+    <button on:click={logout}>Logout</button>
 </div>

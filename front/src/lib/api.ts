@@ -90,19 +90,37 @@ export async function fazerLogin(usuario: string, senha: string): Promise<string
             body: `usuario=${usuario}&senha=${senha}`,
             credentials: 'include',
         });
+        console.log(res);
 
         let data = await res.json();
         if ('nome' in data) {
             return data.nome;
         }
+        console.log(data);
+        console.log(res.status);
+        console.log(data.message);
+        console.log('message' in data);
 
         if (res.status > 200 && 'message' in data) {
             throw new Error(data.message);
         }
-
-        throw new Error("Erro ao acessar a API de login");
+        throw new Error();
+    
     } catch (e: any) {
-        throw new Error("Erro ao acessar a API de login");
+        throw new Error(e.message || "Erro ao acessar a API de login");
+    }
+}
+
+export async function fazerLogout(): Promise<boolean> {
+    try {
+        let res = await fetch(LOGOUT_URL, {
+            method: "POST",
+            credentials: 'include',
+        })
+        return res.status === 200;
+    } catch (e) {
+        console.log(e);
+        return false;
     }
 }
 
