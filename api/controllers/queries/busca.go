@@ -32,7 +32,7 @@ WHERE (p.cod_disc_orig, p.grupo_prereq) NOT IN (
     WHERE pp.cod_disc_depen NOT IN (
         SELECT cod_disciplina
         FROM historicos h
-        WHERE h.cod_usuario = @name
+        WHERE h.cod_usuario = @usuario
     )
 )
 UNION DISTINCT
@@ -44,7 +44,7 @@ WHERE cod_disciplina NOT IN (
 ) AND cod_disciplina NOT IN (
     SELECT cod_disciplina
     FROM historicos h
-    WHERE h.cod_usuario = @name
+    WHERE h.cod_usuario = @usuario
 );`
 
 const QUERY_FALTA_CURSAR = `
@@ -54,7 +54,7 @@ FROM disciplinas d
          LEFT JOIN usuarios u ON s.cod_curriculo = u.cod_curriculo
 WHERE NOT EXISTS (SELECT cod_disciplina
                   FROM historicos
-                  WHERE cod_usuario = @name
+                  WHERE cod_usuario = @usuario
                     AND d.cod_disciplina = cod_disciplina)
-  AND u.cod_usuario = @name;
+  AND u.cod_usuario = @usuario;
 `

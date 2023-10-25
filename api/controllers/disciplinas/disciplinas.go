@@ -38,9 +38,7 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
 	if ok {
-		println("usuario: " + usuario)
-		// query := db.Model(&models.Historico{}).Select("cod_disciplina").Where("cod_usuario = ?", usuario)
-		query := db.Raw(queries.QUERY_PODE_CURSAR, sql.Named("name", usuario))
+		query := db.Raw(queries.QUERY_PODE_CURSAR, sql.Named("usuario", usuario.CodUsuario))
 		if err := query.Find(&results).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 			return
@@ -61,7 +59,7 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
 	if ok {
-		query := db.Raw(queries.QUERY_FALTA_CURSAR, sql.Named("name", usuario))
+		query := db.Raw(queries.QUERY_FALTA_CURSAR, sql.Named("usuario", usuario.CodUsuario))
 		if err := query.Find(&results).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 			return
@@ -111,9 +109,6 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
 		return
 	}
-
-	println("resultsInfo: ", len(resultsInfo))
-	println("resultsTurmas: ", len(resultsTurmas))
 
 	// cria a resposta
 	var resposta respostaDisciplina

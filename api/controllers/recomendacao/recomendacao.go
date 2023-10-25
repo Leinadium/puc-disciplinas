@@ -59,7 +59,7 @@ func GetRecomendacao(c *gin.Context) {
 
 	// fazendo a substituicao das escolhas na query
 	querySql := strings.Replace(queries.QUERY_RECOMENDACAO, "@escolhas", escolhas, 1)
-	query := db.Raw(querySql, sql.Named("usuario", usuario))
+	query := db.Raw(querySql, sql.Named("usuario", usuario.CodUsuario))
 	// executando a query
 	var results []resultQuery
 	if err := query.Find(&results).Error; err != nil {

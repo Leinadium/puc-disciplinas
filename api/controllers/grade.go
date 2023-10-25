@@ -30,7 +30,7 @@ func PostGrade(c *gin.Context) {
 	// salva o resultado, usando o models.Grade
 	var grade = models.Grade{
 		CodGrade:   GenerateRandomString(8),
-		CodUsuario: usuario,
+		CodUsuario: usuario.CodUsuario,
 		Conteudo:   string(input),
 	}
 	if err := db.Create(&grade).Error; err != nil {

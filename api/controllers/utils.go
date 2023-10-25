@@ -23,13 +23,19 @@ func GetDbOrSetError(c *gin.Context) *gorm.DB {
 
 // GetLoginFromSession Pega o login a partir da sessao
 // Retorna o nome do usuario ou "" se nao estiver logado
-func GetLoginFromSession(c *gin.Context) (string, bool) {
+func GetLoginFromSession(c *gin.Context) (models.Usuario, bool) {
 	session := sessions.Default(c)
 	usuario := session.Get(keyLoginSession)
-	if usuario == nil {
-		return "", false
+	nome := session.Get(keyNomeSession)
+	if usuario == nil || nome == nil {
+		return models.Usuario{}, false
 	}
-	return usuario.(string), true
+	u := models.Usuario{
+		CodUsuario:  usuario.(string),
+		NomeUsuario: nome.(string),
+	}
+
+	return u, true
 }
 
 type RoundedFloat float64

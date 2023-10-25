@@ -27,7 +27,8 @@ func CheckLogin(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Logado",
-		"nome":    usuario,
+		"usuario": usuario.CodUsuario,
+		"nome":    usuario.NomeUsuario,
 	})
 }
 
@@ -58,6 +59,7 @@ func Login(c *gin.Context) {
 	// adiciona na sessao
 	session := sessions.Default(c)
 	session.Set(keyLoginSession, usuario)
+	session.Set(keyNomeSession, nome)
 	if err := session.Save(); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Erro ao salvar sessão",
