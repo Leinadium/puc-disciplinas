@@ -8,12 +8,13 @@
 
 <header>
     <nav>
-        <a class="nav-item" href="/">Home</a>
         <a class="nav-item" href="/grade">Grade</a>
         <a class="nav-item" href="/avaliacao">Avaliação</a>
     </nav>
 
-    <h1>{titulo}</h1>
+    <h1>
+        <a class="nav-item" href="/">{titulo}</a>
+    </h1>
 
     <div id="nav-login"><LoginHeader /></div>
 </header>
