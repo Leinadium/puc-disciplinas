@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fazerLogin } from "$lib/api";
+	import { checkLogin, fazerLogin } from "$lib/api";
 	import { userStore } from "$lib/stores";
 	import { createEventDispatcher, onMount } from "svelte";
     import Popup from "../common/Popup.svelte";
@@ -17,8 +17,11 @@
         try {
             status = "loading";
             statusMessage = "";
+            
             let nome: string = await fazerLogin(usuario, senha);
             userStore.set(nome);
+            await checkLogin();
+
             status = "success";
             dispatch("close");
         }

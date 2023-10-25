@@ -1,8 +1,8 @@
-import type { DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
+import type { CheckLoginApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi } from "../types/api";
 import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
 
-import { userStore } from "./stores";
+import { hasCurriculo, userStore } from "./stores";
 
 const BASE_API_URL = 'http://localhost:8080';
 const DISCIPLINAS_INFO_URL          = BASE_API_URL + '/pesquisa/info';
@@ -90,16 +90,13 @@ export async function fazerLogin(usuario: string, senha: string): Promise<string
             body: `usuario=${usuario}&senha=${senha}`,
             credentials: 'include',
         });
-        console.log(res);
 
         let data = await res.json();
+        console.log(data);
+
         if ('nome' in data) {
             return data.nome;
         }
-        console.log(data);
-        console.log(res.status);
-        console.log(data.message);
-        console.log('message' in data);
 
         if (res.status > 200 && 'message' in data) {
             throw new Error(data.message);
@@ -141,13 +138,19 @@ export async function coletarDisciplinaInfo(codigo: string): Promise<DisciplinaI
  */
 export async function checkLogin(): Promise<boolean> {
     try {
+        // faz a requisicao
         let res = await fetch(BASE_API_URL + '/login', {
             credentials: 'include',
         });
+        // processa a resposta
         let data = await res.json();
+        console.log('data', data);
+
         // logado
         if ('nome' in data) {
             userStore.set(data.nome);
+            if ('curriculo' in data)
+                hasCurriculo.set(data.curriculo);
             return true;
         }
         // nao logado

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fazerLogout } from "$lib/api";
+	import { checkLogin, fazerLogout } from "$lib/api";
 	import { userStore } from "$lib/stores";
 	import LoginPopup from "./LoginPopup.svelte";
 
@@ -16,6 +16,7 @@
     const logout = async () => {
         if (await fazerLogout()) {
             userStore.set(null);
+            checkLogin();
         }
     }
 
