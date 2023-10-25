@@ -27,13 +27,15 @@ def index():
 
 @app.post("/")
 def submit():
-    usuario = request.form.get("usuario")
+    usuario = request.args.get("usuario")
     if usuario is None:
+        print('usuario nao informado')
         return {"message": "Usuário não informado"}, 400
 
     # vendo se o arquivo foi submetido
-    file = request.files.get('arquivo')
+    file = request.files.get('historico')
     if file is None:
+        print('arquivo nao enviado')
         return {"message": "Arquivo não enviado"}, 400
 
     # lendo o arquivo
@@ -47,6 +49,7 @@ def submit():
     try:
         lista, cod_curriculo = parse_historico(conteudo)
     except Exception as e:
+        print("erro ao processar o arquivo" + e)
         return {"message": f"Erro ao processar o arquivo: {e}"}, 400
 
     # inserindo no banco
@@ -57,6 +60,7 @@ def submit():
             session.commit()
         except Exception as e:
             session.rollback()
+            print('erro ao inserir no banco', e)
             return {"message": f"Erro ao inserir no banco: {e}"}, 500
 
         try:
@@ -66,8 +70,9 @@ def submit():
         except IntegrityError:
             cod_curriculo = None
 
-    return {"data": {"inseridos": len(lista), "curriculo": cod_curriculo}}, 200
+    print('sucesso')
+    return {"inseridos": len(lista), "curriculo": cod_curriculo}, 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
