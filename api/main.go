@@ -35,6 +35,9 @@ func main() {
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 	}))
 
+	// para o envio de arquivos
+	r.MaxMultipartMemory = 8 << 20 // 8 MiB
+
 	// rotas
 	// rotas de autenticacao
 	authGroup := r.Group("")
@@ -57,6 +60,9 @@ func main() {
 	gradeGroup := r.Group("/grade")
 	gradeGroup.POST("", controllers.PostGrade)
 	gradeGroup.GET("", controllers.GetGrade)
+	// historico
+	historicoGroup := r.Group("/historico")
+	historicoGroup.POST("", controllers.SubmitHistorico)
 
 	_ = r.Run()
 }
