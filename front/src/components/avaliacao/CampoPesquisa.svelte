@@ -3,47 +3,7 @@
 	import type { UITipoAvaliacao } from "../../types/ui";
 	import ItemAvaliacao from "./ItemAvaliacao.svelte";
 
-    export let infos: ItemGenerico[] = [
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG1234",
-                nome: "Grande disciplina"
-            }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Grande professor"
-            }
-        },
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG2345",
-                nome: "Pequena materia"
-            }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Meio professor"
-            }
-        },
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG4567",
-                nome: "Pequena disciplina"
-            }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Grade nada"
-            }
-        }
-    ];
+    export let items: ItemGenerico[];
 
     // binds
     let tipo: UITipoAvaliacao = "todos";
@@ -53,11 +13,11 @@
         return tipo === "todos" || i.tipo === tipo
     }
 
-    let infosExibidos: ItemGenerico[] = infos;
+    let infosExibidos: ItemGenerico[] = items;
     function pesquisar() {
 
         if (texto.length == 0) {
-            infosExibidos = infos;
+            infosExibidos = items;
             return;
         }
 
@@ -75,7 +35,7 @@
             }
         }
 
-        infosExibidos = infos.filter(i => filtro(i) && filtroGeral(i));
+        infosExibidos = items.filter(i => filtro(i) && filtroGeral(i));
         console.log(infosExibidos);
     }
 

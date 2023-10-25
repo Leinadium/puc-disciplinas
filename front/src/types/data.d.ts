@@ -117,3 +117,14 @@ export type SelectAvaliacaoEvent = {
     tipo: "professor" | "disciplina",
     id: string,
 }
+
+export type ItemGenericoExtra = {
+    tipo: "professor" | "disciplina",
+    conteudo: ItemDisciplina | ItemProfessor,
+    avaliacao: number,
+    qtdAvaliacoes: number,
+}
+
+export type SubmitAvaliacaoEvent = {
+    avaliacao: number;
+}
