@@ -26,9 +26,10 @@ func CheckLogin(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Logado",
-		"usuario": usuario.CodUsuario,
-		"nome":    usuario.NomeUsuario,
+		"message":   "Logado",
+		"usuario":   usuario.CodUsuario,
+		"nome":      usuario.NomeUsuario,
+		"curriculo": usuario.CodCurriculo.Valid,
 	})
 }
 
