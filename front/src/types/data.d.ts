@@ -98,3 +98,22 @@ export type PostHistorico = {
     inseridos: number,
     curriculo: string,
 }
+
+export type ItemDisciplina = {
+    nome: string,
+    codigo: string,
+}
+
+export type ItemProfessor = {
+    nome: string,
+}
+
+export type ItemGenerico = {
+    tipo: "professor" | "disciplina",
+    conteudo: ItemDisciplina | ItemProfessor,
+}
+
+export type SelectAvaliacaoEvent = {
+    tipo: "professor" | "disciplina",
+    id: string,
+}
