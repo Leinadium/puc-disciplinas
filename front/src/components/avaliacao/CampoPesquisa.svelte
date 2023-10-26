@@ -1,66 +1,85 @@
 <script lang="ts">
-	import type { ItemGenerico } from "../../types/data";
+	import { createEventDispatcher, onMount } from "svelte";
+	import type { ItemDisciplina, ItemGenerico, ItemProfessor, SelectAvaliacaoEvent } from "../../types/data";
 	import type { UITipoAvaliacao } from "../../types/ui";
 	import ItemAvaliacao from "./ItemAvaliacao.svelte";
 
-    export let items: ItemGenerico[];
+    export let disciplinas: ItemDisciplina[];
+    export let professores: ItemProfessor[];
 
     // binds
-    let tipo: UITipoAvaliacao = "todos";
+    let tipo: UITipoAvaliacao = "disciplina";
     let texto: string = "";
     
-    const filtroGeral = (i: ItemGenerico) => {
-        return tipo === "todos" || i.tipo === tipo
-    }
+    let discGenericos: ItemGenerico[];
+    let profGenericos: ItemGenerico[];
+    $: discGenericos = disciplinas.map(d => ({
+        codigo: d.codigo,
+        nome: `[${d.codigo}] ${d.nome}`.toUpperCase(),
+        nota: d.nota,
+        media: d.media,
+        qtd: d.qtd,
+    }));
+    $: profGenericos = professores.map(p => ({
+        codigo: p.nome,
+        nome: p.nome.toUpperCase(),
+        nota: p.nota,
+        media: p.media,
+        qtd: p.qtd,
+    }));
 
-    let infosExibidos: ItemGenerico[] = items;
+
+    let infosExibidos: ItemGenerico[] = [];
     function pesquisar() {
-
-        if (texto.length == 0) {
-            infosExibidos = items;
-            return;
-        }
-
-        texto = texto.toUpperCase();
-
+        const t = texto.toUpperCase();
         const filtro = (i: ItemGenerico) => {
-            if (i.tipo == "disciplina") {
-                const d = i.conteudo as {codigo: string, nome: string};
-                return (d.codigo + d.nome).toUpperCase().includes(texto);
-            } else if (i.tipo == "professor") {
-                const p = i.conteudo as {nome: string};
-                return p.nome.toUpperCase().includes(texto);
-            } else {
-                return false;
-            }
+            return t.length == 0 || i.nome.includes(t)
         }
+        const items = tipo == "disciplina" ? discGenericos : profGenericos;
+        infosExibidos = items.filter(i => filtro(i));
 
-        infosExibidos = items.filter(i => filtro(i) && filtroGeral(i));
-        console.log(infosExibidos);
+    }
+    // se o texto ou tipo mudarem, atualiza os resultados
+    $: texto, tipo, pesquisar();
+    
+    // evento
+    let dispatch = createEventDispatcher<{click: SelectAvaliacaoEvent}>();
+    function selecionar(conteudo: ItemGenerico) {
+        dispatch('click', {conteudo: conteudo, tipo: tipo});
     }
 
-    $:tipo, pesquisar()
+    // se as disciplinas ou professores mudarem, pesquisa de novo
+    $: disciplinas, professores, pesquisar();
+    
+
 </script>
 
 <div id="campo-pesquisa">
     <div id="inputs-pesquisa">
         <input 
-            type="text" placeholder="ENGXXXX"
-            on:input={pesquisar}
-            on:change={pesquisar}
+            type="text" placeholder="Pesquisar"
             bind:value={texto}
         />
         <select name="tipo" id="semestre" bind:value={tipo}>
             <option value="disciplina">Disciplina</option>
             <option value="professor">Professor</option>
-            <option value="todos">Todos</option>
         </select>
     </div>
     
 
     <div id="resultados-pesquisa">
-        {#each infosExibidos as x (x.conteudo.nome)}
-            <ItemAvaliacao info={x} on:click />
+        <div class="header">
+            <span class='nome'>Nome</span>
+            <span class='notas'>Nota</span>
+            <span class='notas'>Média</span>
+        </div>
+
+        {#if infosExibidos.length == 0}
+            <span class="explicacao">Nenhum resultado encontrado</span>
+        {/if}
+
+        {#each infosExibidos as x (x.codigo)}
+            <ItemAvaliacao {tipo} info={x} on:click={() => selecionar(x)} />
         {/each}
     </div>
 </div>
@@ -94,6 +113,23 @@
         gap: 1rem;
     }
 
+    input {
+        box-sizing: border-box;
+        width: 70%;
+        height: 100%;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid #aaa;
+    }
+    select {
+        box-sizing: border-box;
+        width: 20%;
+        height: 100%;
+        padding: 0.5rem;
+        
+    }
+
+
     #resultados-pesquisa {
         box-sizing: border-box;
         width: 100%;
@@ -108,5 +144,35 @@
 
         overflow-y: scroll;
         border: 1px solid purple;
+    }
+
+    .header {
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: center;
+
+        font-weight: bold;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0.6rem 0.5rem;
+        border-radius: 0.5rem;
+        background: #aaa;
+    }
+    .explicacao {
+        box-sizing: border-box;
+        width: 100%;
+        text-align: center;
+        color: #777;
+    }
+
+    .nome {
+        width: 60%;
+        text-align: center
+    }
+    .notas {
+        width: 20%;
+        text-align: center
     }
 </style>

@@ -31,3 +31,7 @@ export type PostHistoricoApi = {
     inseridos: number,
     curriculo: string,
 }
+
+export type AvaliacaoApi = {
+    data: ItemsCompletos
+}

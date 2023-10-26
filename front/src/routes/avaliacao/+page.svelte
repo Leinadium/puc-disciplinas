@@ -1,68 +1,104 @@
 <script lang="ts">
+	import { armazenarAvaliacao, coletarAvaliacao, removerAvaliacao } from "$lib/api";
+	import { onMount } from "svelte";
 	import CampoAvaliacao from "../../components/avaliacao/CampoAvaliacao.svelte";
 	import CampoPesquisa from "../../components/avaliacao/CampoPesquisa.svelte";
-	import type { ItemGenerico, ItemGenericoExtra } from "../../types/data";
+	import type { ItemDisciplina, ItemGenerico, ItemProfessor, SelectAvaliacaoEvent, SubmitAvaliacaoEvent } from "../../types/data";
+	import type { UITipoAvaliacao } from "../../types/ui";
 
-    let items: ItemGenerico[] = [
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG1234",
-                nome: "Grande disciplina"
+    let disciplinas: ItemDisciplina[] = [];
+    let professores: ItemProfessor[] = [];
+
+    let escolhido: ItemGenerico | null = null;
+    let tipo: UITipoAvaliacao | null = null;
+    let statusMessage: string | null = null;
+
+    async function submit(e: CustomEvent<SubmitAvaliacaoEvent>) {
+        try {
+            if (tipo == null || escolhido == null) {
+                throw new Error("Escolha uma disciplina ou professor");
             }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Grande professor"
-            }
-        },
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG2345",
-                nome: "Pequena materia"
-            }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Meio professor"
-            }
-        },
-        {
-            tipo: "disciplina",
-            conteudo: {
-                codigo: "ENG4567",
-                nome: "Pequena disciplina"
-            }
-        },
-        {
-            tipo: "professor",
-            conteudo: {
-                nome: "Grade nada"
-            }
+            // chama a API
+            await armazenarAvaliacao(tipo, escolhido.codigo, e.detail.avaliacao)
+            // exibe a mensagem de sucesso
+            statusMessage = "Avaliação enviada com sucesso!";
+            // atualiza os dados
+            await atualizar();
+            escolhido.nota = e.detail.avaliacao;
+        
+        } catch (e: any) {
+            // exibe o erro no campo de avaliacao mesmo
+            statusMessage = e.message;
+        } finally {
+            // remove a mensagem de status depois de 3 segundos
+            setTimeout(() => {
+                statusMessage = null;
+            }, 3000);
         }
-    ];
-    let item: ItemGenericoExtra = {
-        tipo: "disciplina",
-        conteudo: {
-            codigo: "ENG1234",
-            nome: "Grande disciplina"
-        },
-        avaliacao: 4.5,
-        qtdAvaliacoes: 100
     }
 
-    // TODO: handle clicks
-    // interação com o usuario
+    async function remove() {
+        if (escolhido && escolhido.nota != null && tipo != null) {
+            try {
+                // faz a chamada da api
+                await removerAvaliacao(tipo, escolhido.codigo);
+                // exibe a mensagem de scuesso
+                statusMessage = "Avaliação removida com sucesso!";
+                // atualiza os dados
+                await atualizar();
+                escolhido.nota = null;
+            
+            } catch (e: any) {
+                // exibe o erro no campo de avaliacao mesmo
+                statusMessage = e.message;
+            } finally {
+                // remove a mensagem de status depois de 3 segundos
+                setTimeout(() => {
+                    statusMessage = null;
+                }, 3000);
+            }
+        }
+    }
+
+    function select(e: CustomEvent<SelectAvaliacaoEvent>) {
+        escolhido = e.detail.conteudo;
+        tipo = e.detail.tipo;
+    }
+
+    async function atualizar() {
+        try {
+            let data = await coletarAvaliacao();
+            if (data != null) {
+                disciplinas = data.disciplinas;
+                professores = data.professores;
+                console.log(disciplinas);
+                console.log(professores);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    onMount(() => {
+        atualizar();
+    })
+
 
 </script>
 
 <div id="avaliacao-page">
     <div id="avaliacao-container">
-        <CampoAvaliacao {item} on:submit/>
-        <CampoPesquisa {items} on:click />
+        <CampoAvaliacao 
+            info={escolhido}
+            {statusMessage} 
+            on:submit={submit}
+            on:remove={remove}
+        />
+        <CampoPesquisa
+            {disciplinas}
+            {professores}
+            on:click={select}
+        />
     </div>
 </div>
 

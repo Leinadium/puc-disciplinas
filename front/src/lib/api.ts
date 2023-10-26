@@ -1,6 +1,6 @@
-import type { DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, PostHistoricoApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra, PostHistorico } from "../types/data";
-import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "../types/ui";
+import type { AvaliacaoApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, PostHistoricoApi } from "../types/api";
+import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, PostHistorico } from "../types/data";
+import type { UIDisciplinaCodigo, UIDisciplinaResumo, UITipoAvaliacao } from "../types/ui";
 
 import { hasCurriculo, userStore } from "./stores";
 
@@ -14,6 +14,9 @@ const GRADE_URL                     = BASE_API_URL + "/grade";
 const LOGIN_URL                     = BASE_API_URL + '/login';
 const LOGOUT_URL                    = BASE_API_URL + '/logout';
 const HISTORICO_URL                 = BASE_API_URL + '/historico';
+const AVALIACOES_URL                = BASE_API_URL + '/avaliacoes';
+const AVALIACOES_DISCIPLINA_URl     = BASE_API_URL + '/avaliacoes/disciplina';
+const AVALIACOES_PROFESSOR_URL      = BASE_API_URL + '/avaliacoes/professor';
 
 
 async function genericFetch(url: string): Promise<any> {
@@ -221,4 +224,84 @@ export async function armazenarHistorico(file: any): Promise<PostHistorico> {
     } catch (e: any) {
         throw new Error("Erro ao acessar a API de login");
     }
+}
+
+export async function armazenarAvaliacao(tipo: UITipoAvaliacao, codigo: string, avaliacao: number): Promise<boolean> {
+    try {
+        let url: string;
+        let payload: any;
+        if (tipo == "disciplina") {
+            url = AVALIACOES_DISCIPLINA_URl;
+            payload = {codigo: codigo, nota: avaliacao};
+        } else {
+            url = AVALIACOES_PROFESSOR_URL;
+            payload = {nome: codigo, nota: avaliacao};
+        }
+
+        let res = await fetch(url, {
+            credentials: 'include',
+            method: "POST",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(payload),
+        })
+
+        // sucesso
+        if (res.status === 200) {
+            return true;
+        }
+
+        // falhas
+        if (res.status === 401) {
+            throw new Error("Você precisa estar logado para avaliar");
+        }
+        let body = await res.json();
+        throw new Error(body.message || "Erro ao acessar a API de avaliação");
+    }
+    catch (e: any) {
+        throw new Error(e.message || "Erro ao acessar a API de avaliação");
+    }
+}
+
+export async function removerAvaliacao(tipo: UITipoAvaliacao, codigo: string): Promise<boolean> {
+    try {
+        let url: string;
+        let payload: any;
+        if (tipo == "disciplina") {
+            url = AVALIACOES_DISCIPLINA_URl;
+            payload = {codigo: codigo};
+        } else {
+            url = AVALIACOES_PROFESSOR_URL;
+            payload = {nome: codigo};
+        }
+
+        let res = await fetch(url, {
+            credentials: 'include',
+            method: "DELETE",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify(payload),
+        })
+        // sucesso
+        if (res.status === 200) {
+            return true;
+        }
+
+        // falhas
+        if (res.status === 401) {
+            throw new Error("Você precisa estar logado para alterar a avaliação");
+        }
+        let body = await res.json();
+        throw new Error(body.message || "Erro ao acessar a API de avaliação");
+    }
+    catch (e: any) {
+        throw new Error(e.message || "Erro ao acessar a API de avaliação");
+    }
+}
+
+export async function coletarAvaliacao(): Promise<ItemsCompletos | null> {
+    let body: AvaliacaoApi = await genericFetch(AVALIACOES_URL);
+    return body.data;
 }

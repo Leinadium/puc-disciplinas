@@ -29,4 +29,4 @@ export type UITag = {
 
 export type UIPeso = "c" | "h" | "o" | "p" | "a";
 
-export type UITipoAvaliacao = "professor" | "disciplina" | "todos";
+export type UITipoAvaliacao = "professor" | "disciplina";

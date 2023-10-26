@@ -1,4 +1,4 @@
-import type { UIDiaDisciplina, UIHoraDisciplina } from "./ui"
+import type { UIDiaDisciplina, UIHoraDisciplina, UITipoAvaliacao } from "./ui"
 
 export type EscolhaInfoExtra = {
     nome: string,
@@ -102,29 +102,36 @@ export type PostHistorico = {
 export type ItemDisciplina = {
     nome: string,
     codigo: string,
+    nota: number | null,
+    media: number | null,
+    qtd: number,
 }
 
 export type ItemProfessor = {
     nome: string,
+    nota: number | null,
+    media: number | null,
+    qtd: number,
 }
 
-export type ItemGenerico = {
-    tipo: "professor" | "disciplina",
-    conteudo: ItemDisciplina | ItemProfessor,
+export interface ItemGenerico {
+    codigo: string,
+    nome: string,
+    nota: number | null,
+    media: number | null,
+    qtd: number,
 }
 
 export type SelectAvaliacaoEvent = {
-    tipo: "professor" | "disciplina",
-    id: string,
-}
-
-export type ItemGenericoExtra = {
-    tipo: "professor" | "disciplina",
-    conteudo: ItemDisciplina | ItemProfessor,
-    avaliacao: number,
-    qtdAvaliacoes: number,
+    conteudo: ItemGenerico,
+    tipo: UITipoAvaliacao,
 }
 
 export type SubmitAvaliacaoEvent = {
     avaliacao: number;
+}
+
+export type ItemsCompletos = {
+    disciplinas: ItemDisciplina[],
+    professores: ItemProfessor[],
 }
