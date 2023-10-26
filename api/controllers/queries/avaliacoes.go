@@ -5,12 +5,12 @@ SELECT d.cod_disciplina, d.nome_disciplina, a.nota_avaliacao, m.media, m.quantid
 FROM disciplinas d 
     LEFT JOIN (
 		SELECT cod_disciplina, nota_avaliacao
-		FROM avaliacoes_disciplina
+		FROM avaliacoes_disciplinas
 		WHERE cod_usuario = @usuario
 	) a ON d.cod_disciplina = a.cod_disciplina
 	LEFT JOIN (
 	    SELECT cod_disciplina, avg(nota_avaliacao) as media, count(cod_disciplina) as quantidade
-	    FROM avaliacoes_disciplina
+	    FROM avaliacoes_disciplinas
 	    GROUP BY cod_disciplina
 	) m ON d.cod_disciplina = m.cod_disciplina
 ;
