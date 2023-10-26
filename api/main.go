@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
+	"github.com/Leinadium/puc-disciplinas/api/controllers/avaliacoes"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/disciplinas"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/recomendacao"
 	"github.com/gin-contrib/cors"
@@ -33,6 +34,7 @@ func main() {
 		AllowOrigins:     []string{"http://localhost:5173"}, // temporario
 		AllowCredentials: true,
 		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowMethods:     []string{"GET", "POST", "DELETE"},
 	}))
 
 	// para o envio de arquivos
@@ -63,6 +65,13 @@ func main() {
 	// historico
 	historicoGroup := r.Group("/historico")
 	historicoGroup.POST("", controllers.SubmitHistorico)
+	// avaliacoes
+	avaliacoesGroup := r.Group("/avaliacoes")
+	avaliacoesGroup.GET("", avaliacoes.GetAvaliacoesTodos)
+	avaliacoesGroup.POST("/disciplina", avaliacoes.PostAvaliacaoDisciplina)
+	avaliacoesGroup.POST("/professor", avaliacoes.PostAvaliacaoProfessor)
+	avaliacoesGroup.DELETE("/disciplina", avaliacoes.DeleteAvaliacaoDisciplina)
+	avaliacoesGroup.DELETE("/professor", avaliacoes.DeleteAvaliacaoProfessor)
 
 	_ = r.Run()
 }
