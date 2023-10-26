@@ -13,7 +13,7 @@ WITH medias_grau AS (
         cod_disciplina,
         AVG(nota_avaliacao) AS media_avaliacao,
         COUNT(cod_disciplina) AS qtd_avaliacoes
-    FROM avaliacoes_disciplina
+    FROM avaliacoes_disciplinas
     GROUP BY cod_disciplina
 )
 SELECT
