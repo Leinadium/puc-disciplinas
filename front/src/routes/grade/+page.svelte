@@ -3,13 +3,14 @@
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import type { UIDisciplinaResumo } from "../../types/ui";
-	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent } from "../../types/data";
+	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
 	import { adicionarTurmaNaGrade, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import TurmaSelecao from "../../components/grade/turma/TurmaSelecao.svelte";
 	import ListaRecomendacao from "../../components/grade/recomendacao/ListaRecomendacao.svelte";
 	import Grade from "../../components/grade/Grade.svelte";
 	import ListaPesquisa from "../../components/grade/lateral/ListaPesquisa.svelte";
 	import GrupoBotoes from "../../components/grade/botoes/GrupoBotoes.svelte";
+	import { criaTabelaHorarios, extractHorarios } from "$lib/utils";
 
     // variaveis principais
 	let codigoGrade: string | null = null;
@@ -25,6 +26,10 @@
     })
     let enableSalvar: boolean;
     $: enableSalvar = gradeAtual.escolhas.length > 0;
+
+    let tabelaHorariosUsados: TabelaHorarios;
+    $: tabelaHorariosUsados = criaTabelaHorarios(extractHorarios(gradeAtual));
+    $: console.log(tabelaHorariosUsados);
 
     // popup da selecao de turma
     let turmaCodigo: string = "";
@@ -96,6 +101,7 @@
         {#if isTurmaOpen}
             <TurmaSelecao 
                 codigoDisciplina={turmaCodigo}
+                tabelaHorariosUsados={tabelaHorariosUsados}
                 on:close={closePopup}
                 on:submit={submitTurma}
             />

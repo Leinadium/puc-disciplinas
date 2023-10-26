@@ -70,6 +70,8 @@ export type DisciplinaTurmaInfo = {
     alocacoes: DisciplinaAlocacoesInfo[],
 }
 
+export type TabelaHorarios = Map<UIDiaDisciplina, Set<UIHoraDisciplina>>
+
 export type DisciplinaHorariosInfo = {
     dia: UIDiaDisciplina,
     inicio: UIHoraDisciplina,

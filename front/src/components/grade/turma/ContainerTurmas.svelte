@@ -1,10 +1,13 @@
 <script lang="ts">
-	import type { DisciplinaTurmaInfo, SubmitTurmaEvent } from "../../../types/data";
+	import type { DisciplinaHorariosInfo, DisciplinaTurmaInfo, SubmitTurmaEvent, TabelaHorarios } from "../../../types/data";
     import { createEventDispatcher } from "svelte";
     import TurmaTurma from "./TurmaTurma.svelte";
+	import { hasConflitoHorario } from "$lib/utils";
 
     export let disciplina: string = "";
     export let turmas: DisciplinaTurmaInfo[];
+    export let tabelaHorariosUsados: TabelaHorarios;
+
 
     let dispatch = createEventDispatcher<{submit:SubmitTurmaEvent}>();
 
@@ -14,6 +17,11 @@
             turma: turma
         });
     }
+
+    const invalida = (hs: DisciplinaHorariosInfo[], v: number) => {
+        return hasConflitoHorario(hs, tabelaHorariosUsados) || v == 0;
+    }
+
 </script>
 
 <div id="container-turmas">
@@ -26,6 +34,7 @@
                 vagas={alocacao.vagas}
                 horarios={turma.horarios}
                 shf={turma.shf}
+                invalida={invalida(turma.horarios, alocacao.vagas)}
                 on:click={() => {handleClick(turma)}}
             />
         {/each}

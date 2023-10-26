@@ -17,6 +17,12 @@
         return num + '';
     }
 
+    // quem diria, o grau é armazenado como base 100 no banco
+    // mas na realidade era pra ser base 10...
+    // fazendo essa alteração no front
+    let grauCorrigido: number;
+    $: grauCorrigido = grauMedio / 10;
+
 
 </script>
 
@@ -44,7 +50,7 @@
         <div id="grau">
             <TurmaNota
                 descricao="Grau médio"
-                nota={grauMedio}
+                nota={grauCorrigido}
                 base={10}
                 textoPequeno="a partir de {qtdAlunos} {pluralize(qtdAlunos, "aluno")}"
                 isValid={qtdAlunos > 0}

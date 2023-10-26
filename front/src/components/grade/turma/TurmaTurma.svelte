@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createEventDispatcher } from "svelte";
     import type { DisciplinaHorariosInfo } from "../../../types/data";
 
     export let codigo: string;
@@ -7,6 +8,7 @@
     export let vagas: number;
     export let horarios: DisciplinaHorariosInfo[];
     export let shf: number;
+    export let invalida: boolean;
 
     // TODO: talvez deixar essa função de formatar
     //       mais bonita, como agrupar dias cujos
@@ -20,9 +22,15 @@
 
     $: horariosFinal = horariosMapeado.join(", ") + (shf > 0 ? ` (${shf}h)`: '');
     
+    let dispatch = createEventDispatcher<{click: void}>();
+    function click() {
+        if (!invalida)
+            dispatch("click");
+    }
+
 </script>
 
-<a href="/#" class="turma-turma" on:click|preventDefault>
+<a href="/#" class="turma-turma" class:invalida={invalida} on:click|preventDefault={click}>
     <span class="turma-grande">{codigo}</span>   
     <span class="turma-dest overflow">{destino}</span>
 
@@ -66,6 +74,12 @@
 
         background: #eee;
         border-radius: 15px;
+    }
+
+    .invalida {
+        background: #eeeeeecc;
+        color: #999;
+        cursor: not-allowed;
     }
 
     .turma-turma:hover {

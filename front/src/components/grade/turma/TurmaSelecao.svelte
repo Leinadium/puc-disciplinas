@@ -1,13 +1,14 @@
 <script lang="ts">
 	import { onMount, createEventDispatcher } from "svelte";
 	import Popup from "../../common/Popup.svelte";
-	import type { DisciplinaInfo } from "../../../types/data";
+	import type { DisciplinaInfo, TabelaHorarios } from "../../../types/data";
 	import { coletarDisciplinaInfo } from "$lib/api";
 	import ContainerTurmas from "./ContainerTurmas.svelte";
 	import TurmaTextos from "./TurmaTextos.svelte";
 	import TurmaInfo from "./TurmaInfo.svelte";
 
     export let codigoDisciplina: string;
+    export let tabelaHorariosUsados: TabelaHorarios;
 
     let infoApi: Promise<DisciplinaInfo | null>;
     let dispatch = createEventDispatcher();
@@ -55,6 +56,7 @@
                     <ContainerTurmas
                         disciplina={info.codigo}
                         turmas={info.turmas}
+                        {tabelaHorariosUsados}
                         on:submit
                     />
                     <a id="voltar" href="/#" on:click|preventDefault={close}>Voltar à grade</a>
