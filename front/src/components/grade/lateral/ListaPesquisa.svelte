@@ -30,8 +30,8 @@
     
     /** Executa a pesquisa,a atualizando o valor do resultado*/
     function pesquisar(texto: string) {
-        // se nao tiver nenhum texto, exibe as disciplinas que faltam cursar
-        if (texto.length == 0) {
+        // se nao tiver nenhum texto util, exibe as disciplinas que faltam cursar
+        if (texto.length < 2) {
             disciplinasExibidas = Array.from(disciplinas.keys()).filter((c) => filtroFaltaCursar(c));
             // ordena alfabeticamente pelo codigo
             disciplinasExibidas.sort();
