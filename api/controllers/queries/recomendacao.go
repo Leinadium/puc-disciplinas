@@ -34,7 +34,7 @@ WITH rec_c1 AS (
 	GROUP BY h1.cod_disciplina, todas
 ), rec_o AS (
     SELECT cod_disciplina, avg(nota_avaliacao) as media
-    FROM avaliacoes_disciplina
+    FROM avaliacoes_disciplinas
     GROUP BY cod_disciplina
 ), rec_p AS (
     SELECT d.cod_disciplina, avg(a.nota_avaliacao) as media

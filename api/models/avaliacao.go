@@ -20,7 +20,7 @@ type AvaliacaoProfessor struct {
 }
 
 func (AvaliacaoDisciplina) TableName() string {
-	return "avaliacoes_disciplina"
+	return "avaliacoes_disciplinas"
 }
 
 func (AvaliacaoProfessor) TableName() string {

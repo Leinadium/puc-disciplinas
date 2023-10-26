@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS historicos (
     -- pois pode ser que o usuário tenha cursado disciplinas que não estão mais no currículo
 );
 
-CREATE TABLE IF NOT EXISTS avaliacoes_disciplina (
+CREATE TABLE IF NOT EXISTS avaliacoes_disciplinas (
     cod_usuario CHAR(7) NOT NULL,
     cod_disciplina CHAR(7) NOT NULL,
     nota_avaliacao SMALLINT NOT NULL,
