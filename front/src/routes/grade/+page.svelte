@@ -1,16 +1,17 @@
 <script lang="ts">
-	import { checkLogin, colegarGrade } from "$lib/api";
+	import { colegarGrade } from "$lib/api";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import type { UIDisciplinaResumo } from "../../types/ui";
 	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
-	import { adicionarTurmaNaGrade, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
+	import { adicionarTurmaNaGrade, getDisciplinasFaltaCursar, getDisciplinasPodeCursar, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import TurmaSelecao from "../../components/grade/turma/TurmaSelecao.svelte";
 	import ListaRecomendacao from "../../components/grade/recomendacao/ListaRecomendacao.svelte";
 	import Grade from "../../components/grade/Grade.svelte";
 	import ListaPesquisa from "../../components/grade/lateral/ListaPesquisa.svelte";
 	import GrupoBotoes from "../../components/grade/botoes/GrupoBotoes.svelte";
 	import { criaTabelaHorarios, extractHorarios } from "$lib/utils";
+	import { userStore } from "$lib/stores";
 
     // variaveis principais
 	let codigoGrade: string | null = null;
@@ -63,6 +64,16 @@
         gradeAtual.escolhas = [];
     }
 
+    // callback caso o usuario mude
+    userStore.subscribe(async u => {
+        if (u != null) {
+            faltaCursar = await getDisciplinasFaltaCursar();
+            podeCursar = await getDisciplinasPodeCursar(); 
+        }
+    })
+
+    // roda na primeira vez que carrega a pagina:
+    // pega todas as disciplinas,falta cursar e pode cursar
 	onMount(async () => {
         // carrega as informacoes das disciplinas
         let infos = await loadAllInfos();

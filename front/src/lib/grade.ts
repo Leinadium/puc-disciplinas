@@ -77,40 +77,37 @@ export function generateGrade(
     return res;
 }
 
-export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
-    console.log("loadAllInfos");
-
+async function getDisciplinasInfo(): Promise<Map<string, UIDisciplinaResumo>> {
     let disciplinas = new Map<string, UIDisciplinaResumo>();
+    let fDisciplinas = await coletarDisciplinasInfo();
+    if (fDisciplinas) 
+        fDisciplinas.forEach((d: UIDisciplinaResumo) => disciplinas.set(d.codigo, d));
+    return disciplinas
+}
+
+export async function getDisciplinasFaltaCursar(): Promise<Set<string>> {
     let faltaCursar = new Set<string>();
+    let fFaltaCursar = await coletarDisciplinasFaltaCursar();
+    if (fFaltaCursar) 
+        fFaltaCursar.forEach((c: UIDisciplinaCodigo) => faltaCursar.add(c.codigo));
+    return faltaCursar;
+}
+
+export async function getDisciplinasPodeCursar(): Promise<Set<string>> {
     let podeCursar = new Set<string>();
+    let fPodeCursar = await coletarDisciplinasPodeCursar();
+    if (fPodeCursar) 
+        fPodeCursar.forEach((c: UIDisciplinaCodigo) => podeCursar.add(c.codigo));
+    return podeCursar;
+}
 
+export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
     try {
-        // salva as disciplinas
-        let fDisciplinas = await coletarDisciplinasInfo();
-        if (fDisciplinas) {
-            fDisciplinas.forEach((d: UIDisciplinaResumo) => {
-                disciplinas.set(d.codigo, d);           // salva a disciplina
-            });
-        }
-        // salva os falta cursar
-        let fFaltaCursar = await coletarDisciplinasFaltaCursar();
-        if (fFaltaCursar) {
-            faltaCursar.clear()
-            fFaltaCursar.forEach((c: UIDisciplinaCodigo) => faltaCursar.add(c.codigo));
-        }
-        // salva os pode cursar
-        let fPodeCursar = await coletarDisciplinasPodeCursar();
-        if (fPodeCursar) {
-            podeCursar.clear()
-            fPodeCursar.forEach((c: UIDisciplinaCodigo) => podeCursar.add(c.codigo));
-        }
-        
         return {
-            disciplinasMap: disciplinas,
-            faltaCursar: faltaCursar,
-            podeCursar: podeCursar,
+            disciplinasMap: await getDisciplinasInfo(),
+            faltaCursar: await getDisciplinasFaltaCursar(),
+            podeCursar: await getDisciplinasPodeCursar(),
         }
-
     } catch (e: any) {
         console.log(e.message);     // TODO
         return null;
