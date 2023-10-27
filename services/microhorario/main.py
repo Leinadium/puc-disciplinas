@@ -2,8 +2,8 @@
 
 from os import getenv
 from argparse import ArgumentParser
-
 from dotenv import load_dotenv
+from unidecode import unidecode
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
 from microhorario_dl import Microhorario
@@ -38,6 +38,10 @@ def configura_banco(eng: Engine):
     Base.metadata.create_all(eng)
 
 
+def normaliza(s: str) -> str:
+    return unidecode(s.strip().upper())
+
+
 def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
     from sqlalchemy import text
 
@@ -56,7 +60,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
             for d in m.departamentos:
                 session.add(Departamento(
                     cod_depto=d.codigo,
-                    nome_depto=d.nome
+                    nome_depto=normaliza(d.nome)
                 ))
 
             # cria o set de professores
@@ -69,7 +73,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
             # itera sobre os professores
             for prof in professores:
                 session.add(Professor(
-                    nome_professor=prof
+                    nome_professor=normaliza(prof)
                 ))
             # atualiza o banco para poder adicionar o resto
             session.commit()
@@ -81,7 +85,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                 session.add(Disciplina(
                     cod_disciplina=d.codigo,
                     cod_depto=d.departamento.codigo,
-                    nome_disciplina=d.nome,
+                    nome_disciplina=normaliza(d.nome),
                     ementa=d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA',
                     creditos=d.creditos
                 ))
@@ -113,7 +117,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     session.add(Turma(
                         cod_disciplina=disc.codigo,
                         cod_turma=turma.codigo,
-                        nome_professor=turma.professor,
+                        nome_professor=normaliza(turma.professor),
                         shf=turma.shf
                     ))
 

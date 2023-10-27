@@ -2,3 +2,4 @@ microhorario-dl
 SQLAlchemy
 pyscopg2
 psycopg2-binary
+unidecode
