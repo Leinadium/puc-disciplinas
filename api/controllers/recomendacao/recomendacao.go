@@ -3,11 +3,12 @@ package recomendacao
 import (
 	"database/sql"
 	"encoding/json"
+	"net/http"
+	"strings"
+
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/queries"
 	"github.com/gin-gonic/gin"
-	"net/http"
-	"strings"
 )
 
 // GetRecomendacao retorna as disciplinas recomendadas para o usuario
@@ -21,11 +22,11 @@ func GetRecomendacao(c *gin.Context) {
 	}
 
 	// verifica o login do usuario
-	usuario, ok := controllers.GetLoginFromSession(c)
-	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Nao logado"})
-		return
-	}
+	usuario, _ := controllers.GetLoginFromSession(c)
+	// if !ok {
+	// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Nao logado"})
+	// 	return
+	// }
 
 	// verifica o corpo da requisicao
 	var input inputRecomendacao
@@ -58,6 +59,8 @@ func GetRecomendacao(c *gin.Context) {
 	}
 
 	// fazendo a substituicao das escolhas na query
+	// OBS: caso o usuario nao esteja logado, o usuario sera ""
+	//      o que faz com que o peso do conteudo sempre seja zero
 	querySql := strings.Replace(queries.QUERY_RECOMENDACAO, "@escolhas", escolhas, 1)
 	query := db.Raw(querySql, sql.Named("usuario", usuario.CodUsuario))
 	// executando a query
