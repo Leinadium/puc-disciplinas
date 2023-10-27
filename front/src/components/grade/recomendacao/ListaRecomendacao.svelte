@@ -2,7 +2,6 @@
 	import { coletarRecomendacoes } from "$lib/api";
     import { userStore } from "$lib/stores";
     import DisciplinaBox from "../../common/DisciplinaBox.svelte";
-    import { createEventDispatcher } from "svelte";
     import { filtrarPesos, filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../../types/ui";
     import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
@@ -13,12 +12,9 @@
     export let faltaCursar: Set<string>;
     export let podeCursar: Set<string>;
 
-    /** dispatcher de eventos */
-    let dispatch = createEventDispatcher();
-
     /** flag de usuario logado */
+    let isLogged: boolean;
     $: isLogged = $userStore !== null;
-    // let isLogged = false;
 
     /** lista de disciplinas recomendadas */
     let disciplinasRecomendadas: DisciplinaRecomendacao[] = [];
@@ -26,12 +22,21 @@
     let modoRecomendacao: ModoRecomendacao = "eletivas";
     const qtdRecomendacao = 10;
 
+    /** converte a EscolhasSimples em um set com as disciplinas escolhidas */
+    let escolhidasSet: Set<string>;
+    $: escolhidasSet = new Set<string>(escolhidas.map(e => e.disciplina));
+
     // atualiza as recomendacoes, se alguma das variaveis mudar
     $: disciplinas, escolhidas, faltaCursar, isLogged, atualizarRecomendacoes();
     
     // atualiza o filtro se o modo de recomendacao mudar,
     $: disciplinasExibidas = filtrarRecomendacoes(
-            disciplinasRecomendadas, qtdRecomendacao, podeCursar, faltaCursar, modoRecomendacao
+            disciplinasRecomendadas,
+            qtdRecomendacao,
+            podeCursar,
+            faltaCursar,
+            escolhidasSet,
+            modoRecomendacao
         );
 
     /**
@@ -44,7 +49,12 @@
         if (req !== null && req.length > 0) {
             disciplinasRecomendadas = req;
             disciplinasExibidas = filtrarRecomendacoes(
-                req, qtdRecomendacao, podeCursar, faltaCursar, modoRecomendacao
+                req, 
+                qtdRecomendacao, 
+                podeCursar, 
+                faltaCursar,
+                escolhidasSet, 
+                modoRecomendacao
             );
         } else {
             console.log("Erro ao carregar as recomendacoes");

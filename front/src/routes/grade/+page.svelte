@@ -21,13 +21,15 @@
     let podeCursar: Set<string> = new Set<string>();
 
     // dinamicas
+    // escolhidas: grade simplificada.
     let escolhidas: EscolhasSimples;
     $: escolhidas = gradeAtual.escolhas.map(e => {
         return {disciplina: e.codigo, turma: e.turma}
     })
+    // enableSalvar: flag para liberar o botão de salvar
     let enableSalvar: boolean;
     $: enableSalvar = gradeAtual.escolhas.length > 0;
-
+    // tabelaHorariosUsados: uma tabela com os horarios usados na grade
     let tabelaHorariosUsados: TabelaHorarios;
     $: tabelaHorariosUsados = criaTabelaHorarios(extractHorarios(gradeAtual));
     $: console.log(tabelaHorariosUsados);
@@ -65,11 +67,11 @@
     }
 
     // callback caso o usuario mude
-    userStore.subscribe(async u => {
-        if (u != null) {
-            faltaCursar = await getDisciplinasFaltaCursar();
-            podeCursar = await getDisciplinasPodeCursar(); 
-        }
+    userStore.subscribe(async () => {
+        // pega as informacoes atualizadas,
+        // mesmo que o usuario nao esteja mais logado
+        faltaCursar = await getDisciplinasFaltaCursar();
+        podeCursar = await getDisciplinasPodeCursar();
     })
 
     // roda na primeira vez que carrega a pagina:

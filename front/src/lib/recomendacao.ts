@@ -1,4 +1,4 @@
-import type { DisciplinaRecomendacao, PesosRecomendacao } from "../types/data";
+import type { DisciplinaRecomendacao, EscolhasSimples, PesosRecomendacao } from "../types/data";
 import type { GenericColor } from "../types/style";
 import type { UIPeso, UITag } from "../types/ui";
 
@@ -8,26 +8,28 @@ function filtroRecomendacoes(
     r: DisciplinaRecomendacao,
     podeCursar: Set<string> | null | undefined,
     faltaCursar: Set<string> | null | undefined,
+    escolhidas: Set<string> | null | undefined,
     modo: ModoRecomendacao = "todas" 
 ) {
     const pode = podeCursar ? podeCursar.has(r.cod) : true;
     const falta = faltaCursar ? faltaCursar.has(r.cod) : true;
     const naoFalta = faltaCursar ? !faltaCursar.has(r.cod) : true;
+    const jaEscolhida = escolhidas ? escolhidas.has(r.cod) : false;
 
     // se o usuario nao selecionou nenhum filtro especifico
     // entao filtra pelo o que ele pode cursar, se for definido
     if (modo == "todas") {
-        return pode;
+        return pode && !jaEscolhida;
     }
     // se o usuario selecionou o filtro de eletivas
     // entao filtra pelo o que ele pode cursar mas nao falta cursar
     else if (modo == "eletivas") {
-        return pode && naoFalta;
+        return pode && naoFalta && !jaEscolhida;
     }
     // se o usuario selecionou o filtro de falta cursar
     // entao filtra pelo o que ele pode cursar e falta cursar
     else {
-        return pode && falta;
+        return pode && falta && !jaEscolhida;
     }
 }
 
@@ -47,10 +49,11 @@ export function filtrarRecomendacoes(
     n: number = 20,
     podeCursar: Set<string> | null | undefined,
     faltaCursar: Set<string> | null | undefined,
+    escolhidas: Set<string> | null | undefined,
     modo: ModoRecomendacao = "todas"
 ) {
     // filtra as recomendações
-    let res = recomendacoes.filter(r => filtroRecomendacoes(r, podeCursar, faltaCursar, modo));
+    let res = recomendacoes.filter(r => filtroRecomendacoes(r, podeCursar, faltaCursar, escolhidas, modo));
     // ordena as recomendações
     res.sort((a, b) => b.val - a.val);
     // retorna as primeiras n recomendações
