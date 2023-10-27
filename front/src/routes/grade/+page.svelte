@@ -17,8 +17,8 @@
 	let codigoGrade: string | null = null;
     let disciplinas: Map<string, UIDisciplinaResumo> = new Map<string, UIDisciplinaResumo>();
     let gradeAtual: GradeAtualExtra = {escolhas: []}
-    let faltaCursar: Set<string> = new Set<string>();
-    let podeCursar: Set<string> = new Set<string>();
+    let faltaCursar: Set<string> | null = null;
+    let podeCursar: Set<string> | null = null;
 
     // dinamicas
     // escolhidas: grade simplificada.
@@ -32,7 +32,6 @@
     // tabelaHorariosUsados: uma tabela com os horarios usados na grade
     let tabelaHorariosUsados: TabelaHorarios;
     $: tabelaHorariosUsados = criaTabelaHorarios(extractHorarios(gradeAtual));
-    $: console.log(tabelaHorariosUsados);
 
     // popup da selecao de turma
     let turmaCodigo: string = "";
@@ -66,14 +65,6 @@
         gradeAtual.escolhas = [];
     }
 
-    // callback caso o usuario mude
-    userStore.subscribe(async () => {
-        // pega as informacoes atualizadas,
-        // mesmo que o usuario nao esteja mais logado
-        faltaCursar = await getDisciplinasFaltaCursar();
-        podeCursar = await getDisciplinasPodeCursar();
-    })
-
     // roda na primeira vez que carrega a pagina:
     // pega todas as disciplinas,falta cursar e pode cursar
 	onMount(async () => {
@@ -84,7 +75,6 @@
             faltaCursar = infos.faltaCursar;
             podeCursar = infos.podeCursar;
         }
-
 		// verifica se a pagina possui um codigo de grade
 		const params = $page.url.searchParams;
 		const codigo = params.get("g");
@@ -106,6 +96,13 @@
                 console.log(e);
             }
         }
+        // callback caso o usuario mude
+        userStore.subscribe(async () => {
+            // pega as informacoes atualizadas,
+            // mesmo que o usuario nao esteja mais logado
+            faltaCursar = await getDisciplinasFaltaCursar();
+            podeCursar = await getDisciplinasPodeCursar();
+        })
 	});
 </script>
 

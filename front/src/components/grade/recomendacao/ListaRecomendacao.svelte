@@ -6,15 +6,16 @@
     import type { UIDisciplinaResumo } from "../../../types/ui";
     import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
+	import { onMount } from "svelte";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let escolhidas: EscolhasSimples;
-    export let faltaCursar: Set<string>;
-    export let podeCursar: Set<string>;
+    export let faltaCursar: Set<string> | null;
+    export let podeCursar: Set<string> | null;
 
     /** flag de usuario logado */
-    let isLogged: boolean;
-    $: isLogged = $userStore !== null;
+    // let isLogged: boolean;
+    // $: isLogged = $userStore !== null;
 
     /** lista de disciplinas recomendadas */
     let disciplinasRecomendadas: DisciplinaRecomendacao[] = [];
@@ -27,7 +28,9 @@
     $: escolhidasSet = new Set<string>(escolhidas.map(e => e.disciplina));
 
     // atualiza as recomendacoes, se alguma das variaveis mudar
-    $: disciplinas, escolhidas, faltaCursar, isLogged, atualizarRecomendacoes();
+    // $: disciplinas, escolhidas, faltaCursar, isLogged, atualizarRecomendacoes();
+    let hasMounted = false;
+    $: escolhidas, atualizarRecomendacoes();
     
     // atualiza o filtro se o modo de recomendacao mudar,
     $: disciplinasExibidas = filtrarRecomendacoes(
@@ -44,10 +47,16 @@
      * Se o usuario nao estiver logado, nao faz nada.
      */
     async function atualizarRecomendacoes() {
-        if (!isLogged) return;
+        if (!hasMounted) return;    // evita rodar no servidor. solucao feia mas funciona
+        // if (!isLogged) return;
         let req = await coletarRecomendacoes(escolhidas);
         if (req !== null && req.length > 0) {
             disciplinasRecomendadas = req;
+            console.log("disciplinasRecomendadas: ", disciplinasRecomendadas.length);
+            console.log("req", req.length);
+            console.log("podeCursar", podeCursar?.size);
+            console.log("faltaCursar", faltaCursar?.size);
+            console.log("escolhidasSet", escolhidasSet.size);
             disciplinasExibidas = filtrarRecomendacoes(
                 req, 
                 qtdRecomendacao, 
@@ -61,13 +70,18 @@
         }
     }
 
+    onMount(() => {
+        hasMounted = true;
+        atualizarRecomendacoes();
+    })
+
 </script>
 
 <div id="lista-recomendacao">
     <span>Recomendações</span>
     <ModoBotaoRecomendacao bind:value={modoRecomendacao}/>
 
-    {#if isLogged}
+    <!-- {#if isLogged} -->
         <div id="lista-disciplinas">
             {#if disciplinasExibidas.length > 0}   
                 {#each disciplinasExibidas as disciplina}
@@ -87,14 +101,14 @@
                 </div>
             {/if}
         </div>
-    {:else}
+    <!-- {:else}
         <div id="aviso">
             <span>
                 Para ativar as recomendações, 
                 entre com sua conta do SAU
             </span>
         </div>
-    {/if}
+    {/if} -->
 </div>
 
 <style>

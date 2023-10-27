@@ -11,8 +11,8 @@ export type EscolhaInfoExtra = {
 
 export type LoadDisciplinasResponse = {
     disciplinasMap: Map<string, DisciplinaBasica>,
-    faltaCursar: Set<string>,
-    podeCursar: Set<string>
+    faltaCursar: Set<string> | null,
+    podeCursar: Set<string> | null,
 }
 
 export type DisciplinaRecomendacao = {

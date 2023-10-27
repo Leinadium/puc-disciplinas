@@ -4,8 +4,8 @@
 	import DisciplinaBox from "../../common/DisciplinaBox.svelte";
 	
     export let disciplinas: Map<string, UIDisciplinaResumo>;
-    export let faltaCursar: Set<string>;
-    export let podeCursar: Set<string>;
+    export let faltaCursar: Set<string> | null;
+    export let podeCursar: Set<string> | null;
     
     type ModoPesquisa = "codigo" | "nome" | null;
 
@@ -21,10 +21,12 @@
 
     /** filtro de disciplinas nao cursadas que estao no curriculo */
     function filtroFaltaCursar(s: string) {
+        if (faltaCursar === null) return true;
         return faltaCursar.size == 0 || faltaCursar.has(s)
     };
     /** filtro de disciplina que o usuario pode cursar */
     function filtroPodeCursar(s: string){
+        if (podeCursar === null) return true;
         return podeCursar.size == 0 || podeCursar.has(s)
     };
     

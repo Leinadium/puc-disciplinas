@@ -85,19 +85,23 @@ async function getDisciplinasInfo(): Promise<Map<string, UIDisciplinaResumo>> {
     return disciplinas
 }
 
-export async function getDisciplinasFaltaCursar(): Promise<Set<string>> {
+export async function getDisciplinasFaltaCursar(): Promise<Set<string> | null> {
     let faltaCursar = new Set<string>();
     let fFaltaCursar = await coletarDisciplinasFaltaCursar();
     if (fFaltaCursar) 
         fFaltaCursar.forEach((c: UIDisciplinaCodigo) => faltaCursar.add(c.codigo));
+    else
+        return null
     return faltaCursar;
 }
 
-export async function getDisciplinasPodeCursar(): Promise<Set<string>> {
+export async function getDisciplinasPodeCursar(): Promise<Set<string> | null> {
     let podeCursar = new Set<string>();
     let fPodeCursar = await coletarDisciplinasPodeCursar();
     if (fPodeCursar) 
         fPodeCursar.forEach((c: UIDisciplinaCodigo) => podeCursar.add(c.codigo));
+    else
+        return null;
     return podeCursar;
 }
 
