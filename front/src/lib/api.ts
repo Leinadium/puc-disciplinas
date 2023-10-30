@@ -224,7 +224,7 @@ export async function armazenarHistorico(file: any): Promise<PostHistorico> {
         });
 
         let body: PostHistoricoApi = await res.json();
-        return body as PostHistorico;
+        return body.data;
         
     } catch (e: any) {
         throw new Error("Erro ao acessar a API de login");

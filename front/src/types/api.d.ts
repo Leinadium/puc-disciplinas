@@ -1,4 +1,4 @@
-import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtualExtra } from "./data"
+import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtualExtra, PostHistorico } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
 export type LoadingStatus = "loading" | "success" | "error";
@@ -28,8 +28,7 @@ export type GradeGetApi = {
 }
 
 export type PostHistoricoApi = {
-    inseridos: number,
-    curriculo: string,
+    data: PostHistorico,
 }
 
 export type AvaliacaoApi = {

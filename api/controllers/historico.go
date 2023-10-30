@@ -3,10 +3,11 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"io"
 	"mime/multipart"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // SubmitHistorico Rota de submissão de histórico
@@ -81,7 +82,7 @@ func SubmitHistorico(c *gin.Context) {
 	resp, err := client.Do(req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"message": "Erro ao enviar histórico",
+			"message": "Erro ao enviar histórico para o microserviço",
 		})
 		return
 	}
@@ -93,7 +94,7 @@ func SubmitHistorico(c *gin.Context) {
 		if err = json.NewDecoder(resp.Body).Decode(&bodyParsed); err != nil {
 			// nao consigo nem decodificar o erro, entao erro generico
 			c.JSON(http.StatusInternalServerError, gin.H{
-				"message": "Erro ao enviar histórico",
+				"message": "Erro ao enviar histórico para o microserviço",
 			})
 		} else {
 			c.JSON(http.StatusInternalServerError, gin.H{
@@ -111,7 +112,6 @@ func SubmitHistorico(c *gin.Context) {
 	_ = json.NewDecoder(resp.Body).Decode(&bodyParsed)
 
 	c.JSON(http.StatusOK, gin.H{
-		"inseridos": bodyParsed.Inseridos,
-		"curriculo": bodyParsed.Curriculo,
+		"data": bodyParsed,
 	})
 }
