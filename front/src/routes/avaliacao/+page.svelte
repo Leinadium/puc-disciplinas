@@ -24,7 +24,22 @@
             statusMessage = "Avaliação enviada com sucesso!";
             // atualiza os dados
             await atualizar();
+            // atualiza a nota do item escolhido
             escolhido.nota = e.detail.avaliacao;
+            // atualiza a media e qtd (precisa ver nos dados)
+            if (tipo == "disciplina") {
+                const d = disciplinas.find(d => d.codigo == escolhido?.codigo) as ItemDisciplina;
+                if (d) {
+                    escolhido.media = d.media;
+                    escolhido.qtd = d.qtd;
+                }
+            } else if (tipo == "professor") {
+                const p = professores.find(p => p.nome == escolhido?.nome) as ItemProfessor;
+                if (p) {
+                    escolhido.media = p.media;
+                    escolhido.qtd = p.qtd;
+                }
+            }
         
         } catch (e: any) {
             // exibe o erro no campo de avaliacao mesmo
