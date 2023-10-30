@@ -8,6 +8,8 @@
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 	import { onMount } from "svelte";
 
+    type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado."
+
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let escolhidas: EscolhasSimples;
     export let faltaCursar: Set<string> | null;
@@ -21,6 +23,7 @@
     let disciplinasRecomendadas: DisciplinaRecomendacao[] = [];
     let disciplinasExibidas: DisciplinaRecomendacao[] = [];
     let modoRecomendacao: ModoRecomendacao = "eletivas";
+    let texto: Texto = "Carregando recomendações...";
     const qtdRecomendacao = 10;
 
     /** converte a EscolhasSimples em um set com as disciplinas escolhidas */
@@ -48,7 +51,7 @@
      */
     async function atualizarRecomendacoes() {
         if (!hasMounted) return;    // evita rodar no servidor. solucao feia mas funciona
-        // if (!isLogged) return;
+        texto = "Carregando recomendações...";
         let req = await coletarRecomendacoes(escolhidas);
         if (req !== null && req.length > 0) {
             disciplinasRecomendadas = req;
@@ -68,6 +71,7 @@
         } else {
             console.log("Erro ao carregar as recomendacoes");
         }
+        texto = "Sem recomendação para o tipo selecionado.";
     }
 
     onMount(() => {
@@ -97,7 +101,7 @@
                 {/each}
             {:else}
                 <div id="aviso">
-                    <span>Carregando as recomendações...</span>
+                    <span>{texto}</span>
                 </div>
             {/if}
         </div>
