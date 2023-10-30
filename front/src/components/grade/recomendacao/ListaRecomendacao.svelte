@@ -7,6 +7,7 @@
     import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
 	import { onMount } from "svelte";
+	import { fly } from "svelte/transition";
 
     type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado."
 
@@ -51,15 +52,16 @@
      */
     async function atualizarRecomendacoes() {
         if (!hasMounted) return;    // evita rodar no servidor. solucao feia mas funciona
+        disciplinasRecomendadas = [];
         texto = "Carregando recomendações...";
         let req = await coletarRecomendacoes(escolhidas);
         if (req !== null && req.length > 0) {
             disciplinasRecomendadas = req;
-            console.log("disciplinasRecomendadas: ", disciplinasRecomendadas.length);
-            console.log("req", req.length);
-            console.log("podeCursar", podeCursar?.size);
-            console.log("faltaCursar", faltaCursar?.size);
-            console.log("escolhidasSet", escolhidasSet.size);
+            // console.log("disciplinasRecomendadas: ", disciplinasRecomendadas.length);
+            // console.log("req", req.length);
+            // console.log("podeCursar", podeCursar?.size);
+            // console.log("faltaCursar", faltaCursar?.size);
+            // console.log("escolhidasSet", escolhidasSet.size);
             disciplinasExibidas = filtrarRecomendacoes(
                 req, 
                 qtdRecomendacao, 
@@ -90,7 +92,7 @@
             {#if disciplinasExibidas.length > 0}   
                 {#each disciplinasExibidas as disciplina}
                     {#if disciplinas.has(disciplina.cod)}
-                        <div class="disciplina-recomendada">
+                        <div class="disciplina-recomendada" transition:fly|global={{x: 30, duration: 100}}>
                             <DisciplinaBox
                                 info={disciplinas.get(disciplina.cod)}
                                 pesos={filtrarPesos(disciplina.pes)}

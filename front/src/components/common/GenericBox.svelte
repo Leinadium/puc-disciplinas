@@ -2,15 +2,14 @@
     import type { GenericColor } from "../../types/style";
     export let color: GenericColor = "default";
     export let clickCallback: () => void = () => {};
-
-    // export let height: string = "100px";
-    // export let width: string = "100px";
-
-    // $: customStyle = "--height: " + height + "; --width: " + width + ";"
 </script>
 
 
-<a href="/#" class="generic-box {color}" on:click|preventDefault={clickCallback}>
+<a 
+    href="/#" 
+    class="generic-box {color}"
+    on:click|preventDefault={clickCallback}
+>
     <slot></slot>
 </a>
 

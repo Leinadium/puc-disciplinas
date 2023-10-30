@@ -2,6 +2,7 @@
 	import { createEventDispatcher, onMount } from "svelte";
 	import type { UIDisciplinaResumo } from "../../../types/ui";
 	import DisciplinaBox from "../../common/DisciplinaBox.svelte";
+	import { fly } from "svelte/transition";
 	
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let faltaCursar: Set<string> | null;
@@ -99,7 +100,7 @@
     <div id="resultados">
         {#each disciplinasExibidas as cod}
             {#if disciplinas.has(cod)}
-                <div class="disciplina-selecao">
+                <div class="disciplina-selecao" transition:fly|global={{y: 30, duration: 100}}>
                     <DisciplinaBox 
                         info={disciplinas.get(cod)}
                         on:popup
