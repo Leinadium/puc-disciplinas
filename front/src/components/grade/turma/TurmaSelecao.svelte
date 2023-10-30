@@ -18,11 +18,7 @@
     }
 
     onMount(() => {
-        try {
-            infoApi = coletarDisciplinaInfo(codigoDisciplina);
-        } catch (e) {
-            console.error(e);
-        }
+        infoApi = coletarDisciplinaInfo(codigoDisciplina);
     });
 </script>
 <Popup on:close>
@@ -63,10 +59,10 @@
                 </div>
             </div>
         {:else}
-            <div id="no-info">Sem informação</div>
+            <div id="no-info">Disciplina {codigoDisciplina} não encontrada</div>
         {/if}
     {:catch}
-        <div id="error">Erro ao carregar informações</div>
+        <div id="error">Não foi possível encontrar as informações da disciplina {codigoDisciplina}</div>
     {/await}
 </Popup>
 
@@ -142,5 +138,12 @@
         flex-flow: column nowrap;
         justify-content: space-between;
         align-items: stretch;
+    }
+
+    #no-info {
+        padding: 2%;
+        background: #aaa;
+        border-radius: var(--border-radius);
+        text-align: center;
     }
 </style>

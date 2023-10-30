@@ -2,7 +2,7 @@
 	import type { DisciplinaPreRequisitosInfo } from "../../../types/data";
 
     export let ementa: string;
-    export let preReqs: DisciplinaPreRequisitosInfo[];
+    export let preReqs: DisciplinaPreRequisitosInfo[] | null = null;
 
     const join = (arr: string[]) => arr.join(', ');
 </script>
@@ -12,7 +12,7 @@
     <span id="ementa">{ementa}</span>
     <span class="minititulo">Pré-requisitos</span>
     <span id="prereqs">
-        {#if preReqs.length > 0}
+        {#if preReqs && preReqs.length > 0}
             {#each preReqs as preReq}
                 <div class="prereq">
                     <span>{join(preReq.preReqs)}</span>

@@ -131,8 +131,13 @@ export async function fazerLogout(): Promise<boolean> {
  * @returns {DisciplinaInfo | null} Informações da disciplina
  */
 export async function coletarDisciplinaInfo(codigo: string): Promise<DisciplinaInfo | null> {
-    let body: DisciplinaInfoApi = await genericFetch(DISCIPLINA_INFO_URL + `?c=${codigo}`);
-    return body.data;
+    try {
+        let body: DisciplinaInfoApi = await genericFetch(DISCIPLINA_INFO_URL + `?c=${codigo}`);
+        return body.data;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
 }
 
 /**
