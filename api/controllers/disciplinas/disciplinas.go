@@ -97,8 +97,14 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	// pega as informacoes basicas da disciplina
 	var resultsInfo []resultInfo
 	query := db.Raw(queries.QUERY_DISCIPLINA_INFO, sql.Named("disciplina", codDisciplina))
-	if err := query.Find(&resultsInfo).Error; err != nil {
+	res := query.Find(&resultsInfo)
+	if res.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
+		return
+	}
+	// verifica se encontrou a disciplina
+	if res.RowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Disciplina nao encontrada"})
 		return
 	}
 
