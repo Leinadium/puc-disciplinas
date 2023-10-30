@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
+	import { createEventDispatcher, onMount } from "svelte";
 	import type { UIDisciplinaResumo } from "../../../types/ui";
 	import DisciplinaBox from "../../common/DisciplinaBox.svelte";
 	
@@ -33,7 +33,7 @@
     /** Executa a pesquisa,a atualizando o valor do resultado*/
     function pesquisar(texto: string) {
         // se nao tiver nenhum texto util, exibe as disciplinas que faltam cursar
-        if (texto.length < 2) {
+        if (texto.length <= 2) {
             disciplinasExibidas = Array.from(disciplinas.keys()).filter((c) => filtroFaltaCursar(c));
             // ordena alfabeticamente pelo codigo
             disciplinasExibidas.sort();
@@ -75,6 +75,7 @@
     }
 
     function refresh() {
+        iniciais.clear();
         disciplinas.forEach((d: UIDisciplinaResumo) => {
             iniciais.add(d.codigo.toUpperCase().substring(0, 3)); // salva a inicial
         });
