@@ -113,3 +113,10 @@ CREATE TABLE IF NOT EXISTS avaliacoes_professores (
     FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
     -- FOREIGN KEY (nome_professor) REFERENCES professores(nome_professor)
 );
+
+
+CREATE TABLE IF NOT EXISTS modificacao (
+    data_ementa DATE NOT NULL,
+    data_geral  DATE NOT NULL,
+    PRIMARY KEY (data_ementa, data_geral)
+)
