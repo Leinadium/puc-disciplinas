@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { coletarRecomendacoes } from "$lib/api";
-    import { userStore } from "$lib/stores";
+    import { userStore, hasCurriculo } from "$lib/stores";
     import DisciplinaBox from "../../common/DisciplinaBox.svelte";
     import { filtrarPesos, filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../../types/ui";
     import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
-	import { onMount } from "svelte";
+	import { createEventDispatcher, onMount } from "svelte";
 	import { fly } from "svelte/transition";
 
     type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado." | "Erro ao carregar as recomendações";
@@ -16,9 +16,11 @@
     export let faltaCursar: Set<string> | null;
     export let podeCursar: Set<string> | null;
 
-    /** flag de usuario logado */
-    // let isLogged: boolean;
-    // $: isLogged = $userStore !== null;
+    /** flags para a mensagem */
+    let isLogged: boolean;
+    $: isLogged = $userStore !== null;
+    let showPedido: boolean;
+    $: showPedido = !isLogged || !hasCurriculo;
 
     /** lista de disciplinas recomendadas */
     let disciplinasRecomendadas: DisciplinaRecomendacao[] = [];
@@ -85,37 +87,34 @@
 </script>
 
 <div id="lista-recomendacao">
-    <span>Recomendações</span>
-    <ModoBotaoRecomendacao bind:value={modoRecomendacao}/>
+    <div id="recomendacao-upper">
+        <span>Recomendações</span>
+        {#if showPedido}
+            <span id="pedido">Carregue seu currículo para melhorar as recomendações.</span>
+        {/if}
+        <ModoBotaoRecomendacao bind:value={modoRecomendacao}/>
+    </div>
 
-    <!-- {#if isLogged} -->
-        <div id="lista-disciplinas">
-            {#if disciplinasExibidas.length > 0}   
-                {#each disciplinasExibidas as disciplina}
-                    {#if disciplinas.has(disciplina.cod)}
-                        <div class="disciplina-recomendada" transition:fly|global={{x: 30, duration: 100}}>
-                            <DisciplinaBox
-                                info={disciplinas.get(disciplina.cod)}
-                                pesos={filtrarPesos(disciplina.pes)}
-                                on:popup
-                            />
-                        </div>
-                    {/if}
-                {/each}
-            {:else}
-                <div id="aviso">
-                    <span>{texto}</span>
-                </div>
-            {/if}
-        </div>
-    <!-- {:else}
-        <div id="aviso">
-            <span>
-                Para ativar as recomendações, 
-                entre com sua conta do SAU
-            </span>
-        </div>
-    {/if} -->
+    <div id="lista-disciplinas">
+        {#if disciplinasExibidas.length > 0}   
+            {#each disciplinasExibidas as disciplina}
+                {#if disciplinas.has(disciplina.cod)}
+                    <div class="disciplina-recomendada" transition:fly|global={{x: 30, duration: 100}}>
+                        <DisciplinaBox
+                            info={disciplinas.get(disciplina.cod)}
+                            pesos={filtrarPesos(disciplina.pes)}
+                            on:popup
+                        />
+                    </div>
+                {/if}
+            {/each}
+        {:else}
+            <div id="aviso">
+                <span>{texto}</span>
+            </div>
+        {/if}
+    </div>
+
 </div>
 
 <style>
@@ -138,6 +137,17 @@
         margin-right: 10px;
 
         border: 3px solid green
+    }
+
+    #recomendacao-upper {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 3px 10px 0 10px;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
     }
 
     #lista-disciplinas {
@@ -172,5 +182,10 @@
         justify-content: center;
         align-items: center;
         color: #555;
+    }
+
+    #pedido {
+        font-size: 0.8rem;
+        color: #aa0;
     }
 </style>

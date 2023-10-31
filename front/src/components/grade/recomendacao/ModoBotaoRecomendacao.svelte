@@ -12,11 +12,3 @@
     </select>
 </div>
 
-<style>
-    #modo-botao-recomendacao {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 2;
-    }
-</style>
