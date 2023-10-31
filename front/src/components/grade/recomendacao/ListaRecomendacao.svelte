@@ -9,7 +9,7 @@
 	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 
-    type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado."
+    type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado." | "Erro ao carregar as recomendações";
 
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let escolhidas: EscolhasSimples;
@@ -55,7 +55,7 @@
         disciplinasRecomendadas = [];
         texto = "Carregando recomendações...";
         let req = await coletarRecomendacoes(escolhidas);
-        if (req !== null && req.length > 0) {
+        if (req && req.length > 0) {
             disciplinasRecomendadas = req;
             // console.log("disciplinasRecomendadas: ", disciplinasRecomendadas.length);
             // console.log("req", req.length);
@@ -70,10 +70,11 @@
                 escolhidasSet, 
                 modoRecomendacao
             );
+            texto = "Sem recomendação para o tipo selecionado.";
         } else {
             console.log("Erro ao carregar as recomendacoes");
+            texto = "Erro ao carregar as recomendações";
         }
-        texto = "Sem recomendação para o tipo selecionado.";
     }
 
     onMount(() => {
