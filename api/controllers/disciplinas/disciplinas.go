@@ -4,9 +4,15 @@ import (
 	"database/sql"
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/queries"
+	"github.com/Leinadium/puc-disciplinas/api/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
+
+type resultCompleto struct {
+	Disciplinas []resultLista      `json:"disciplinas"`
+	Modificacao models.Modificacao `json:"modificacao"`
+}
 
 func GetDisciplinasInformacoes(c *gin.Context) {
 	// pega o db
@@ -23,7 +29,16 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": results})
+	// pega as modificacoes (se der erro, tudo bem)
+	var modificacao models.Modificacao
+	db.First(&modificacao)
+
+	completo := resultCompleto{
+		Disciplinas: results,
+		Modificacao: modificacao,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": completo})
 }
 
 func GetDisciplinasPodeCursar(c *gin.Context) {
