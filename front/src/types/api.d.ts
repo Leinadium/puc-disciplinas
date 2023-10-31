@@ -1,4 +1,4 @@
-import type { DisciplinaInfo, DisciplinaRecomendacao, GradeAtualExtra, PostHistorico } from "./data"
+import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, GradeAtualExtra, PostHistorico } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
 export type LoadingStatus = "loading" | "success" | "error";
@@ -8,7 +8,7 @@ export type ErrorApi = {
 }
 
 export type ListaDisciplinasApi = {
-    data: UIDisciplinaResumo[]
+    data: DisciplinasComModificacao
 }
 
 export type ListaCodigosApi = {

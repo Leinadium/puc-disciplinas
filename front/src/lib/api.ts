@@ -1,5 +1,5 @@
 import type { AvaliacaoApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, PostHistoricoApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, PostHistorico } from "../types/data";
+import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, PostHistorico } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo, UITipoAvaliacao } from "../types/ui";
 
 import { hasCurriculo, userStore } from "./stores";
@@ -34,9 +34,9 @@ async function genericFetch(url: string): Promise<any> {
 
 /**
  * Coleta as informações básicas de todas as disciplinas 
- * @returns {UIDisciplinaResumo[] | null} Lista de disciplinas
+ * @returns {DisciplinasComModificacao | null} Lista de disciplinas
  */
-export async function coletarDisciplinasInfo(): Promise<UIDisciplinaResumo[] | null> {
+export async function coletarDisciplinasInfo(): Promise<DisciplinasComModificacao | null> {
     let body: ListaDisciplinasApi = await genericFetch(DISCIPLINAS_INFO_URL);
     return body.data;
 }

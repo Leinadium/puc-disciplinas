@@ -1,4 +1,4 @@
-import type { UIDiaDisciplina, UIHoraDisciplina, UITipoAvaliacao } from "./ui"
+import type { UIDiaDisciplina, UIDisciplinaResumo, UIHoraDisciplina, UITipoAvaliacao } from "./ui"
 
 export type EscolhaInfoExtra = {
     nome: string,
@@ -7,6 +7,16 @@ export type EscolhaInfoExtra = {
     professor: string,
     horarios: DisciplinaHorariosInfo[],
     shf: number,
+}
+
+export type Modificacao = {
+    dataEmenta: string,
+    dataGeral: string,
+}
+
+export type DisciplinasComModificacao = {
+    disciplinas: UIDisciplinaResumo[],
+    modificacao: Modificacao,
 }
 
 export type LoadDisciplinasResponse = {
