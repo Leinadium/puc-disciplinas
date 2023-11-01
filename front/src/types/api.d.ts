@@ -1,7 +1,7 @@
 import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, GradeAtualExtra, PostHistorico } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
-export type LoadingStatus = "loading" | "success" | "error";
+export type LoadingStatus = "loading" | "success" | "error" | "unauthorized";
 
 export type ErrorApi = {
     message: string

@@ -6,6 +6,7 @@
 	import { armazenarGrade } from "$lib/api";
 	import type { LoadingStatus } from "../../../types/api";
 	import { page } from "$app/stores";
+	import { userStore } from "$lib/stores";
 
     export let gradeAtual: GradeAtualExtra;
     export let enableSalvar: boolean = false;
@@ -17,6 +18,11 @@
 
     let dispatch = createEventDispatcher();
     async function salvar() {
+        if ($userStore === null) {
+            status = "unauthorized";
+            return;
+        }
+
         status = "loading";
         try {
             let codigo = await armazenarGrade(gradeAtual);

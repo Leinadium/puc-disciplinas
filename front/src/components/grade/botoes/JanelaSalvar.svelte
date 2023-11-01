@@ -34,6 +34,8 @@
                     <a href="/#" id="texto-minusculo" on:click|preventDefault={copyLink}>Copiar</a>
                 {/if}
             </div>
+        {:else if status == "unauthorized"}
+            <div id="no-info">Você precisa estar logado para salvar uma grade.</div>
         {:else}
             <div id="no-info">Erro ao armazenar grade. Tente novamente mais tarde.</div>
         {/if}
