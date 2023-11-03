@@ -8,7 +8,7 @@ VALUES ('CCPBCO20230', 'Ciência da Computação (Bacharelado) - Currículo 23.0
 DELETE FROM semestres WHERE cod_curriculo = 'CCPBCO20230';
 
 INSERT INTO semestres (cod_curriculo, cod_disciplina, semestre)
-VALUES
+SELECT * FROM (VALUES
     ('CCPBCO20230', 'CRE1200', 1),
     ('CCPBCO20230', 'CTC4002', 1),
     ('CCPBCO20230', 'INF1009', 1),
@@ -60,4 +60,9 @@ VALUES
 
     ('CCPBCO20230', 'FIL0300', 8),
     ('CCPBCO20230', 'INF1951', 8)
-;
+) AS i (cod_curriculo, cod_disciplina, semestre)
+WHERE EXISTS (
+    SELECT cod_disciplina
+    FROM disciplinas
+    WHERE cod_disciplina = i.cod_disciplina
+);

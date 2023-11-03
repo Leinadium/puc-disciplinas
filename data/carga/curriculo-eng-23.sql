@@ -8,7 +8,7 @@ VALUES ('CEGBCO20231', 'Eng. de Computação (Bacharelado) - Currículo 23.1');
 DELETE FROM semestres WHERE cod_curriculo = 'CEGBCO20231';
 
 INSERT INTO semestres (cod_curriculo, cod_disciplina, semestre)
-VALUES
+SELECT * FROM (VALUES
     ('CEGBCO20231', 'ENG4010', 1),
     ('CEGBCO20231', 'EMP1310', 1),
     ('CEGBCO20231', 'ENG4025', 1),
@@ -80,4 +80,9 @@ VALUES
 
     ('CEGBCO20231', 'ENG4135', 10),
     ('CEGBCO20231', 'ENG4153', 10)
-;
+) AS i (cod_curriculo, cod_disciplina, semestre)
+WHERE EXISTS (
+    SELECT cod_disciplina
+    FROM disciplinas
+    WHERE cod_disciplina = i.cod_disciplina
+);
