@@ -137,3 +137,35 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": resposta})
 }
+
+func GetDisciplinasCursadas(c *gin.Context) {
+	// pega o db
+	var db = controllers.GetDbOrSetError(c)
+	if db == nil {
+		return
+	}
+
+	// pega o usuario
+	var usuario, ok = controllers.GetLoginFromSession(c)
+	if !ok {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": "Usuario nao logado"})
+		return
+	}
+
+	var results []models.Historico
+	query := db.Where("cod_usuario = ?", usuario.CodUsuario)
+
+	if err := query.Find(&results).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
+		return
+	}
+
+	// converte os results para o formato de resposta
+	// que é uma lista de codigos
+	var resposta []resultCodigo
+	for _, r := range results {
+		resposta = append(resposta, resultCodigo{CodDisciplina: r.CodDisciplina})
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": resposta})
+}

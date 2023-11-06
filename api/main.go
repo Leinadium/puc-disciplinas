@@ -52,6 +52,8 @@ func main() {
 	pesquisaGroup.GET("/info", disciplinas.GetDisciplinasInformacoes)
 	pesquisaGroup.GET("/podecursar", disciplinas.GetDisciplinasPodeCursar)
 	pesquisaGroup.GET("/faltacursar", disciplinas.GetDisciplinasFaltaCursar)
+	pesquisaGroup.GET("/cursadas", disciplinas.GetDisciplinasCursadas)
+
 	// recomendacao
 	recomendacaoGroup := r.Group("/recomendacao")
 	recomendacaoGroup.POST("", recomendacao.GetRecomendacao)
