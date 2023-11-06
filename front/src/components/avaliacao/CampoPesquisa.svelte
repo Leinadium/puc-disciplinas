@@ -37,6 +37,8 @@
         }
         const items = tipo == "disciplina" ? discGenericos : profGenericos;
         infosExibidos = items.filter(i => filtro(i));
+        // ordenando pelo nome
+        infosExibidos.sort((a, b) => a.nome.localeCompare(b.nome));
 
     }
     // se o texto ou tipo mudarem, atualiza os resultados
