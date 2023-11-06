@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { pesosCores, pesosDescricao } from "$lib/utils";
-    import type { GenericColor } from "../../types/style";
+    import type { GenericBackground, GenericColor } from "../../types/style";
 	import type { UIDisciplinaResumo, UIPeso, UITag } from "../../types/ui";
     import GenericBox from "./GenericBox.svelte";
     import { createEventDispatcher } from "svelte";
@@ -15,6 +15,9 @@
 
     export let pesos: UIPeso[] = [];    // lista com os pesos a serem mostrados
 
+    export let cursada: boolean = false;
+    let bkgd: GenericBackground = cursada ? "outline" : "fill";
+
     let dispatch = createEventDispatcher<{popup: string}>();
 
     const popup = () => {
@@ -23,7 +26,7 @@
 
 </script>
 
-<GenericBox color="green" clickCallback={popup}>
+<GenericBox color="green" background={bkgd} clickCallback={popup}>
     <div class="textos">
         <span id="codigo">{info.codigo.toUpperCase()}</span>
         <span id="nome">{info.nome.toUpperCase()}</span>

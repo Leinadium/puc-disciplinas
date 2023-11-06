@@ -8,6 +8,7 @@ const BASE_API_URL = 'http://localhost:8080';
 const DISCIPLINAS_INFO_URL          = BASE_API_URL + '/pesquisa/info';
 const DISCIPLINAS_PODE_CURSAR_URL   = BASE_API_URL + '/pesquisa/podecursar';
 const DISCIPLINAS_FALTA_CURSAR_URL  = BASE_API_URL + '/pesquisa/faltacursar';
+const DISCIPLINAS_CURSADAS          = BASE_API_URL + '/pesquisa/cursadas';
 const RECOMENDACAO_URL              = BASE_API_URL + '/recomendacao';
 const DISCIPLINA_INFO_URL           = BASE_API_URL + '/disciplina/info';
 const GRADE_URL                     = BASE_API_URL + "/grade";
@@ -56,6 +57,15 @@ export async function coletarDisciplinasPodeCursar(): Promise<UIDisciplinaCodigo
  */
 export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodigo[] | null> {
     let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_FALTA_CURSAR_URL);
+    return body.data;
+}
+
+/**
+ * Coleta os códigos de todas as disciplinas que o usuário já cursou
+ * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
+ */
+export async function coletarDisciplinasCursadas(): Promise<UIDisciplinaCodigo[] | null> {
+    let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_CURSADAS);
     return body.data;
 }
 

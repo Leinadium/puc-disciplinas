@@ -107,12 +107,23 @@ export async function getDisciplinasPodeCursar(): Promise<Set<string> | null> {
     return podeCursar;
 }
 
+export async function getDisciplinasCursadas(): Promise<Set<string> | null> {
+    let cursadas = new Set<string>();
+    let fCursadas = await coletarDisciplinasFaltaCursar();
+    if (fCursadas) 
+        fCursadas.forEach((c: UIDisciplinaCodigo) => cursadas.add(c.codigo));
+    else
+        return null;
+    return cursadas;
+}
+
 export async function loadAllInfos(): Promise<LoadDisciplinasResponse | null> {
     try {
         return {
             disciplinasMap: await getDisciplinasInfo(),
             faltaCursar: await getDisciplinasFaltaCursar(),
             podeCursar: await getDisciplinasPodeCursar(),
+            cursadas: await getDisciplinasCursadas()
         }
     } catch (e: any) {
         console.log(e.message);     // TODO

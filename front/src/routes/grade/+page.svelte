@@ -19,6 +19,7 @@
     let gradeAtual: GradeAtualExtra = {escolhas: []}
     let faltaCursar: Set<string> | null = null;
     let podeCursar: Set<string> | null = null;
+    let cursadas: Set<string> | null = null;
 
     // dinamicas
     // escolhidas: grade simplificada.
@@ -74,6 +75,7 @@
             disciplinas = infos.disciplinasMap;
             faltaCursar = infos.faltaCursar;
             podeCursar = infos.podeCursar;
+            cursadas = infos.cursadas;
         }
 		// verifica se a pagina possui um codigo de grade
 		const params = $page.url.searchParams;

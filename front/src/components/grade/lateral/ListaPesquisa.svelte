@@ -7,6 +7,7 @@
     export let disciplinas: Map<string, UIDisciplinaResumo>;
     export let faltaCursar: Set<string> | null;
     export let podeCursar: Set<string> | null;
+    export let cursadas: Set<string> | null;
     
     type ModoPesquisa = "codigo" | "nome" | null;
 
@@ -103,6 +104,7 @@
                 <div class="disciplina-selecao" transition:fly|global={{y: 30, duration: 100}}>
                     <DisciplinaBox 
                         info={disciplinas.get(cod)}
+                        cursada={cursadas?.has(cod) || false}
                         on:popup
                     />
                 </div>

@@ -1,13 +1,14 @@
 <script lang="ts">
-    import type { GenericColor } from "../../types/style";
+    import type { GenericBackground, GenericColor } from "../../types/style";
     export let color: GenericColor = "default";
+    export let background: GenericBackground = "fill";
     export let clickCallback: () => void = () => {};
 </script>
 
 
 <a 
     href="/#" 
-    class="generic-box {color}"
+    class="generic-box {color} {background}"
     on:click|preventDefault={clickCallback}
 >
     <slot></slot>
@@ -38,6 +39,10 @@
         flex-flow: column nowrap;
         justify-content: space-between;
         align-items: center;
+    }
+
+    .outline {
+        background-color: transparent;
     }
 
     .default {
