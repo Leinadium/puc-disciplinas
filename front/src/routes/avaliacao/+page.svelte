@@ -6,9 +6,11 @@
 	import type { ItemDisciplina, ItemGenerico, ItemProfessor, SelectAvaliacaoEvent, SubmitAvaliacaoEvent } from "../../types/data";
 	import type { UITipoAvaliacao } from "../../types/ui";
 	import { userStore } from "$lib/stores";
+	import { getDisciplinasCursadas } from "$lib/grade";
 
     let disciplinas: ItemDisciplina[] = [];
     let professores: ItemProfessor[] = [];
+    let cursadas: Set<string> | null = null;
 
     let escolhido: ItemGenerico | null = null;
     let tipo: UITipoAvaliacao | null = null;
@@ -98,8 +100,15 @@
         }
     }
 
-    onMount(() => {
-        atualizar();
+    onMount(async () => {
+        // carrega as cursadas
+        try {
+            cursadas = await getDisciplinasCursadas();
+        } catch (e) {
+            console.log(e);
+        }
+
+        await atualizar();
     })
 
 
@@ -117,6 +126,7 @@
             <CampoPesquisa
                 {disciplinas}
                 {professores}
+                {cursadas}
                 on:click={select}
             />
         {:else}

@@ -6,6 +6,7 @@
 
     export let disciplinas: ItemDisciplina[];
     export let professores: ItemProfessor[];
+    export let cursadas: Set<string> | null = null;
 
     // binds
     let tipo: UITipoAvaliacao = "disciplina";
@@ -80,8 +81,17 @@
             <span class="explicacao">Nenhum resultado encontrado</span>
         {/if}
 
+        {#if !cursadas && tipo == "disciplina"}
+            <span class="explicacao"> Cadastre seu histórico para avaliar disciplinas.</span>
+        {/if}
+
         {#each infosExibidos as x (x.codigo)}
-            <ItemAvaliacao {tipo} info={x} on:click={() => selecionar(x)} />
+            <ItemAvaliacao
+                {tipo}
+                info={x}
+                enable={tipo == "professor" || cursadas?.has(x.codigo)}
+                on:click={() => selecionar(x)}
+            />
         {/each}
     </div>
 </div>

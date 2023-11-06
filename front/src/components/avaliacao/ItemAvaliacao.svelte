@@ -5,19 +5,22 @@
 
     export let info: ItemGenerico;
     export let tipo: UITipoAvaliacao;
+    export let enable: boolean = true;
 
     let dispatch = createEventDispatcher<{click: SelectAvaliacaoEvent}>();
 
     function click() {
-        dispatch("click", {
-            tipo: tipo,
-            conteudo: info,
-        });
+        if (enable) {
+            dispatch("click", {
+                tipo: tipo,
+                conteudo: info,
+            });
+        }
     }
 
 </script>
 
-<a class="item-avaliacao" href="/#" on:click|preventDefault={click}>
+<a class="item-avaliacao" class:disable={!enable} href="/#" on:click|preventDefault={click}>
     <span class="nome">
         {info.nome}
     </span>
@@ -53,6 +56,11 @@
         box-sizing: border-box;
         padding: 0.5rem;
         border-radius: 0.5rem;
+    }
+
+    .item-avaliacao.disable {
+        background: #faa !important;
+        cursor: not-allowed !important;
     }
 
     .nome {
