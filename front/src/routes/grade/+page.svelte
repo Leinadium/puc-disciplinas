@@ -4,14 +4,14 @@
 	import { page } from "$app/stores";
 	import type { UIDisciplinaResumo } from "../../types/ui";
 	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
-	import { adicionarTurmaNaGrade, getDisciplinasFaltaCursar, getDisciplinasPodeCursar, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
+	import { adicionarTurmaNaGrade, getDisciplinasCursadas, getDisciplinasFaltaCursar, getDisciplinasPodeCursar, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import TurmaSelecao from "../../components/grade/turma/TurmaSelecao.svelte";
 	import ListaRecomendacao from "../../components/grade/recomendacao/ListaRecomendacao.svelte";
 	import Grade from "../../components/grade/Grade.svelte";
 	import ListaPesquisa from "../../components/grade/lateral/ListaPesquisa.svelte";
 	import GrupoBotoes from "../../components/grade/botoes/GrupoBotoes.svelte";
 	import { criaTabelaHorarios, extractHorarios } from "$lib/utils";
-	import { userStore } from "$lib/stores";
+	import { userEvent, userStore } from "$lib/stores";
 
     // variaveis principais
 	let codigoGrade: string | null = null;
@@ -99,11 +99,13 @@
             }
         }
         // callback caso o usuario mude
-        userStore.subscribe(async () => {
+        userEvent.subscribe(async () => {
             // pega as informacoes atualizadas,
             // mesmo que o usuario nao esteja mais logado
+            console.log("userStore subscribe");
             faltaCursar = await getDisciplinasFaltaCursar();
             podeCursar = await getDisciplinasPodeCursar();
+            cursadas = await getDisciplinasCursadas();
         })
 	});
 </script>
@@ -137,6 +139,7 @@
             {disciplinas}
             {faltaCursar}
             {podeCursar}
+            {cursadas}
             on:popup={openPopup}
         />
     

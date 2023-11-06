@@ -1,6 +1,6 @@
 import type { UIDiaDisciplina, UIHoraDisciplina, UIDisciplinaResumo, UIDisciplinaCodigo, UIEscolha } from "../types/ui";
 import type { EscolhaInfoExtra, EscolhaSimples, GradeAtualExtra, LoadDisciplinasResponse} from "../types/data";
-import { coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "./api";
+import { coletarDisciplinasCursadas, coletarDisciplinasFaltaCursar, coletarDisciplinasInfo, coletarDisciplinasPodeCursar } from "./api";
 
 
 export function formatHora(h: UIHoraDisciplina): string {
@@ -109,7 +109,7 @@ export async function getDisciplinasPodeCursar(): Promise<Set<string> | null> {
 
 export async function getDisciplinasCursadas(): Promise<Set<string> | null> {
     let cursadas = new Set<string>();
-    let fCursadas = await coletarDisciplinasFaltaCursar();
+    let fCursadas = await coletarDisciplinasCursadas();
     if (fCursadas) 
         fCursadas.forEach((c: UIDisciplinaCodigo) => cursadas.add(c.codigo));
     else

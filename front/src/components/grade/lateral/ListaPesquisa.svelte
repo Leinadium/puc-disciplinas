@@ -8,6 +8,8 @@
     export let faltaCursar: Set<string> | null;
     export let podeCursar: Set<string> | null;
     export let cursadas: Set<string> | null;
+    $: console.log("cursadas: ", cursadas);
+
     
     type ModoPesquisa = "codigo" | "nome" | null;
 
@@ -99,7 +101,7 @@
     </div>
 
     <div id="resultados">
-        {#each disciplinasExibidas as cod}
+        {#each disciplinasExibidas as cod (cod)}
             {#if disciplinas.has(cod)}
                 <div class="disciplina-selecao" transition:fly|global={{y: 30, duration: 100}}>
                     <DisciplinaBox 

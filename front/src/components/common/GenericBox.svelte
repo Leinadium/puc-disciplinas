@@ -42,7 +42,8 @@
     }
 
     .outline {
-        background-color: transparent;
+        background-color: transparent !important;
+        border: 2px solid #000 !important;
     }
 
     .default {
