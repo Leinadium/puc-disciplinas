@@ -5,6 +5,7 @@
 	import CampoPesquisa from "../../components/avaliacao/CampoPesquisa.svelte";
 	import type { ItemDisciplina, ItemGenerico, ItemProfessor, SelectAvaliacaoEvent, SubmitAvaliacaoEvent } from "../../types/data";
 	import type { UITipoAvaliacao } from "../../types/ui";
+	import { userStore } from "$lib/stores";
 
     let disciplinas: ItemDisciplina[] = [];
     let professores: ItemProfessor[] = [];
@@ -12,6 +13,9 @@
     let escolhido: ItemGenerico | null = null;
     let tipo: UITipoAvaliacao | null = null;
     let statusMessage: string | null = null;
+
+    let isLogged: boolean = false;
+    $: isLogged = !!$userStore;
 
     async function submit(e: CustomEvent<SubmitAvaliacaoEvent>) {
         try {
@@ -103,17 +107,23 @@
 
 <div id="avaliacao-page">
     <div id="avaliacao-container">
-        <CampoAvaliacao 
-            info={escolhido}
-            {statusMessage} 
-            on:submit={submit}
-            on:remove={remove}
-        />
-        <CampoPesquisa
-            {disciplinas}
-            {professores}
-            on:click={select}
-        />
+        {#if isLogged}
+            <CampoAvaliacao 
+                info={escolhido}
+                {statusMessage} 
+                on:submit={submit}
+                on:remove={remove}
+            />
+            <CampoPesquisa
+                {disciplinas}
+                {professores}
+                on:click={select}
+            />
+        {:else}
+            <div id="precisa-login">
+                <p>Você precisa estar logado para avaliar <br>disciplinas e professores</p>
+            </div>
+        {/if}
     </div>
 </div>
 
@@ -142,5 +152,24 @@
         gap: 1%;
 
         border: 3px solid blue;
+    }
+
+    #precisa-login {
+        width: 100%;
+        height: 100%;
+        grid-column: 1 / span 2;
+        grid-row: 1 / span 1;
+
+        display: flex;
+        flex-flow: column nowrap;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #precisa-login > p {
+        width: 100%;
+        text-align: center;
+        font-size: 1.8rem;
+        font-weight: bold;
     }
 </style>
