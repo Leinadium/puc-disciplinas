@@ -1,5 +1,6 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
+from sqlalchemy import DateTime
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -84,3 +85,10 @@ class Alocacao(Base):
     # ForeignKey("turmas.cod_turma"), primary_key=True)
     destino: Mapped[str] = mapped_column("destino", String(80), primary_key=True)
     vagas: Mapped[int] = mapped_column("vagas", nullable=False)
+
+
+class Modificacao(Base):
+    __tablename__ = "modificacao"
+
+    data_ementa = mapped_column("data_ementa", DateTime, primary_key=True)
+    data_geral = mapped_column("data_geral", DateTime, primary_key=True)

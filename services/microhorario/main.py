@@ -11,6 +11,7 @@ from microhorario_dl import Microhorario
 from models import Base
 from models import Departamento, Disciplina, Prerequisitos, Professor, Turma
 from models import Horario, Alocacao
+from models import Modificacao
 
 
 load_dotenv()
@@ -46,13 +47,34 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
     from sqlalchemy import text
 
     with Session(eng) as session:
+        # opera os professores
+        # depois, opcionalmente, opera as disciplinas, departamentos e prerequisitos
+        # depois, as turmas
+        # depois, as alocacoes e horarios
+
+        # deleta os professores
+        session.execute(text(f'TRUNCATE TABLE {Professor.__tablename__} CASCADE'))
+        # cria o set de professores
+        print("[ADICIONA_NO_BANCO] Adicionando os professores")
+        professores = set()
+        for disc in m.disciplinas:
+            for turma in disc.turmas:
+                professores.add(turma.professor)
+
+        # itera sobre os professores
+        for prof in professores:
+            session.add(Professor(
+                nome_professor=normaliza(prof)
+            ))
+        # atualiza o banco para poder adicionar o resto
+        session.commit()
+
         if is_full:
             print("[ADICIONA_NO_BANCO] Deletando os dados antigos")
             session.execute(text(f'TRUNCATE TABLE {Departamento.__tablename__} CASCADE'))
             session.execute(text(f'TRUNCATE TABLE {Disciplina.__tablename__} CASCADE'))
             session.execute(text(f'TRUNCATE TABLE {Prerequisitos.__tablename__} CASCADE'))
-            session.execute(text(f'TRUNCATE TABLE {Professor.__tablename__} CASCADE'))
-            session.execute(text(f'TRUNCATE TABLE {Turma.__tablename__} CASCADE'))
+
             session.commit()
 
             # adiciona os departamentos
@@ -62,21 +84,6 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     cod_depto=d.codigo,
                     nome_depto=normaliza(d.nome)
                 ))
-
-            # cria o set de professores
-            print("[ADICIONA_NO_BANCO] Adicionando os professores")
-            professores = set()
-            for disc in m.disciplinas:
-                for turma in disc.turmas:
-                    professores.add(turma.professor)
-
-            # itera sobre os professores
-            for prof in professores:
-                session.add(Professor(
-                    nome_professor=normaliza(prof)
-                ))
-            # atualiza o banco para poder adicionar o resto
-            session.commit()
 
             # adiciona as disciplinas
 
@@ -109,24 +116,26 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
             # atualiza o banco para poder adicionar o resto
             session.commit()
 
-            # adiciona as turmas
-
-            print("[ADICIONA_NO_BANCO] Adicionando as turmas")
-            for disc in m.disciplinas:
-                for turma in disc.turmas:
-                    session.add(Turma(
-                        cod_disciplina=disc.codigo,
-                        cod_turma=turma.codigo,
-                        nome_professor=normaliza(turma.professor),
-                        shf=turma.shf
-                    ))
-
-            session.commit()
-
         # deleta os horarios e alocacoes
         print("[ADICIONA_NO_BANCO] Deletando as alocacoes e horarios")
         session.execute(text(f'TRUNCATE TABLE {Alocacao.__tablename__} CASCADE'))
         session.execute(text(f'TRUNCATE TABLE {Horario.__tablename__} CASCADE'))
+
+        # deleta as turmas
+        session.execute(text(f'TRUNCATE TABLE {Turma.__tablename__} CASCADE'))
+
+        # adiciona as turmas
+        print("[ADICIONA_NO_BANCO] Adicionando as turmas")
+        for disc in m.disciplinas:
+            for turma in disc.turmas:
+                session.add(Turma(
+                    cod_disciplina=disc.codigo,
+                    cod_turma=turma.codigo,
+                    nome_professor=normaliza(turma.professor),
+                    shf=turma.shf
+                ))
+
+        session.commit()
 
         # adiciona as alocacoes para cada turma
         print("[ADICIONA_NO_BANCO] Adicionando as alocacaoes")
@@ -171,6 +180,31 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
     return
 
 
+def atualiza_modificacao(engine: Engine, geral: bool = False):
+    """Atualiza a modificacao no banco"""
+    # pega a modificacao do banco
+    # se nao existir, cria uma nova
+    from datetime import datetime
+
+    with Session(engine) as session:
+        # tenta carregar a modificacao
+        mod = session.query(Modificacao).first()
+        if mod is None:
+            mod = Modificacao()
+
+        # se for geral, atualiza a data geral
+        if geral or mod.data_geral is None:
+            mod.data_geral = datetime.now()
+        # se nao, atualiza a data de atualizacao
+        if not geral or mod.data_ementa is None:
+            mod.data_ementa = datetime.now()
+
+        # atualiza o banco
+        session.add(mod)
+        session.commit()
+    return
+
+
 def main(full: bool = False):
     from sqlalchemy import create_engine
     conn_str = getenv("POSTGRES_CONN")
@@ -190,6 +224,10 @@ def main(full: bool = False):
     # adiciona os dados
     print("[MAIN] Adicionando os dados")
     adiciona_no_banco(m, engine, is_full=full)
+
+    # atualiza a modificacao
+    print("[MAIN] Atualizando a modificacao")
+    atualiza_modificacao(engine, geral=full)
 
 
 if __name__ == "__main__":
