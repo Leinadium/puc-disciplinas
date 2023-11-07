@@ -37,7 +37,7 @@ async function genericFetch(url: string): Promise<any> {
  * Coleta as informações básicas de todas as disciplinas 
  * @returns {DisciplinasComModificacao | null} Lista de disciplinas
  */
-export async function coletarDisciplinasInfo(): Promise<DisciplinasComModificacao | null> {
+export async function coletarDisciplinasInfo(): Promise<UIDisciplinaResumo[] | null> {
     let body: ListaDisciplinasApi = await genericFetch(DISCIPLINAS_INFO_URL);
     return body.data;
 }

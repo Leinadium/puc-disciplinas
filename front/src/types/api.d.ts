@@ -8,7 +8,7 @@ export type ErrorApi = {
 }
 
 export type ListaDisciplinasApi = {
-    data: DisciplinasComModificacao
+    data: UIDisciplinaResumo[]
 }
 
 export type ListaCodigosApi = {

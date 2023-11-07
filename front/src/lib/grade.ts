@@ -79,9 +79,7 @@ export function generateGrade(
 
 async function getDisciplinasInfo(): Promise<Map<string, UIDisciplinaResumo>> {
     let disciplinas = new Map<string, UIDisciplinaResumo>();
-    let r = await coletarDisciplinasInfo();
-    // TODO: armazenar as modificacoes
-    let fDisciplinas = r?.disciplinas;
+    let fDisciplinas = await coletarDisciplinasInfo();
     if (fDisciplinas) 
         fDisciplinas.forEach((d: UIDisciplinaResumo) => disciplinas.set(d.codigo, d));
     return disciplinas

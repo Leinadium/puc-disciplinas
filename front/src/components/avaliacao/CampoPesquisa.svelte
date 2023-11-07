@@ -3,6 +3,7 @@
 	import type { ItemDisciplina, ItemGenerico, ItemProfessor, SelectAvaliacaoEvent } from "../../types/data";
 	import type { UITipoAvaliacao } from "../../types/ui";
 	import ItemAvaliacao from "./ItemAvaliacao.svelte";
+	import { coletarDisciplinaInfo } from "$lib/api";
 
     export let disciplinas: ItemDisciplina[];
     export let professores: ItemProfessor[];
@@ -29,6 +30,17 @@
         qtd: p.qtd,
     }));
 
+    // ordena os itens
+    // (talvez nao seja a maneira mais eficiente)
+    function mySort(a: ItemGenerico, b: ItemGenerico) {
+        let x: string = a.nome;
+        let y: string = a.nome;
+        if (tipo == "disciplina") {
+            x += (cursadas?.has(a.codigo) ? "0" : "1") || "1";
+            y += (cursadas?.has(b.codigo) ? "0" : "1") || "1";
+        }
+        return x.localeCompare(y);
+    }
 
     let infosExibidos: ItemGenerico[] = [];
     function pesquisar() {
@@ -39,7 +51,7 @@
         const items = tipo == "disciplina" ? discGenericos : profGenericos;
         infosExibidos = items.filter(i => filtro(i));
         // ordenando pelo nome
-        infosExibidos.sort((a, b) => a.nome.localeCompare(b.nome));
+        infosExibidos.sort(mySort);
 
     }
     // se o texto ou tipo mudarem, atualiza os resultados
