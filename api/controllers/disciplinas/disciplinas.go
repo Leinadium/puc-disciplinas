@@ -176,24 +176,22 @@ func GetDisciplinasCursadas(c *gin.Context) {
 		return
 	}
 
+	var results []models.Historico
+
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
-	if !ok {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": "Usuario nao logado"})
-		return
-	}
-
-	var results []models.Historico
-	query := db.Where("cod_usuario = ?", usuario.CodUsuario)
-
-	if err := query.Find(&results).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
-		return
+	if ok {
+		query := db.Where("cod_usuario = ?", usuario.CodUsuario)
+		if err := query.Find(&results).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
+			return
+		}
 	}
 
 	// converte os results para o formato de resposta
 	// que é uma lista de codigos
-	var resposta []ResultCodigo
+	resposta := make([]ResultCodigo, 0, len(results))
+
 	for _, r := range results {
 		resposta = append(resposta, ResultCodigo{CodDisciplina: r.CodDisciplina})
 	}
