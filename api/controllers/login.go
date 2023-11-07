@@ -15,7 +15,20 @@ type microErrorProxy struct {
 	Code    int
 }
 
-// CheckLogin Rota de checagem de login
+type ResultCheck struct {
+	Message   string `json:"message"`
+	Usuario   string `json:"usuario"`
+	Nome      string `json:"nome"`
+	Curriculo bool   `json:"curriculo"`
+}
+
+// CheckLogin godoc
+// @Summary Verifica o login do usuário
+// @Description Testa o login do usuário através do cookie.
+// @Produce json
+// @Success 200 {object} ResultCheck "Sucesso"
+// @Failure 401 {object} string "Não logado"
+// @Router /login [get]
 func CheckLogin(c *gin.Context) {
 	usuario, ok := GetLoginFromSession(c)
 	if !ok {
@@ -26,25 +39,35 @@ func CheckLogin(c *gin.Context) {
 	}
 
 	// pra pegar o curriculo, precisa ver no banco
-	curriculo := false
+	var r ResultCheck
+	r.Curriculo = false
 	var db = GetDbOrSetError(c)
 	if db != nil {
 		// vendo no banco
 		var u models.Usuario
 		if err := db.Select("cod_curriculo").First(&u, "cod_usuario = ?", usuario.CodUsuario).Error; err == nil {
-			curriculo = u.CodCurriculo.Valid
+			r.Curriculo = u.CodCurriculo.Valid
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":   "Logado",
-		"usuario":   usuario.CodUsuario,
-		"nome":      usuario.NomeUsuario,
-		"curriculo": curriculo,
-	})
+	r.Message = "Logado"
+	r.Usuario = usuario.CodUsuario
+	r.Nome = usuario.NomeUsuario
+
+	c.JSON(http.StatusOK, r)
 }
 
-// Login Rota de Login
+// Login godoc
+// @Summary Faz login
+// @Description Faz login do usuário, setando o cookie
+// @Param usuario formData string true "Usuário"
+// @Param senha formData string true "Senha"
+// @Produce json
+// @Success 200 {object} string "Nome do usuário"
+// @Failure 400 {object} string "Usuário ou senha não informados"
+// @Failure 401 {object} string "Usuário ou senha incorretos"
+// @Failure 500 {object} string "Erro ao acessar o serviço de login"
+// @Router /login [post]
 func Login(c *gin.Context) {
 	usuario := c.PostForm("usuario")
 	senha := c.PostForm("senha")
@@ -85,7 +108,13 @@ func Login(c *gin.Context) {
 	})
 }
 
-// Logout Rota de Logout
+// Logout godoc
+// @Summary Faz logout do usuario
+// @Description Faz logout do usuario, resetando o cookie
+// @Produce json
+// @Success 200 {object} string "Logout realizado com sucesso"
+// @Failure 500 {object} string "Erro ao salvar sessão"
+// @Router /logout [post]
 func Logout(c *gin.Context) {
 	session := sessions.Default(c)
 	session.Clear()
