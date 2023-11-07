@@ -30,6 +30,7 @@
             <TurmaTurma
                 codigo={turma.codigo}
                 professor={turma.professor}
+                nota={turma.notaProfessor}
                 destino={alocacao.destino}
                 vagas={alocacao.vagas}
                 horarios={turma.horarios}

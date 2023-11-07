@@ -4,6 +4,7 @@
 
     export let codigo: string;
     export let professor: string;
+    export let nota: number;
     export let destino: string;
     export let vagas: number;
     export let horarios: DisciplinaHorariosInfo[];
@@ -39,6 +40,7 @@
         <span class="turma-vagas-texto">vagas</span>
     </span>
     <span class="turma-medio overflow">{professor}</span>
+    <span class="turma-medio">{nota}</span>
     
     <span class="turma-horarios">{horariosFinal}</span>
     

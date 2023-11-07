@@ -76,6 +76,7 @@ export type DisciplinaPreRequisitosInfo = {
 export type DisciplinaTurmaInfo = {
     codigo: string,
     professor: string,
+    notaProfessor: number,
     shf: number,
     horarios: DisciplinaHorariosInfo[],
     alocacoes: DisciplinaAlocacoesInfo[],
