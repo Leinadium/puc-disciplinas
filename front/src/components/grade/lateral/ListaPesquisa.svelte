@@ -8,8 +8,6 @@
     export let faltaCursar: Set<string> | null;
     export let podeCursar: Set<string> | null;
     export let cursadas: Set<string> | null;
-    $: console.log("cursadas: ", cursadas);
-
     
     type ModoPesquisa = "codigo" | "nome" | null;
 
