@@ -11,7 +11,7 @@ const docTemplate = `{
         "title": "{{.Title}}",
         "contact": {
             "name": "Daniel",
-            "url": "github.com/Leinadium/puc-disciplinas/issues"
+            "url": "https://github.com/Leinadium/puc-disciplinas"
         },
         "license": {
             "name": "MIT"
@@ -507,6 +507,32 @@ const docTemplate = `{
                 }
             }
         },
+        "/pesquisa/faltacursar": {
+            "get": {
+                "description": "Coleta o código das disciplinas que o usuário falta cursar. É vazio se o usuário nao estiver logado.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Coleta as disciplinas que o usuario falta cursar",
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/disciplinas.ResultCodigo"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao executar query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/pesquisa/info": {
             "get": {
                 "description": "Coleta a informação completa de uma disciplina",
@@ -537,6 +563,32 @@ const docTemplate = `{
                         "description": "Disciplina nao encontrada",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao executar query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/pesquisa/pode-cursar": {
+            "get": {
+                "description": "Coleta o código das disciplinas que o usuário pode cursar",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Coleta as disciplinas que o usuario pode cursar",
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/disciplinas.ResultCodigo"
+                            }
                         }
                     },
                     "500": {
@@ -825,13 +877,24 @@ const docTemplate = `{
                 }
             }
         },
+        "recomendacao.InputEscolha": {
+            "type": "object",
+            "properties": {
+                "disciplina": {
+                    "type": "string"
+                },
+                "turma": {
+                    "type": "string"
+                }
+            }
+        },
         "recomendacao.InputRecomendacao": {
             "type": "object",
             "properties": {
                 "escolhas": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/recomendacao.inputEscolha"
+                        "$ref": "#/definitions/recomendacao.InputEscolha"
                     }
                 }
             }
@@ -843,25 +906,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "pes": {
-                    "$ref": "#/definitions/recomendacao.resultPesos"
+                    "$ref": "#/definitions/recomendacao.ResultPesos"
                 },
                 "val": {
                     "type": "number"
                 }
             }
         },
-        "recomendacao.inputEscolha": {
-            "type": "object",
-            "properties": {
-                "disciplina": {
-                    "type": "string"
-                },
-                "turma": {
-                    "type": "string"
-                }
-            }
-        },
-        "recomendacao.resultPesos": {
+        "recomendacao.ResultPesos": {
             "type": "object",
             "properties": {
                 "a": {
@@ -890,7 +942,7 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "puc-disciplinas API | Macro",
+	Title:            "puc-disciplinas API",
 	Description:      "API para o projeto Leinadium/puc-disciplinas",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,

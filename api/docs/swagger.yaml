@@ -150,11 +150,18 @@ definitions:
         description: Valid is true if Int64 is not NULL
         type: boolean
     type: object
+  recomendacao.InputEscolha:
+    properties:
+      disciplina:
+        type: string
+      turma:
+        type: string
+    type: object
   recomendacao.InputRecomendacao:
     properties:
       escolhas:
         items:
-          $ref: '#/definitions/recomendacao.inputEscolha'
+          $ref: '#/definitions/recomendacao.InputEscolha'
         type: array
     type: object
   recomendacao.ResultAlg:
@@ -162,18 +169,11 @@ definitions:
       cod:
         type: string
       pes:
-        $ref: '#/definitions/recomendacao.resultPesos'
+        $ref: '#/definitions/recomendacao.ResultPesos'
       val:
         type: number
     type: object
-  recomendacao.inputEscolha:
-    properties:
-      disciplina:
-        type: string
-      turma:
-        type: string
-    type: object
-  recomendacao.resultPesos:
+  recomendacao.ResultPesos:
     properties:
       a:
         type: number
@@ -190,11 +190,11 @@ host: localhost:8080
 info:
   contact:
     name: Daniel
-    url: github.com/Leinadium/puc-disciplinas/issues
+    url: https://github.com/Leinadium/puc-disciplinas
   description: API para o projeto Leinadium/puc-disciplinas
   license:
     name: MIT
-  title: puc-disciplinas API | Macro
+  title: puc-disciplinas API
   version: "1.0"
 paths:
   /avaliacoes:
@@ -517,6 +517,24 @@ paths:
           schema:
             type: string
       summary: Coleta os codigos das disciplinas que o usuario cursou
+  /pesquisa/faltacursar:
+    get:
+      description: Coleta o código das disciplinas que o usuário falta cursar. É vazio
+        se o usuário nao estiver logado.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            items:
+              $ref: '#/definitions/disciplinas.ResultCodigo'
+            type: array
+        "500":
+          description: Erro ao executar query
+          schema:
+            type: string
+      summary: Coleta as disciplinas que o usuario falta cursar
   /pesquisa/info:
     get:
       description: Coleta a informação completa de uma disciplina
@@ -544,6 +562,23 @@ paths:
           schema:
             type: string
       summary: Coleta a informação completa de uma disciplina
+  /pesquisa/pode-cursar:
+    get:
+      description: Coleta o código das disciplinas que o usuário pode cursar
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            items:
+              $ref: '#/definitions/disciplinas.ResultCodigo'
+            type: array
+        "500":
+          description: Erro ao executar query
+          schema:
+            type: string
+      summary: Coleta as disciplinas que o usuario pode cursar
   /recomendacao:
     post:
       description: Coleta as disciplinas recomendadas

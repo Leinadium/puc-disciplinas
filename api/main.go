@@ -1,8 +1,8 @@
-// @title 			puc-disciplinas API | Macro
+// @title 			puc-disciplinas API
 // @version			1.0
 // @description		API para o projeto Leinadium/puc-disciplinas
 // @contact.name	Daniel
-// @contact.url		github.com/Leinadium/puc-disciplinas/issues
+// @contact.url		https://github.com/Leinadium/puc-disciplinas
 // @license.name	MIT
 // @host			localhost:8080
 // @BasePath		/

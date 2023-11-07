@@ -55,6 +55,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 // @Success 200 {object} []disciplinas.ResultCodigo "data"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
+// @Router /pesquisa/pode-cursar [get]
 func GetDisciplinasPodeCursar(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -83,6 +84,7 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 // @Success 200 {object} []disciplinas.ResultCodigo "data"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
+// @Router /pesquisa/faltacursar [get]
 func GetDisciplinasFaltaCursar(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
