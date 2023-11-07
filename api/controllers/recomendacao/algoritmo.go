@@ -39,7 +39,7 @@ func executaAlgoritmo(discs []resultQuery) []ResultAlg {
 		res = append(res, ResultAlg{
 			CodDisciplina: disc.CodDisciplina,
 			Valor:         controllers.RoundedFloat(nota),
-			Pesos: resultPesos{
+			Pesos: ResultPesos{
 				Conteudo:  controllers.RoundedFloat(notaC),
 				Horario:   controllers.RoundedFloat(notaH),
 				Opiniao:   controllers.RoundedFloat(notaO),

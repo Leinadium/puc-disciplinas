@@ -3,10 +3,10 @@ package recomendacao
 import "github.com/Leinadium/puc-disciplinas/api/controllers"
 
 type InputRecomendacao struct {
-	Escolhas []inputEscolha `json:"escolhas"`
+	Escolhas []InputEscolha `json:"escolhas"`
 }
 
-type inputEscolha struct {
+type InputEscolha struct {
 	CodDisciplina string `json:"disciplina"`
 	CodTurma      string `json:"turma"`
 }
@@ -26,10 +26,10 @@ type resultQuery struct {
 type ResultAlg struct {
 	CodDisciplina string                   `json:"cod"`
 	Valor         controllers.RoundedFloat `json:"val"`
-	Pesos         resultPesos              `json:"pes"`
+	Pesos         ResultPesos              `json:"pes"`
 }
 
-type resultPesos struct {
+type ResultPesos struct {
 	Conteudo  controllers.RoundedFloat `json:"c"`
 	Horario   controllers.RoundedFloat `json:"h"`
 	Opiniao   controllers.RoundedFloat `json:"o"`
