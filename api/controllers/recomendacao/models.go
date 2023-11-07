@@ -2,7 +2,7 @@ package recomendacao
 
 import "github.com/Leinadium/puc-disciplinas/api/controllers"
 
-type inputRecomendacao struct {
+type InputRecomendacao struct {
 	Escolhas []inputEscolha `json:"escolhas"`
 }
 
@@ -23,7 +23,7 @@ type resultQuery struct {
 	Avaliacao     float64 `gorm:"column:avaliacao"`
 }
 
-type resultAlg struct {
+type ResultAlg struct {
 	CodDisciplina string                   `json:"cod"`
 	Valor         controllers.RoundedFloat `json:"val"`
 	Pesos         resultPesos              `json:"pes"`

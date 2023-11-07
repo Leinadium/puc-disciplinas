@@ -19,8 +19,8 @@ import "github.com/Leinadium/puc-disciplinas/api/controllers"
 // Avaliacao = avg(GrausDaDisciplina) / 100
 //
 // Valor final: (Conteudo * 41) + (Horario * 19) + (Opiniao * 8) + (Professor * 28) + (Avaliacao * 21)
-func executaAlgoritmo(discs []resultQuery) []resultAlg {
-	var res []resultAlg
+func executaAlgoritmo(discs []resultQuery) []ResultAlg {
+	var res []ResultAlg
 	var nota float64
 	for _, disc := range discs {
 		nota = 0
@@ -36,7 +36,7 @@ func executaAlgoritmo(discs []resultQuery) []resultAlg {
 		nota /= 41 + 19 + 8 + 28 + 21.0
 
 		// salva o resultado
-		res = append(res, resultAlg{
+		res = append(res, ResultAlg{
 			CodDisciplina: disc.CodDisciplina,
 			Valor:         controllers.RoundedFloat(nota),
 			Pesos: resultPesos{

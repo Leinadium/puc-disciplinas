@@ -11,9 +11,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetRecomendacao retorna as disciplinas recomendadas para o usuario
-// Pega os dados do usuario atraves do cookie
-// Mas precisa receber as escolhas selecionadas no corpo da requisicao
+// GetRecomendacao godoc
+// @Summary Coleta as disciplinas recomendadas
+// @Description Coleta as disciplinas recomendadas
+// @Produce json
+// @Param body body InputRecomendacao true "Corpo da requisicao"
+// @Success 200 {object} []ResultAlg "data"
+// @Failure 400 {object} string "Erro ao ler corpo da requisicao"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
+// @Router /recomendacao [post]
 func GetRecomendacao(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -23,13 +30,9 @@ func GetRecomendacao(c *gin.Context) {
 
 	// verifica o login do usuario
 	usuario, _ := controllers.GetLoginFromSession(c)
-	// if !ok {
-	// 	c.JSON(http.StatusUnauthorized, gin.H{"message": "Nao logado"})
-	// 	return
-	// }
 
 	// verifica o corpo da requisicao
-	var input inputRecomendacao
+	var input InputRecomendacao
 	if err := json.NewDecoder(c.Request.Body).Decode(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Erro ao ler corpo da requisicao"})
 		return
