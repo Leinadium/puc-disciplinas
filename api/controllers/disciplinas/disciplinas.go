@@ -9,11 +9,18 @@ import (
 	"net/http"
 )
 
-type resultCompleto struct {
-	Disciplinas []resultLista      `json:"disciplinas"`
+type ResultCompleto struct {
+	Disciplinas []ResultLista      `json:"disciplinas"`
 	Modificacao models.Modificacao `json:"modificacao"`
 }
 
+// GetDisciplinasInformacoes godoc
+// @Summary Coleta todas as disciplinas
+// @Description Coleta as informações das disciplinas, além da data de modificação.
+// @Produce json
+// @Success 200 {object} disciplinas.ResultCompleto "data"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
 func GetDisciplinasInformacoes(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -22,7 +29,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 	}
 
 	// faz a query
-	var results []resultLista
+	var results []ResultLista
 	err := db.Raw(queries.QUERY_INFORMACOES).Scan(&results).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
@@ -33,7 +40,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 	var modificacao models.Modificacao
 	db.First(&modificacao)
 
-	completo := resultCompleto{
+	completo := ResultCompleto{
 		Disciplinas: results,
 		Modificacao: modificacao,
 	}
@@ -41,6 +48,13 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": completo})
 }
 
+// GetDisciplinasPodeCursar godoc
+// @Summary Coleta as disciplinas que o usuario pode cursar
+// @Description Coleta o código das disciplinas que o usuário pode cursar
+// @Produce json
+// @Success 200 {object} []disciplinas.ResultCodigo "data"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
 func GetDisciplinasPodeCursar(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -48,7 +62,7 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 		return
 	}
 
-	var results []resultCodigo
+	var results []ResultCodigo
 
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
@@ -62,6 +76,13 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": results})
 }
 
+// GetDisciplinasFaltaCursar godoc
+// @Summary Coleta as disciplinas que o usuario falta cursar
+// @Description Coleta o código das disciplinas que o usuário falta cursar. É vazio se o usuário nao estiver logado.
+// @Produce json
+// @Success 200 {object} []disciplinas.ResultCodigo "data"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
 func GetDisciplinasFaltaCursar(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -69,7 +90,7 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 		return
 	}
 
-	var results []resultCodigo
+	var results []ResultCodigo
 
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
@@ -83,18 +104,16 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": results})
 }
 
-// GetDisciplinaInfoCompleta retorna as informacoes completas de uma disciplina
-//
-// precisa retornar:
-//
-// - para uma disciplina:
-// codigo, titulo, ementa, creditos,
-// pre-requisitos, avaliacao, grau medio,
-// quantidade de alunos que cursaram.
-//
-// - para uma turma:
-// codigo, professor, shf, horario,
-// destino, qtdVagas
+// GetDisciplinaInfoCompleta godoc
+// @Summary Coleta a informação completa de uma disciplina
+// @Description Coleta a informação completa de uma disciplina
+// @Produce json
+// @Param c query string true "Codigo da disciplina"
+// @Success 200 {object} []disciplinas.ResultInfo "data"
+// @Failure 404 {object} string "Disciplina nao encontrada"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
+// @Router /pesquisa/info [get]
 func GetDisciplinaInfoCompleta(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -110,7 +129,7 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// pega as informacoes basicas da disciplina
-	var resultsInfo []resultInfo
+	var resultsInfo []ResultInfo
 	query := db.Raw(queries.QUERY_DISCIPLINA_INFO, sql.Named("disciplina", codDisciplina))
 	res := query.Find(&resultsInfo)
 	if res.Error != nil {
@@ -124,7 +143,7 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// pega as informacoes das turmas
-	var resultsTurmas []resultTurmas
+	var resultsTurmas []ResultTurmas
 	query = db.Raw(queries.QUERY_TURMAS_INFO, sql.Named("disciplina", codDisciplina))
 	if err := query.Find(&resultsTurmas).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
@@ -132,12 +151,21 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// cria a resposta
-	var resposta respostaDisciplina
+	var resposta RespostaDisciplina
 	resposta.From(resultsInfo, resultsTurmas)
 
 	c.JSON(http.StatusOK, gin.H{"data": resposta})
 }
 
+// GetDisciplinasCursadas godoc
+// @Summary Coleta os codigos das disciplinas que o usuario cursou
+// @Description Coleta os codigos das disciplinas que o usuario cursou
+// @Produce json
+// @Success 200 {object} []disciplinas.ResultCodigo
+// @Failure 401 {object} string "Usuario nao logado"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Failure 500 {object} string "Erro ao executar query"
+// @Router /pesquisa/cursadas [get]
 func GetDisciplinasCursadas(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -162,9 +190,9 @@ func GetDisciplinasCursadas(c *gin.Context) {
 
 	// converte os results para o formato de resposta
 	// que é uma lista de codigos
-	var resposta []resultCodigo
+	var resposta []ResultCodigo
 	for _, r := range results {
-		resposta = append(resposta, resultCodigo{CodDisciplina: r.CodDisciplina})
+		resposta = append(resposta, ResultCodigo{CodDisciplina: r.CodDisciplina})
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": resposta})

@@ -2,8 +2,8 @@ package disciplinas
 
 import "github.com/Leinadium/puc-disciplinas/api/controllers"
 
-// From converte os resultados das queries em uma respostaDisciplina
-func (r *respostaDisciplina) From(infos []resultInfo, turmas []resultTurmas) {
+// From converte os resultados das queries em uma RespostaDisciplina
+func (r *RespostaDisciplina) From(infos []ResultInfo, turmas []ResultTurmas) {
 	if len(infos) == 0 {
 		return
 	}
@@ -28,7 +28,7 @@ func (r *respostaDisciplina) From(infos []resultInfo, turmas []resultTurmas) {
 	}
 	// converte o mapa para um slice
 	for grupoId, preReqs := range preReqs {
-		var novoPreReq respostaPreReqs
+		var novoPreReq RespostaPreReqs
 		novoPreReq.GrupoId = grupoId
 		novoPreReq.PreReqs = preReqs
 		r.PreRequisitos = append(r.PreRequisitos, novoPreReq)
@@ -36,11 +36,11 @@ func (r *respostaDisciplina) From(infos []resultInfo, turmas []resultTurmas) {
 }
 
 // createTurmas gera as turmas a partir das informações niveladas
-func createTurmas(infos []resultTurmas) []respostaTurmas {
+func createTurmas(infos []ResultTurmas) []RespostaTurmas {
 	// cria tres mapas:
-	// um para as turmas em si, contendo os respostaTurmas
+	// um para as turmas em si, contendo os RespostaTurmas
 	// e outros dois mapas agindo como sets, para saber se ja foi inserido ou nao
-	var turmas = make(map[string]respostaTurmas) // chave: cod_turma
+	var turmas = make(map[string]RespostaTurmas) // chave: cod_turma
 	var horarios = make(map[string][]struct{})   // chave: cod_turma + dia + hora_inicio
 	var alocacoes = make(map[string][]struct{})  // chave: cod_turma + destino
 
@@ -48,19 +48,19 @@ func createTurmas(infos []resultTurmas) []respostaTurmas {
 	for _, info := range infos {
 		// cria uma nova turma se nao existir
 		if _, ok := turmas[info.CodTurma]; !ok {
-			var novaTurma respostaTurmas
+			var novaTurma RespostaTurmas
 			novaTurma.CodTurma = info.CodTurma
 			novaTurma.NomeProfessor = info.NomeProfessor
 			novaTurma.Shf = info.Shf
-			novaTurma.Horarios = []respostaHorarios{}
-			novaTurma.Alocacoes = []respostaAlocacoes{}
+			novaTurma.Horarios = []RespostaHorarios{}
+			novaTurma.Alocacoes = []RespostaAlocacoes{}
 			turmas[info.CodTurma] = novaTurma
 		}
 
 		// cria um novo horario se nao existir
 		var chaveHorario = info.CodTurma + info.Dia + string(rune(info.HoraInicio))
 		if _, ok := horarios[chaveHorario]; !ok {
-			var novoHorario respostaHorarios
+			var novoHorario RespostaHorarios
 			novoHorario.Dia = info.Dia
 			novoHorario.HoraInicio = info.HoraInicio
 			novoHorario.HoraFim = info.HoraFim
@@ -75,7 +75,7 @@ func createTurmas(infos []resultTurmas) []respostaTurmas {
 		// cria uma nova alocacao se nao existir
 		var chaveAlocacao = info.CodTurma + info.Destino
 		if _, ok := alocacoes[chaveAlocacao]; !ok {
-			var novaAlocacao respostaAlocacoes
+			var novaAlocacao RespostaAlocacoes
 			novaAlocacao.Destino = info.Destino
 			novaAlocacao.QtdVagas = info.Vagas
 			// adiciona a alocacao na turma
@@ -88,7 +88,7 @@ func createTurmas(infos []resultTurmas) []respostaTurmas {
 	}
 
 	// pega os resultados dos valores do mapa
-	var resultado []respostaTurmas
+	var resultado []RespostaTurmas
 	for _, turma := range turmas {
 		resultado = append(resultado, turma)
 	}

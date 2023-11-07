@@ -2,11 +2,11 @@ package disciplinas
 
 import "github.com/Leinadium/puc-disciplinas/api/controllers"
 
-type resultCodigo struct {
+type ResultCodigo struct {
 	CodDisciplina string `json:"codigo" gorm:"column:cod_disciplina"`
 }
 
-type resultLista struct {
+type ResultLista struct {
 	CodDisciplina  string `json:"codigo" gorm:"column:cod_disciplina"`
 	NomeDisciplina string `json:"nome" gorm:"column:nome_disciplina"`
 	Creditos       int    `json:"creditos" gorm:"column:creditos"`
@@ -14,7 +14,7 @@ type resultLista struct {
 	QtdTurmas      int    `json:"qtdTurmas" gorm:"column:qtdturmas"`
 }
 
-type resultInfo struct {
+type ResultInfo struct {
 	CodDisciplina  string  `json:"codigo" gorm:"column:cod_disciplina"`
 	NomeDisciplina string  `json:"nome" gorm:"column:nome_disciplina"`
 	Creditos       int     `json:"creditos" gorm:"column:creditos"`
@@ -27,7 +27,7 @@ type resultInfo struct {
 	QtdAvaliacoes  int     `json:"qtdAvaliacoes" gorm:"column:qtd_avaliacoes"`
 }
 
-type resultTurmas struct {
+type ResultTurmas struct {
 	CodTurma      string `json:"codigo" gorm:"column:cod_turma"`
 	NomeProfessor string `json:"nomeProfessor" gorm:"column:nome_professor"`
 	Shf           int    `json:"shf" gorm:"column:shf"`
@@ -38,39 +38,39 @@ type resultTurmas struct {
 	Vagas         int    `json:"vagas" gorm:"column:vagas"`
 }
 
-type respostaDisciplina struct {
+type RespostaDisciplina struct {
 	CodDisciplina  string                   `json:"codigo"`
 	NomeDisciplina string                   `json:"nome"`
 	Ementa         string                   `json:"ementa"`
 	Creditos       int                      `json:"creditos"`
-	PreRequisitos  []respostaPreReqs        `json:"preRequisitos"`
+	PreRequisitos  []RespostaPreReqs        `json:"preRequisitos"`
 	GrauMedio      controllers.RoundedFloat `json:"grauMedio"`
 	QtdAlunos      int                      `json:"qtdAlunos"`
 	AvaliacaoMedia controllers.RoundedFloat `json:"avaliacaoMedia"`
 	QtdAvaliacoes  int                      `json:"qtdAvaliacoes"`
-	Turmas         []respostaTurmas         `json:"turmas"`
+	Turmas         []RespostaTurmas         `json:"turmas"`
 }
 
-type respostaPreReqs struct {
+type RespostaPreReqs struct {
 	GrupoId int      `json:"grupoId"`
 	PreReqs []string `json:"preReqs"`
 }
 
-type respostaTurmas struct {
+type RespostaTurmas struct {
 	CodTurma      string              `json:"codigo"`
 	NomeProfessor string              `json:"professor"`
 	Shf           int                 `json:"shf"`
-	Horarios      []respostaHorarios  `json:"horarios"`
-	Alocacoes     []respostaAlocacoes `json:"alocacoes"`
+	Horarios      []RespostaHorarios  `json:"horarios"`
+	Alocacoes     []RespostaAlocacoes `json:"alocacoes"`
 }
 
-type respostaHorarios struct {
+type RespostaHorarios struct {
 	Dia        string `json:"dia"`
 	HoraInicio int    `json:"inicio"`
 	HoraFim    int    `json:"fim"`
 }
 
-type respostaAlocacoes struct {
+type RespostaAlocacoes struct {
 	Destino  string `json:"destino"`
 	QtdVagas int    `json:"vagas"`
 }
