@@ -1,3 +1,12 @@
+// @title 			puc-disciplinas API | Macro
+// @version			1.0
+// @description		API para o projeto Leinadium/puc-disciplinas
+// @contact.name	Daniel
+// @contact.url		github.com/Leinadium/puc-disciplinas/issues
+// @license.name	MIT
+// @host			localhost:8080
+// @BasePath		/
+
 package main
 
 import (
@@ -6,11 +15,14 @@ import (
 	"github.com/Leinadium/puc-disciplinas/api/controllers/avaliacoes"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/disciplinas"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/recomendacao"
+	_ "github.com/Leinadium/puc-disciplinas/api/docs"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
 	"os"
 )
 
@@ -39,6 +51,11 @@ func main() {
 
 	// para o envio de arquivos
 	r.MaxMultipartMemory = 8 << 20 // 8 MiB
+
+	// para swagger
+	// (steps para rodar o swagger):
+	// ($ go install github.com/swaggo/swag/cmd/swag@latest && swag init --parseDependency)
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// rotas
 	// rotas de autenticacao
