@@ -51,6 +51,7 @@ func createTurmas(infos []ResultTurmas) []RespostaTurmas {
 			var novaTurma RespostaTurmas
 			novaTurma.CodTurma = info.CodTurma
 			novaTurma.NomeProfessor = info.NomeProfessor
+			novaTurma.NotaProfessor = controllers.RoundedFloat(info.NotaProfessor / 100)
 			novaTurma.Shf = info.Shf
 			novaTurma.Horarios = []RespostaHorarios{}
 			novaTurma.Alocacoes = []RespostaAlocacoes{}

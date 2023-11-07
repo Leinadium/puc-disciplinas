@@ -1,6 +1,8 @@
 package disciplinas
 
-import "github.com/Leinadium/puc-disciplinas/api/controllers"
+import (
+	"github.com/Leinadium/puc-disciplinas/api/controllers"
+)
 
 type ResultCodigo struct {
 	CodDisciplina string `json:"codigo" gorm:"column:cod_disciplina"`
@@ -28,14 +30,15 @@ type ResultInfo struct {
 }
 
 type ResultTurmas struct {
-	CodTurma      string `json:"codigo" gorm:"column:cod_turma"`
-	NomeProfessor string `json:"nomeProfessor" gorm:"column:nome_professor"`
-	Shf           int    `json:"shf" gorm:"column:shf"`
-	Dia           string `json:"dia" gorm:"column:dia"`
-	HoraInicio    int    `json:"horaInicio" gorm:"column:hora_inicio"`
-	HoraFim       int    `json:"horaFim" gorm:"column:hora_fim"`
-	Destino       string `json:"destino" gorm:"column:destino"`
-	Vagas         int    `json:"vagas" gorm:"column:vagas"`
+	CodTurma      string  `json:"codigo" gorm:"column:cod_turma"`
+	NomeProfessor string  `json:"nomeProfessor" gorm:"column:nome_professor"`
+	NotaProfessor float64 `json:"notaProfessor" gorm:"column:nota_professor"`
+	Shf           int     `json:"shf" gorm:"column:shf"`
+	Dia           string  `json:"dia" gorm:"column:dia"`
+	HoraInicio    int     `json:"horaInicio" gorm:"column:hora_inicio"`
+	HoraFim       int     `json:"horaFim" gorm:"column:hora_fim"`
+	Destino       string  `json:"destino" gorm:"column:destino"`
+	Vagas         int     `json:"vagas" gorm:"column:vagas"`
 }
 
 type RespostaDisciplina struct {
@@ -57,11 +60,12 @@ type RespostaPreReqs struct {
 }
 
 type RespostaTurmas struct {
-	CodTurma      string              `json:"codigo"`
-	NomeProfessor string              `json:"professor"`
-	Shf           int                 `json:"shf"`
-	Horarios      []RespostaHorarios  `json:"horarios"`
-	Alocacoes     []RespostaAlocacoes `json:"alocacoes"`
+	CodTurma      string                   `json:"codigo"`
+	NomeProfessor string                   `json:"professor"`
+	NotaProfessor controllers.RoundedFloat `json:"notaProfessor"`
+	Shf           int                      `json:"shf"`
+	Horarios      []RespostaHorarios       `json:"horarios"`
+	Alocacoes     []RespostaAlocacoes      `json:"alocacoes"`
 }
 
 type RespostaHorarios struct {

@@ -35,6 +35,12 @@ WHERE d.cod_disciplina = @disciplina;
 `
 
 const QUERY_TURMAS_INFO = `
+WITH medias_professores AS (
+	SELECT nome_professor, AVG(nota_avaliacao) AS nota_professor
+	FROM avaliacoes_professores
+	GROUP BY nome_professor
+)
+
 SELECT
     t.cod_turma,
     t.nome_professor,
@@ -43,7 +49,8 @@ SELECT
     h.hora_inicio,
     h.hora_fim,
     a.destino,
-    a.vagas
+    a.vagas,
+	m.nota_professor
 FROM turmas t
     LEFT JOIN horarios h ON
         t.cod_disciplina = h.cod_disciplina AND
@@ -51,5 +58,7 @@ FROM turmas t
     LEFT JOIN alocacoes a ON
         h.cod_disciplina = a.cod_disciplina AND
         h.cod_turma = a.cod_turma
+	LEFT JOIN medias_professores m ON
+		t.nome_professor = m.nome_professor
 WHERE t.cod_disciplina = @disciplina;
 `
