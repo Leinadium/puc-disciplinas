@@ -6,6 +6,17 @@ import (
 	"net/http"
 )
 
+// PostGrade godoc
+// @Summary Salva uma grade
+// @Description Salva uma grade
+// @Accept json
+// @Produce json
+// @Param grade body string true "Grade a ser salva"
+// @Success 200 {object} string "id"
+// @Failure 400 {object} string "Erro no corpo da requisicao"
+// @Failure 401 {object} string "Nao logado"
+// @Failure 500 {object} string "Erro ao salvar grade"
+// @Router /grade [post]
 func PostGrade(c *gin.Context) {
 	// pega o db
 	var db = GetDbOrSetError(c)
@@ -42,6 +53,16 @@ func PostGrade(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"id": grade.CodGrade})
 }
 
+// GetGrade godoc
+// @Summary Coleta uma grade
+// @Description Coleta uma grade
+// @Produce json
+// @Param id query string true "ID da grade"
+// @Success 200 {object} string "data"
+// @Failure 400 {object} string "ID nao fornecido"
+// @Failure 404 {object} string "Grade nao encontrada"
+// @Failure 500 {object} string "Erro ao conectar ao banco de dados"
+// @Router /grade [get]
 func GetGrade(c *gin.Context) {
 	// pega o db
 	var db = GetDbOrSetError(c)
