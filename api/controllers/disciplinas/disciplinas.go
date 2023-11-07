@@ -9,16 +9,11 @@ import (
 	"net/http"
 )
 
-type ResultCompleto struct {
-	Disciplinas []ResultLista      `json:"disciplinas"`
-	Modificacao models.Modificacao `json:"modificacao"`
-}
-
 // GetDisciplinasInformacoes godoc
 // @Summary Coleta todas as disciplinas
 // @Description Coleta as informações das disciplinas, além da data de modificação.
 // @Produce json
-// @Success 200 {object} disciplinas.ResultCompleto "data"
+// @Success 200 {object} []disciplinas.ResultLista "data"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
 // @Router /pesquisa/info [get]
@@ -37,16 +32,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 		return
 	}
 
-	// pega as modificacoes (se der erro, tudo bem)
-	var modificacao models.Modificacao
-	db.First(&modificacao)
-
-	completo := ResultCompleto{
-		Disciplinas: results,
-		Modificacao: modificacao,
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": completo})
+	c.JSON(http.StatusOK, gin.H{"data": results})
 }
 
 // GetDisciplinasPodeCursar godoc

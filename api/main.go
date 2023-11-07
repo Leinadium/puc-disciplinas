@@ -91,6 +91,9 @@ func main() {
 	avaliacoesGroup.POST("/professor", avaliacoes.PostAvaliacaoProfessor)
 	avaliacoesGroup.DELETE("/disciplina", avaliacoes.DeleteAvaliacaoDisciplina)
 	avaliacoesGroup.DELETE("/professor", avaliacoes.DeleteAvaliacaoProfessor)
+	// modificacao
+	modificacaoGroup := r.Group("/modificacao")
+	modificacaoGroup.GET("", controllers.GetModificacao)
 
 	_ = r.Run()
 }

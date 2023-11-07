@@ -510,6 +510,29 @@
                 }
             }
         },
+        "/modificacao": {
+            "get": {
+                "description": "Coleta as datas da ultima modificacao",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Coleta as datas da ultima modificacao",
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "$ref": "#/definitions/models.Modificacao"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao conectar ao banco de dados",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/pesquisa/cursadas": {
             "get": {
                 "description": "Coleta os codigos das disciplinas que o usuario cursou",
@@ -579,7 +602,10 @@
                     "200": {
                         "description": "data",
                         "schema": {
-                            "$ref": "#/definitions/disciplinas.ResultCompleto"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/disciplinas.ResultLista"
+                            }
                         }
                     },
                     "500": {
@@ -787,20 +813,6 @@
             "properties": {
                 "codigo": {
                     "type": "string"
-                }
-            }
-        },
-        "disciplinas.ResultCompleto": {
-            "type": "object",
-            "properties": {
-                "disciplinas": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/disciplinas.ResultLista"
-                    }
-                },
-                "modificacao": {
-                    "$ref": "#/definitions/models.Modificacao"
                 }
             }
         },
