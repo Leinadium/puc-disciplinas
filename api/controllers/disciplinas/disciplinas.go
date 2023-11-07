@@ -21,6 +21,7 @@ type ResultCompleto struct {
 // @Success 200 {object} disciplinas.ResultCompleto "data"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
+// @Router /pesquisa/info [get]
 func GetDisciplinasInformacoes(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -55,7 +56,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 // @Success 200 {object} []disciplinas.ResultCodigo "data"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
-// @Router /pesquisa/pode-cursar [get]
+// @Router /pesquisa/podecursar [get]
 func GetDisciplinasPodeCursar(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)
@@ -115,7 +116,7 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 // @Failure 404 {object} string "Disciplina nao encontrada"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
 // @Failure 500 {object} string "Erro ao executar query"
-// @Router /pesquisa/info [get]
+// @Router /disciplina/info [get]
 func GetDisciplinaInfoCompleta(c *gin.Context) {
 	// pega o db
 	var db = controllers.GetDbOrSetError(c)

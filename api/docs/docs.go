@@ -242,6 +242,47 @@ const docTemplate = `{
                 }
             }
         },
+        "/disciplina/info": {
+            "get": {
+                "description": "Coleta a informação completa de uma disciplina",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Coleta a informação completa de uma disciplina",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Codigo da disciplina",
+                        "name": "c",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/disciplinas.ResultInfo"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Disciplina nao encontrada",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao executar query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/grade": {
             "get": {
                 "description": "Coleta uma grade",
@@ -535,34 +576,16 @@ const docTemplate = `{
         },
         "/pesquisa/info": {
             "get": {
-                "description": "Coleta a informação completa de uma disciplina",
+                "description": "Coleta as informações das disciplinas, além da data de modificação.",
                 "produces": [
                     "application/json"
                 ],
-                "summary": "Coleta a informação completa de uma disciplina",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Codigo da disciplina",
-                        "name": "c",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
+                "summary": "Coleta todas as disciplinas",
                 "responses": {
                     "200": {
                         "description": "data",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/disciplinas.ResultInfo"
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Disciplina nao encontrada",
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/disciplinas.ResultCompleto"
                         }
                     },
                     "500": {
@@ -574,7 +597,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/pesquisa/pode-cursar": {
+        "/pesquisa/podecursar": {
             "get": {
                 "description": "Coleta o código das disciplinas que o usuário pode cursar",
                 "produces": [

@@ -342,6 +342,33 @@ paths:
           schema:
             type: string
       summary: Salva uma avaliacao de professor
+  /disciplina/info:
+    get:
+      description: Coleta a informação completa de uma disciplina
+      parameters:
+      - description: Codigo da disciplina
+        in: query
+        name: c
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            items:
+              $ref: '#/definitions/disciplinas.ResultInfo'
+            type: array
+        "404":
+          description: Disciplina nao encontrada
+          schema:
+            type: string
+        "500":
+          description: Erro ao executar query
+          schema:
+            type: string
+      summary: Coleta a informação completa de uma disciplina
   /grade:
     get:
       description: Coleta uma grade
@@ -537,32 +564,20 @@ paths:
       summary: Coleta as disciplinas que o usuario falta cursar
   /pesquisa/info:
     get:
-      description: Coleta a informação completa de uma disciplina
-      parameters:
-      - description: Codigo da disciplina
-        in: query
-        name: c
-        required: true
-        type: string
+      description: Coleta as informações das disciplinas, além da data de modificação.
       produces:
       - application/json
       responses:
         "200":
           description: data
           schema:
-            items:
-              $ref: '#/definitions/disciplinas.ResultInfo'
-            type: array
-        "404":
-          description: Disciplina nao encontrada
-          schema:
-            type: string
+            $ref: '#/definitions/disciplinas.ResultCompleto'
         "500":
           description: Erro ao executar query
           schema:
             type: string
-      summary: Coleta a informação completa de uma disciplina
-  /pesquisa/pode-cursar:
+      summary: Coleta todas as disciplinas
+  /pesquisa/podecursar:
     get:
       description: Coleta o código das disciplinas que o usuário pode cursar
       produces:
