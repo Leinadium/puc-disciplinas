@@ -1,5 +1,5 @@
-import type { AvaliacaoApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, PostHistoricoApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, PostHistorico } from "../types/data";
+import type { AvaliacaoApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, ModificacaoApi, PostHistoricoApi } from "../types/api";
+import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, Modificacao, PostHistorico } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo, UITipoAvaliacao } from "../types/ui";
 
 import { hasCurriculo, userStore } from "./stores";
@@ -18,6 +18,7 @@ const HISTORICO_URL                 = BASE_API_URL + '/historico';
 const AVALIACOES_URL                = BASE_API_URL + '/avaliacoes';
 const AVALIACOES_DISCIPLINA_URl     = BASE_API_URL + '/avaliacoes/disciplina';
 const AVALIACOES_PROFESSOR_URL      = BASE_API_URL + '/avaliacoes/professor';
+const MODIFICACAO_URL               = BASE_API_URL + '/modificacao';
 
 
 async function genericFetch(url: string): Promise<any> {
@@ -66,6 +67,11 @@ export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodig
  */
 export async function coletarDisciplinasCursadas(): Promise<UIDisciplinaCodigo[] | null> {
     let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_CURSADAS);
+    return body.data;
+}
+
+export async function coletarModificacao(): Promise<Modificacao | null> {
+    let body: ModificacaoApi = await genericFetch(MODIFICACAO_URL);
     return body.data;
 }
 

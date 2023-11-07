@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { colegarGrade } from "$lib/api";
+	import { colegarGrade, coletarModificacao } from "$lib/api";
 	import { onMount } from "svelte";
 	import { page } from "$app/stores";
 	import type { UIDisciplinaResumo } from "../../types/ui";
-	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
+	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, Modificacao, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
 	import { adicionarTurmaNaGrade, getDisciplinasCursadas, getDisciplinasFaltaCursar, getDisciplinasPodeCursar, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
 	import TurmaSelecao from "../../components/grade/turma/TurmaSelecao.svelte";
 	import ListaRecomendacao from "../../components/grade/recomendacao/ListaRecomendacao.svelte";
@@ -20,6 +20,7 @@
     let faltaCursar: Set<string> | null = null;
     let podeCursar: Set<string> | null = null;
     let cursadas: Set<string> | null = null;
+    let modificacao: Modificacao | null = null;
 
     // dinamicas
     // escolhidas: grade simplificada.
@@ -77,6 +78,14 @@
             podeCursar = infos.podeCursar;
             cursadas = infos.cursadas;
         }
+
+        // carrega a modificacao
+        try {
+            modificacao = await coletarModificacao();
+        } catch (e) {
+            console.log("Erro ao carregar modificacao");
+        }
+
 		// verifica se a pagina possui um codigo de grade
 		const params = $page.url.searchParams;
 		const codigo = params.get("g");
@@ -111,6 +120,15 @@
 </script>
 
 <div id="grade-page">
+
+    {#if modificacao}
+        <div class="modificacao">
+            <span class="titulo">Modificação</span>
+            <span class="texto">{modificacao?.dataEmenta}</span>
+            <span class="texto">{modificacao?.dataGeral}</span>
+        </div>
+    {/if}
+
     <div id="grade-container">
         {#if isTurmaOpen}
             <TurmaSelecao 

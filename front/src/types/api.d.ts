@@ -34,3 +34,7 @@ export type PostHistoricoApi = {
 export type AvaliacaoApi = {
     data: ItemsCompletos
 }
+
+export type ModificacaoApi = {
+    data: Modificacao
+}
