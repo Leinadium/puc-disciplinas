@@ -15,7 +15,7 @@ import (
 // @Summary Coleta as disciplinas recomendadas
 // @Description Coleta as disciplinas recomendadas
 // @Produce json
-// @Param body body InputRecomendacao true "Corpo da requisicao"
+// @Param body body recomendacao.InputRecomendacao true "Corpo da requisicao"
 // @Success 200 {object} []ResultAlg "data"
 // @Failure 400 {object} string "Erro ao ler corpo da requisicao"
 // @Failure 500 {object} string "Erro ao conectar ao banco de dados"
