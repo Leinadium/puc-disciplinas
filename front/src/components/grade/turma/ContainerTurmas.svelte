@@ -24,23 +24,29 @@
 
 </script>
 
-<div id="container-turmas">
-    {#each turmas as turma}
-        {#each turma.alocacoes as alocacao}
-            <TurmaTurma
-                codigo={turma.codigo}
-                professor={turma.professor}
-                nota={turma.notaProfessor}
-                destino={alocacao.destino}
-                vagas={alocacao.vagas}
-                horarios={turma.horarios}
-                shf={turma.shf}
-                invalida={invalida(turma.horarios, alocacao.vagas)}
-                on:click={() => {handleClick(turma)}}
-            />
+{#if turmas.length == 0}
+    <div id="nenhuma-turma">
+        Disciplina não oferecida no momento
+    </div>
+{:else}
+    <div id="container-turmas">
+        {#each turmas as turma}
+            {#each turma.alocacoes as alocacao}
+                <TurmaTurma
+                    codigo={turma.codigo}
+                    professor={turma.professor}
+                    nota={turma.notaProfessor}
+                    destino={alocacao.destino}
+                    vagas={alocacao.vagas}
+                    horarios={turma.horarios}
+                    shf={turma.shf}
+                    invalida={invalida(turma.horarios, alocacao.vagas)}
+                    on:click={() => {handleClick(turma)}}
+                />
+            {/each}
         {/each}
-    {/each}
-</div>
+    </div>
+{/if}
 
 <style>
     #container-turmas {
@@ -53,5 +59,15 @@
         justify-content: flex-start;
         align-items: stretch;
         gap: 1%;
+    }
+
+    #nenhuma-turma {
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
     }
 </style>
