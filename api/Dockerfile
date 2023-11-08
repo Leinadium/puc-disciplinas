@@ -2,7 +2,10 @@ FROM golang:latest AS build
 WORKDIR /app
 COPY go.mod go.sum ./
 RUN go mod download
+RUN go install github.com/swaggo/swag/cmd/swag@latest
 COPY *.go ./
+# roda o gerador dos docs tbm
+RUN swag init --parseDependency
 RUN CGO_ENABLED=0 GOOS=linux go build -o /docker-api
 
 FROM grc.io/distroless/base-debian11 AS release
