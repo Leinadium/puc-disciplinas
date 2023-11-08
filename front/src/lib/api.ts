@@ -1,10 +1,12 @@
 import type { AvaliacaoApi, DisciplinaInfoApi, ErrorApi, GradeGetApi, ListaCodigosApi, ListaDisciplinasApi, ListaRecomendacoesApi, ModificacaoApi, PostHistoricoApi } from "../types/api";
-import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, Modificacao, PostHistorico } from "../types/data";
+import type { DisciplinaInfo, DisciplinaRecomendacao, EscolhasSimples, GradeAtualExtra, ItemsCompletos, Modificacao, PostHistorico } from "../types/data";
 import type { UIDisciplinaCodigo, UIDisciplinaResumo, UITipoAvaliacao } from "../types/ui";
 
 import { hasCurriculo, userStore } from "./stores";
 
-const BASE_API_URL = 'http://localhost:8080';
+import { PUBLIC_BASE_URL } from '$env/static/public';
+
+const BASE_API_URL = PUBLIC_BASE_URL || 'http://localhost:8080';
 const DISCIPLINAS_INFO_URL          = BASE_API_URL + '/pesquisa/info';
 const DISCIPLINAS_PODE_CURSAR_URL   = BASE_API_URL + '/pesquisa/podecursar';
 const DISCIPLINAS_FALTA_CURSAR_URL  = BASE_API_URL + '/pesquisa/faltacursar';
