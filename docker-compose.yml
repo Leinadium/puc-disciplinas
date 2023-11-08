@@ -15,7 +15,7 @@ services:
   front:
     build: ./front
     ports:
-      - "3000:3000"
+      - "5173:3000"
     environment:
       - PUBLIC_BASE_URL=api:8080
 
@@ -26,7 +26,7 @@ services:
     environment:
       - URL_MICRO_LOGIN=http://login:5000
       - URL_MICRO_HISTORICO=http://historico:5001
-      - GORM_DSN="host=data user=tcc password=tcc dbname=tcc port=5432 sslmode=disable"
+      - GORM_DSN=host=data user=tcc password=tcc dbname=tcc port=5432 sslmode=disable
       - SECRET_KEY=s902jgfkl2Wfdla9Gan
 
   login:
@@ -39,7 +39,7 @@ services:
     ports:
       - "5001:5001"
     environment:
-      - POSTGRES_CONN="postgresql+psycopg2://tcc:tcc@data:5432/tcc"
+      - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
 
 volumes:
   db-data:
