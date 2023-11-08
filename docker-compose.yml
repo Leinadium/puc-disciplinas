@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  data:
+    build: ./data
+    ports:
+      - "5433:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+        - POSTGRES_USER=tcc
+        - POSTGRES_PASSWORD=tcc
+        - POSTGRES_DB=tcc
+
+  front:
+    build: ./front
+    ports:
+      - "3000:3000"
+    environment:
+      - PUBLIC_BASE_URL=api:8080
+
+  api:
+    build: ./api
+    ports:
+      - "8080:8080"
+    environment:
+      - URL_MICRO_LOGIN=http://login:5000
+      - URL_MICRO_HISTORICO=http://historico:5001
+      - GORM_DSN="host=data user=tcc password=tcc dbname=tcc port=5432 sslmode=disable"
+      - SECRET_KEY=s902jgfkl2Wfdla9Gan
+
+  login:
+    build: ./micro/login
+    ports:
+      - "5000:5000"
+
+  historico:
+    build: ./micro/historico
+    ports:
+      - "5001:5001"
+    environment:
+      - POSTGRES_CONN="postgresql+psycopg2://tcc:tcc@data:5432/tcc"
+
+volumes:
+  db-data:
