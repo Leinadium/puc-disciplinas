@@ -2,11 +2,12 @@ package disciplinas
 
 import (
 	"database/sql"
+	"net/http"
+
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/queries"
 	"github.com/Leinadium/puc-disciplinas/api/models"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 // GetDisciplinasInformacoes godoc
@@ -25,7 +26,7 @@ func GetDisciplinasInformacoes(c *gin.Context) {
 	}
 
 	// faz a query
-	var results []ResultLista
+	results := []ResultLista{}
 	err := db.Raw(queries.QUERY_INFORMACOES).Scan(&results).Error
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
@@ -50,7 +51,7 @@ func GetDisciplinasPodeCursar(c *gin.Context) {
 		return
 	}
 
-	var results []ResultCodigo
+	results := []ResultCodigo{}
 
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
@@ -79,7 +80,7 @@ func GetDisciplinasFaltaCursar(c *gin.Context) {
 		return
 	}
 
-	var results []ResultCodigo
+	results := []ResultCodigo{}
 
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)
@@ -118,7 +119,7 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// pega as informacoes basicas da disciplina
-	var resultsInfo []ResultInfo
+	resultsInfo := []ResultInfo{}
 	query := db.Raw(queries.QUERY_DISCIPLINA_INFO, sql.Named("disciplina", codDisciplina))
 	res := query.Find(&resultsInfo)
 	if res.Error != nil {
@@ -132,7 +133,7 @@ func GetDisciplinaInfoCompleta(c *gin.Context) {
 	}
 
 	// pega as informacoes das turmas
-	var resultsTurmas []ResultTurmas
+	resultsTurmas := []ResultTurmas{}
 	query = db.Raw(queries.QUERY_TURMAS_INFO, sql.Named("disciplina", codDisciplina))
 	if err := query.Find(&resultsTurmas).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Erro ao executar query"})
@@ -162,7 +163,7 @@ func GetDisciplinasCursadas(c *gin.Context) {
 		return
 	}
 
-	var results []models.Historico
+	results := []models.Historico{}
 
 	// pega o usuario
 	var usuario, ok = controllers.GetLoginFromSession(c)

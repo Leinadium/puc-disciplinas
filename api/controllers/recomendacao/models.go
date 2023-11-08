@@ -21,6 +21,7 @@ type resultQuery struct {
 	Opiniao       float64 `gorm:"column:opiniao"`
 	Professor     float64 `gorm:"column:professor"`
 	Avaliacao     float64 `gorm:"column:avaliacao"`
+	Existe        bool    `gorm:"column:existe"`
 }
 
 type ResultAlg struct {

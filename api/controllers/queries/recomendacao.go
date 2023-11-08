@@ -54,6 +54,9 @@ WITH rec_c1 AS (
         FROM historicos h
         WHERE cod_usuario = @usuario
     )
+), rec_existe AS (
+    SELECT DISTINCT t.cod_disciplina
+    FROM turmas t
 )
 
 SELECT f.cod_disciplina,
@@ -63,13 +66,15 @@ SELECT f.cod_disciplina,
     h.cod_disciplina IS NOT NULL horario,
     o.media opiniao,
     p.media professor,
-    a.media avaliacao
+    a.media avaliacao,
+    e.cod_disciplina IS NOT NULL existe
 FROM filtro f
     LEFT JOIN rec_c1 c1 ON f.cod_disciplina = c1.cod_disciplina
     LEFT JOIN rec_c2_1 c2_1 ON f.cod_disciplina = c2_1.cod_disciplina
     LEFT JOIN rec_h h ON f.cod_disciplina = h.cod_disciplina
     LEFT JOIN rec_o o ON f.cod_disciplina = o.cod_disciplina
     LEFT JOIN rec_p p ON f.cod_disciplina = p.cod_disciplina
-    LEFT JOIN rec_a a ON f.cod_disciplina = a.cod_disciplina,
+    LEFT JOIN rec_a a ON f.cod_disciplina = a.cod_disciplina
+    LEFT JOIN rec_existe e ON f.cod_disciplina = e.cod_disciplina,
     rec_c2_2 c2_2
 `

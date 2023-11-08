@@ -24,16 +24,19 @@ func executaAlgoritmo(discs []resultQuery) []ResultAlg {
 	var nota float64
 	for _, disc := range discs {
 		nota = 0
-		notaC := calculaConteudo(disc.Conteudo1, disc.Conteudo21, disc.Conteudo22)
-		notaH := calculaHorario(disc.Horario1, disc.Horario2)
-		notaO := calculaOpiniao(disc.Opiniao)
-		notaP := calculaProfessor(disc.Professor)
-		notaA := calculaAvaliacao(disc.Avaliacao)
-
-		// faz a media ponderada
-		// os pesos foram derivados das entrevistas
-		nota = (notaC * 41.0) + (notaH * 19.0) + (notaO * 8.0) + (notaP * 28.0) + (notaA * 21.0)
-		nota /= 41 + 19 + 8 + 28 + 21.0
+		var notaC, notaH, notaO, notaP, notaA float64
+		if disc.Existe {
+			// se a disciplina existe, calcula os valores
+			notaC = calculaConteudo(disc.Conteudo1, disc.Conteudo21, disc.Conteudo22)
+			notaH = calculaHorario(disc.Horario1, disc.Horario2)
+			notaO = calculaOpiniao(disc.Opiniao)
+			notaP = calculaProfessor(disc.Professor)
+			notaA = calculaAvaliacao(disc.Avaliacao)
+			// faz a media ponderada
+			// os pesos foram derivados das entrevistas
+			nota = (notaC * 41.0) + (notaH * 19.0) + (notaO * 8.0) + (notaP * 28.0) + (notaA * 21.0)
+			nota /= 41 + 19 + 8 + 28 + 21.0
+		}
 
 		// salva o resultado
 		res = append(res, ResultAlg{
