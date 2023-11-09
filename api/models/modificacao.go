@@ -6,8 +6,9 @@ import (
 )
 
 type Modificacao struct {
-	DataEmenta *time.Time `gorm:"primaryKey" json:"dataEmenta"`
-	DataGeral  *time.Time `gorm:"primaryKey" json:"dataGeral"`
+	DataEmenta   *time.Time `gorm:"primaryKey" json:"dataEmenta"`
+	DataGeral    *time.Time `gorm:"primaryKey" json:"dataGeral"`
+	ModoFallback bool       `gorm:"primaryKey" json:"modoFallback"`
 }
 
 func (Modificacao) TableName() string {
