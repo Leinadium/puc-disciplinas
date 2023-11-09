@@ -203,7 +203,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
     return
 
 
-def atualiza_modificacao(engine: Engine, geral: bool = False):
+def atualiza_modificacao(engine: Engine, geral: bool = False, modo_fallback: bool = False):
     """Atualiza a modificacao no banco"""
     # pega a modificacao do banco
     # se nao existir, cria uma nova
@@ -221,6 +221,9 @@ def atualiza_modificacao(engine: Engine, geral: bool = False):
         # se nao, atualiza a data de atualizacao
         if not geral or mod.data_ementa is None:
             mod.data_ementa = datetime.now()
+
+        # atualiza o modo fallback
+        mod.modo_fallback = modo_fallback
 
         # atualiza o banco
         session.add(mod)
@@ -267,7 +270,7 @@ def main(full: bool = False):
 
     # atualiza a modificacao
     print("[MAIN] Atualizando a modificacao")
-    atualiza_modificacao(engine, geral=full)
+    atualiza_modificacao(engine, geral=full, modo_fallback=m.is_modo_fallback)
 
 
 if __name__ == "__main__":
