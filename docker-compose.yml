@@ -41,5 +41,10 @@ services:
     environment:
       - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
 
+  microhorario:
+    build: ./services/microhorario
+    environment:
+      - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
+
 volumes:
   db-data:
