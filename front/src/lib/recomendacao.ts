@@ -11,10 +11,10 @@ function filtroRecomendacoes(
     escolhidas: Set<string> | null | undefined,
     modo: ModoRecomendacao = "todas" 
 ) {
-    const pode = podeCursar ? podeCursar.has(r.cod) : true;
-    const falta = faltaCursar ? faltaCursar.has(r.cod) : true;
-    const naoFalta = faltaCursar ? !faltaCursar.has(r.cod) : true;
-    const jaEscolhida = escolhidas ? escolhidas.has(r.cod) : false;
+    const pode = podeCursar && podeCursar.size > 0 ? podeCursar.has(r.cod) : true;
+    const falta = faltaCursar && faltaCursar.size > 0 ? faltaCursar.has(r.cod) : true;
+    const naoFalta = faltaCursar && faltaCursar.size > 0 ? !faltaCursar.has(r.cod) : true;
+    const jaEscolhida = escolhidas && escolhidas.size > 0 ? escolhidas.has(r.cod) : false;
 
     // se o usuario nao selecionou nenhum filtro especifico
     // entao filtra pelo o que ele pode cursar, se for definido

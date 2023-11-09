@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { coletarRecomendacoes } from "$lib/api";
-    import { userStore, hasCurriculo } from "$lib/stores";
+    import { userStore, hasCurriculo, userEvent } from "$lib/stores";
     import DisciplinaBox from "../../common/DisciplinaBox.svelte";
     import { filtrarPesos, filtrarRecomendacoes, type ModoRecomendacao } from "$lib/recomendacao";
     import type { UIDisciplinaResumo } from "../../../types/ui";
@@ -82,6 +82,11 @@
     onMount(() => {
         hasMounted = true;
         atualizarRecomendacoes();
+
+        // se o usuario mudar, recalcula as recomendacoes tbm
+        userEvent.subscribe(() => {
+            atualizarRecomendacoes();
+        })
     })
 
 </script>
