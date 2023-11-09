@@ -78,3 +78,15 @@ export const pesosDescricao = {
     p: "Professor bem avaliado",
     a: "Grau médio alto"
 }
+
+/**
+ * Calcula a diferença entre a data passada e a hora atual
+ * Retorna uma string no formato "x dias" se a diferença for maior que 1 dia,
+ * ou "x horas" se a diferença for menor que 1 dia
+*/
+export function calcularDiferenca(h: Date) {
+    const agora = new Date();
+    const diferenca = - Math.floor((h.getTime() - agora.getTime()) / 1000 / 60 / 60);
+    if (diferenca > 24) return `${Math.floor(diferenca / 24)} dias`;
+    return `${diferenca} horas`;
+}

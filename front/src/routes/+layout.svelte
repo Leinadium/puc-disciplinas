@@ -34,6 +34,8 @@
         --color-tria-4: #193237;
         --color-tria-5: #FFF69E;
 
+        --color-main-4f: #B8DDD9;
+
         --border-radius: 15px;
 
         /* font-family: Verdana, Geneva, Tahoma, sans-serif; */

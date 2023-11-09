@@ -12,6 +12,7 @@
 	import GrupoBotoes from "../../components/grade/botoes/GrupoBotoes.svelte";
 	import { criaTabelaHorarios, extractHorarios } from "$lib/utils";
 	import { userEvent, userStore } from "$lib/stores";
+	import TextosDescricao from "../../components/grade/TextosDescricao.svelte";
 
     // variaveis principais
 	let codigoGrade: string | null = null;
@@ -121,14 +122,7 @@
 
 <div id="grade-page">
 
-    {#if modificacao}
-        <div class="modificacao">
-            <span class="titulo">Modificação</span>
-            <span class="texto">{modificacao?.dataEmenta}</span>
-            <span class="texto">{modificacao?.dataGeral}</span>
-            <span class="texto">{modificacao?.modoFallback}</span>
-        </div>
-    {/if}
+    <TextosDescricao {modificacao}/>
 
     <div id="grade-container">
         {#if isTurmaOpen}
@@ -173,7 +167,7 @@
 <style>
 	#grade-page {
 		width: 100%;
-		height: 100%;
+		min-height: 100%;
 
 		display: flex;
 		flex-flow: column nowrap;
