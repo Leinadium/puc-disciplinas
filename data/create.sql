@@ -118,5 +118,6 @@ CREATE TABLE IF NOT EXISTS avaliacoes_professores (
 CREATE TABLE IF NOT EXISTS modificacao (
     data_ementa timestamptz NOT NULL,
     data_geral  timestamptz NOT NULL,
-    PRIMARY KEY (data_ementa, data_geral)
+    modo_fallback boolean NOT NULL,
+    PRIMARY KEY (data_ementa, data_geral, modo_fallback)
 )
