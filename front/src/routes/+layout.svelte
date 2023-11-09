@@ -28,11 +28,26 @@
         --color-main-2: #176B87;
         --color-main-3: #64CCC5;
         --color-main-4: #DAFFFB;
+
+        --color-mono-1: #1F4754;
+        --color-mono-2: #87D4ED;
+        --color-mono-3: #C4F0FF;
+        --color-mono-4: #D4F4FF;
+
+        --color-anal-1: #17877F;
+        --color-anal-2: #174887;
+        --color-anal-3: #178759;
+        --color-anal-4: #172487;
+
         --color-tria-1: #8C8111;
         --color-tria-2: #8C1140;
-        --color-tria-3: #11768C;
-        --color-tria-4: #193237;
-        --color-tria-5: #FFF69E;
+        --color-tria-3: #193237;
+        --color-tria-4: #FFF69E;
+
+        --color-quad-1: #528717;
+        --color-quad-2: #875017;
+        --color-quad-3: #771787;
+        --color-quad-4: #6FC1DC;
 
         --color-main-4f: #B8DDD9;
 

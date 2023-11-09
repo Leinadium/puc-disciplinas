@@ -6,7 +6,7 @@
     import type { UIDisciplinaResumo } from "../../../types/ui";
     import type { DisciplinaRecomendacao, EscolhasSimples } from "../../../types/data";
 	import ModoBotaoRecomendacao from "./ModoBotaoRecomendacao.svelte";
-	import { createEventDispatcher, onMount } from "svelte";
+	import { onMount } from "svelte";
 	import { fly } from "svelte/transition";
 
     type Texto = "Carregando recomendações..." | "Sem recomendação para o tipo selecionado." | "Erro ao carregar as recomendações";
@@ -132,11 +132,8 @@
         justify-content: flex-start;
         align-items: center;
         
-        background: #eee;
-        /* para justificar a barra de scroll da grade abaixo*/
-        margin-right: 10px;
-
-        border: 3px solid green
+        background: var(--color-anal-2);
+        border-radius: var(--border-radius);
     }
 
     #recomendacao-upper {
@@ -181,11 +178,12 @@
         flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
-        color: #555;
+        color: var(--color-mono-2);
     }
 
     #pedido {
-        font-size: 0.8rem;
-        color: #aa0;
+        font-size: 0.85rem;
+        font-weight: bold;
+        color: var(--color-tria-1);
     }
 </style>

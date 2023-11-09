@@ -179,15 +179,18 @@
     #grade-container {
         box-sizing: border-box;
         max-width: min(80vw, 1000px);
-        height: 700px;
+        height: 1200px;
         width: 100%;
 
         display: inline-grid;
         grid-template-columns: 84% 15%;
-        grid-template-rows: 19% 80%;
+        grid-template-rows: 12% 87%;
         place-content: stretch;
         gap: 1%;
 
-        border: 3px solid blue;
+        background: var(--color-mono-2);
+        padding: 1%;
+        border-radius: var(--border-radius);
+
     }
 </style>

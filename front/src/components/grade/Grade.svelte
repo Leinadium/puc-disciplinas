@@ -40,7 +40,7 @@
 
 
 <div id="grade">
-    <table>
+    <table class:com-shf={shf.length > 0}>
         <thead>
             <tr>
                 <th></th>
@@ -52,7 +52,9 @@
         <tbody>
             {#each horasLinhas as h}
                 <tr>
-                    <td>{formatHora(h)}</td>
+                    <td>
+                        {formatHora(h)}
+                    </td>
                     {#each diasColunas as d}
                         {#if !!g[h][d] }
                             <td rowspan={getDuracao(g[h][d], d)}>
@@ -98,12 +100,15 @@
         grid-column: 1 / span 1;
         grid-row: 2 / span 1;
 
-        overflow-y: scroll;
-        
-        border: 1px solid #ccc;
+        height: 100%;
         
         /* para compensar a barra de scroll*/
-        padding-right: 10px;
+        padding: 5px 10px 5px 5px;
+
+        background: var(--color-main-2);
+        border-radius: var(--border-radius);
+        --border-row: 1px solid var(--color-main-3);
+
     }
 	table {
         box-sizing: border-box;
@@ -111,23 +116,30 @@
         border-collapse: collapse;
 		height: 100%;
         width: 100%;
-
-        border: 3px solid purple;
 	}
 
+    .com-shf {
+        height: 87% !important;
+    }
+
+    thead {
+        height: 4.8%;
+        border-bottom: var(--border-row);
+    }
+
+    tbody {
+        height: 95.2%;
+    }
+
     td, th {
-        border: 1px solid black;
         padding: 5px;
         margin: 0;
         width: 100%;
     }
 
-    td {
-        height: 100%;
-    }
-
     tr {
-        height: 60px;
+        height: 6.8%;
+        border-bottom: var(--border-row);
     }
 
     /* primeiro td (horas) */
@@ -138,11 +150,7 @@
         font-size: 0.8em;
         white-space: nowrap;
         text-align: center;
-    }
-
-    thead > tr {
-        height: 20px;
-        padding: 0;
+        border-right: 1px solid var(--color-main-3);
     }
 
     #shf {
@@ -151,15 +159,16 @@
         bottom: 0;
         left: 0;
 
-        background: rgba(255, 0, 0, 0.8);
+        background: var(--color-mono-1);
 
         box-sizing: border-box;
-        height: 20%;
+        height: 13%;
         width: 100%;
         display: flex;
         flex-flow: column nowrap;
         justify-content: flex-start;
         align-items: center;
+        border-radius: var(--border-radius);
 
     }
 
@@ -183,6 +192,7 @@
         padding: 0.2rem;
         font-size: 0.8rem;
         font-style: italic;
+        color: var(--color-main-4)
     }
 
     .disciplina-shf {

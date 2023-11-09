@@ -47,14 +47,14 @@
     }
 
     .default {
-        background-color: #aaa;
+        background-color: #FFF69E;
     }
 
     .yellow {
-        background-color: #aa3;
+        background-color: var(--color-tria-1);
     }
 
     .green {
-        background-color: #5f5;
+        background-color: var(--color-anal-3);
     }
 </style>
