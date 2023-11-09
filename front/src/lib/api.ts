@@ -38,7 +38,7 @@ async function genericFetch(url: string): Promise<any> {
 
 /**
  * Coleta as informações básicas de todas as disciplinas 
- * @returns {DisciplinasComModificacao | null} Lista de disciplinas
+ * @returns {UIDisciplinaResumo[] | null} Lista de disciplinas
  */
 export async function coletarDisciplinasInfo(): Promise<UIDisciplinaResumo[] | null> {
     let body: ListaDisciplinasApi = await genericFetch(DISCIPLINAS_INFO_URL);
@@ -47,7 +47,7 @@ export async function coletarDisciplinasInfo(): Promise<UIDisciplinaResumo[] | n
 
 /**
  * Coleta os códigos de todas as disciplinas que o usuário pode cursar
- * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
+ * @returns {UIDisciplinaCodigo[] | null} Lista de disciplinas
  */
 export async function coletarDisciplinasPodeCursar(): Promise<UIDisciplinaCodigo[] | null> {
     let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_PODE_CURSAR_URL);
@@ -56,7 +56,7 @@ export async function coletarDisciplinasPodeCursar(): Promise<UIDisciplinaCodigo
 
 /**
  * Coleta os códigos de todas as disciplinas que o usuário ainda não cursou
- * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
+ * @returns {UIDisciplinaCodigo[] | null} Lista de disciplinas
  */
 export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodigo[] | null> {
     let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_FALTA_CURSAR_URL);
@@ -65,7 +65,7 @@ export async function coletarDisciplinasFaltaCursar(): Promise<UIDisciplinaCodig
 
 /**
  * Coleta os códigos de todas as disciplinas que o usuário já cursou
- * @returns {DisciplinaCodigo[] | null} Lista de disciplinas
+ * @returns {UIDisciplinaCodigo[] | null} Lista de disciplinas
  */
 export async function coletarDisciplinasCursadas(): Promise<UIDisciplinaCodigo[] | null> {
     let body: ListaCodigosApi = await genericFetch(DISCIPLINAS_CURSADAS);

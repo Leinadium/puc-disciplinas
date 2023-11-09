@@ -126,6 +126,7 @@
             <span class="titulo">Modificação</span>
             <span class="texto">{modificacao?.dataEmenta}</span>
             <span class="texto">{modificacao?.dataGeral}</span>
+            <span class="texto">{modificacao?.modoFallback}</span>
         </div>
     {/if}
 

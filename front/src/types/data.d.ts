@@ -12,6 +12,7 @@ export type EscolhaInfoExtra = {
 export type Modificacao = {
     dataEmenta: string,
     dataGeral: string,
+    modoFallback: boolean,
 }
 
 export type DisciplinasComModificacao = {

@@ -1,4 +1,4 @@
-import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, GradeAtualExtra, PostHistorico } from "./data"
+import type { DisciplinaInfo, DisciplinaRecomendacao, DisciplinasComModificacao, GradeAtualExtra, PostHistorico, Modificacao } from "./data"
 import type { UIDisciplinaCodigo, UIDisciplinaResumo } from "./ui"
 
 export type LoadingStatus = "loading" | "success" | "error" | "unauthorized";
