@@ -19,8 +19,8 @@
 
 <style>
     header {
-        background-color: #333;
-        color: #fff;
+        background-color: var(--color-main-2);
+        color: var(--color-main-4);
         box-sizing: border-box;
         padding: 1rem 10%;
         width: 100%;
@@ -47,21 +47,25 @@
 
     .nav-item {
         text-decoration: none;
-        color: #eee;
+        color: var(--color-main-4);
         box-sizing: border-box;
         padding: 2%;
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
         background: transparent;
+        font-size: 1rem;
 
         transition: background 0.2s;
     }
     .nav-item:hover {
-        background: #666;
+        background: var(--color-main-3);
     }
 
     h1 {
         margin: 0;
         text-align: center;
+    }
+    h1 > a {
+        font-size: 2rem !important;
     }
 
     #nav-login {

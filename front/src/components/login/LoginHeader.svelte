@@ -59,7 +59,7 @@
 
     .log {
         text-decoration: none;
-        color: #eee;
+        color: var(--color-main-4);
         box-sizing: border-box;
         padding: 2%;
         border-radius: 0.5rem;
@@ -68,6 +68,6 @@
         transition: background 0.2s;
     }
     .log:hover {
-        background: #666;
+        background: var(--color-main-3);
     }
 </style>

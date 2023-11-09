@@ -175,7 +175,7 @@
         text-align: center;
         background: #fff;
         border: 1px solid #444;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
         cursor: pointer;
 
         transition: background 0.2s;

@@ -16,7 +16,7 @@
         width: 80%;
         height: fit-content;
         padding: 3%;
-        border-radius: 5px;
+        border-radius: var(--border-radius);
 
         font-size: 0.8em;
         cursor: pointer;

@@ -58,7 +58,7 @@
         width: fit-content;
         height: 1.5rem;
         padding: 0.2rem 0.3rem 0.2rem 0.3rem;
-        border-radius: 1rem;
+        border-radius: var(--border-radius);
 
         margin: 0 0.4rem;
 

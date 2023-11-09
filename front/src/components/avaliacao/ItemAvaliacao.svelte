@@ -55,7 +55,7 @@
         background: #eee;
         box-sizing: border-box;
         padding: 0.5rem;
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
     }
 
     .item-avaliacao.disable {

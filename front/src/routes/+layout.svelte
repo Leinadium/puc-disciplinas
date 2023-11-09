@@ -4,6 +4,10 @@
 	import Header from "../components/Header.svelte";
 </script>
 
+<svelte:head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+</svelte:head>
+
 <Header titulo="Macro" />
     <CheckLogin />
     <main>
@@ -14,7 +18,9 @@
 <style>
     main {
         width: 100%;
-        height: 100%;
+        min-height: 100%;
+
+        background: var(--color-main-1);
     }
 
     :global(html) {
@@ -29,5 +35,8 @@
         --color-tria-5: #FFF69E;
 
         --border-radius: 15px;
+
+        /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+        font-family: Lato, Verdana, Geneva, Tahoma, sans-serif;
     }
 </style>

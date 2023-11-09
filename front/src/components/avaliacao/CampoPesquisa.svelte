@@ -142,7 +142,7 @@
         width: 70%;
         height: 100%;
         padding: 0.5rem;
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
         border: 1px solid #aaa;
     }
     select {
@@ -181,7 +181,7 @@
         box-sizing: border-box;
         width: 100%;
         padding: 0.6rem 0.5rem;
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
         background: #aaa;
     }
     .explicacao {
