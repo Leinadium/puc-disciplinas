@@ -162,7 +162,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     vagas = alocacao.vagas
                     destino = f"{alocacao.destino.codigo} ({alocacao.destino.nome})"
                     if m.is_modo_fallback:
-                        vagas = 999
+                        vagas = -1
                         destino = "n/a"
 
                     session.add(Alocacao(
