@@ -1,4 +1,4 @@
-microhorario-dl
+microhorario-dl==1.6.1
 SQLAlchemy
 pyscopg2
 psycopg2-binary

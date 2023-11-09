@@ -6,9 +6,9 @@ from dotenv import load_dotenv
 from unidecode import unidecode
 from sqlalchemy.orm import Session
 from sqlalchemy.engine import Engine
+from sqlalchemy.dialects.postgresql import insert
 from microhorario_dl import Microhorario
 
-from models import Base
 from models import Departamento, Disciplina, Prerequisitos, Professor, Turma
 from models import Horario, Alocacao
 from models import Modificacao
@@ -30,13 +30,8 @@ def baixa_microhorario(full: bool = False) -> Microhorario:
     m: Microhorario = Microhorario.download()
     if full:
         m.coletar_extra()
-        pass
+        # pass
     return m
-
-
-def configura_banco(eng: Engine):
-    """Cria as tabelas necessarias para instalar o microhorario"""
-    Base.metadata.create_all(eng)
 
 
 def normaliza(s: str) -> str:
@@ -46,14 +41,16 @@ def normaliza(s: str) -> str:
 def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
     from sqlalchemy import text
 
-    with Session(eng) as session:
+    with (Session(eng) as session):
         # opera os professores
         # depois, opcionalmente, opera as disciplinas, departamentos e prerequisitos
         # depois, as turmas
         # depois, as alocacoes e horarios
 
         # deleta os professores
-        session.execute(text(f'TRUNCATE TABLE {Professor.__tablename__} CASCADE'))
+        # OBS (POS REUNIAO 08/11): Nao delete os professores, mas faz um upsert apenas
+        # session.execute(text(f'TRUNCATE TABLE {Professor.__tablename__} CASCADE'))
+
         # cria o set de professores
         print("[ADICIONA_NO_BANCO] Adicionando os professores")
         professores = set()
@@ -63,44 +60,64 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
 
         # itera sobre os professores
         for prof in professores:
-            session.add(Professor(
+            stmt = insert(
+                Professor
+            ).values(
                 nome_professor=normaliza(prof)
-            ))
+            ).on_conflict_do_nothing(
+                index_elements=['nome_professor']
+            )
+            session.execute(stmt)
+
         # atualiza o banco para poder adicionar o resto
         session.commit()
 
         if is_full:
             print("[ADICIONA_NO_BANCO] Deletando os dados antigos")
-            session.execute(text(f'TRUNCATE TABLE {Departamento.__tablename__} CASCADE'))
-            session.execute(text(f'TRUNCATE TABLE {Disciplina.__tablename__} CASCADE'))
+            # OBS (POS REUNIAO 08/11): Nao deleta os departamentos e disciplinas, mas faz um upsert apenas
+            # session.execute(text(f'TRUNCATE TABLE {Departamento.__tablename__} CASCADE'))
+            # session.execute(text(f'TRUNCATE TABLE {Disciplina.__tablename__} CASCADE'))
             session.execute(text(f'TRUNCATE TABLE {Prerequisitos.__tablename__} CASCADE'))
-
             session.commit()
 
-            # adiciona os departamentos
+            # adiciona os departamentos (modo upsert)
             print("[ADICIONA_NO_BANCO] Adicionando os departamentos")
             for d in m.departamentos:
-                session.add(Departamento(
+                smtm = insert(
+                    Departamento
+                ).values(
                     cod_depto=d.codigo,
                     nome_depto=normaliza(d.nome)
-                ))
+                ).on_conflict_do_nothing(
+                    index_elements=['cod_depto']
+                )
+                session.execute(smtm)
 
-            # adiciona as disciplinas
-
+            # adiciona as disciplinas (modo upsert)
             print("[ADICIONA_NO_BANCO] Adicionando os disciplinas")
             for d in m.disciplinas:
-                session.add(Disciplina(
+                ementa = d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA'
+                creditos = d.creditos if d.creditos > 0 else 0
+
+                stmt = insert(
+                    Disciplina
+                ).values(
                     cod_disciplina=d.codigo,
                     cod_depto=d.departamento.codigo,
                     nome_disciplina=normaliza(d.nome),
-                    ementa=d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA',
-                    creditos=d.creditos
-                ))
+                    ementa=ementa,
+                    creditos=creditos
+                )
+                stmt = stmt.on_conflict_do_update(
+                    index_elements=['cod_disciplina'],
+                    set_=dict(creditos=d.creditos, ementa=ementa)
+                )
+                session.execute(stmt)
+
             # atualiza o banco para poder adicionar o resto
             session.commit()
 
             # adiciona os prerequisitos
-
             print("[ADICIONA_NO_BANCO] Adicionando os prerequisitos")
             for d in m.disciplinas:
                 # aborta caso prerequisitos seja None
@@ -142,11 +159,17 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
         for disc in m.disciplinas:
             for turma in disc.turmas:
                 for alocacao in turma.alocacoes:
+                    vagas = alocacao.vagas
+                    destino = f"{alocacao.destino.codigo} ({alocacao.destino.nome})"
+                    if m.is_modo_fallback:
+                        vagas = 999
+                        destino = "n/a"
+
                     session.add(Alocacao(
                         cod_disciplina=disc.codigo,
                         cod_turma=turma.codigo,
-                        destino=f"{alocacao.destino.codigo} ({alocacao.destino.nome})",
-                        vagas=alocacao.vagas,
+                        destino=destino,
+                        vagas=vagas,
                     ))
 
         session.commit()
@@ -205,6 +228,22 @@ def atualiza_modificacao(engine: Engine, geral: bool = False):
     return
 
 
+def atualiza_curriculos(engine: Engine):
+    """Procura por todos os curriculos armazenados como procedures e executa"""
+    from sqlalchemy import text
+
+    # listando todas as procedures armazenadas
+    with Session(engine) as session:
+        query = "SELECT routine_name FROM information_schema.routines WHERE routine_type = 'PROCEDURE'"
+        for row in session.execute(text(query)):
+            # executa a procedure
+            # OBS: apesar de estar usando uma fstring, a chamada da procedure é segura
+            # pois o valor row[0] é um nome de procedure que está armazenado no banco
+            # e o usuario não tem acesso a esse campo
+            session.execute(text(f"CALL {row[0]}();"))
+            session.commit()
+
+
 def main(full: bool = False):
     from sqlalchemy import create_engine
     conn_str = getenv("POSTGRES_CONN")
@@ -213,10 +252,6 @@ def main(full: bool = False):
     print("[MAIN] Conectando no banco")
     engine = create_engine(conn_str, echo=False)
 
-    # cria as tabelas
-    # print("[MAIN] Criando as tabelas")
-    # configura_banco(engine)
-
     # baixa os dados
     print("[MAIN] Baixando o microhorario")
     m = baixa_microhorario(full=full)
@@ -224,6 +259,11 @@ def main(full: bool = False):
     # adiciona os dados
     print("[MAIN] Adicionando os dados")
     adiciona_no_banco(m, engine, is_full=full)
+
+    # atualiza os curriculos
+    if full:
+        print("[MAIN] Atualizando os curriculos")
+        atualiza_curriculos(engine)
 
     # atualiza a modificacao
     print("[MAIN] Atualizando a modificacao")
