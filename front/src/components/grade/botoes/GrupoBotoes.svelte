@@ -7,9 +7,11 @@
 	import type { LoadingStatus } from "../../../types/api";
 	import { page } from "$app/stores";
 	import { userStore } from "$lib/stores";
+	import TextoAcima from "./TextoAcima.svelte";
 
     export let gradeAtual: GradeAtualExtra;
     export let enableSalvar: boolean = false;
+    export let enableLimpar: boolean = false;
 
     let status: LoadingStatus | null = null;
     let linkCodigo: string | null = null;
@@ -38,6 +40,12 @@
         }
     }
     const limpar = () => {dispatch("limpar")}
+
+    let qtdDisciplinas: number;
+    $: qtdDisciplinas = gradeAtual.escolhas.length;
+    let qtdCreditos: number;
+    $: qtdCreditos = gradeAtual.escolhas.reduce((acc, cur) => acc + cur.creditos > 0 ? cur.creditos : 0, 0);
+
 </script>
 
 {#if status !== null}
@@ -49,7 +57,9 @@
 {/if}
 
 <div class="grupo-botoes">
-    <BotaoGenerico enable={enableSalvar} text="Salvar grade" on:click={salvar} />
+    <TextoAcima disciplinas={qtdDisciplinas} creditos={qtdCreditos} />
+    <BotaoGenerico color="blue" enable={enableSalvar} text="💾 Salvar grade" on:click={salvar} />
+    <BotaoGenerico color="red" enable={enableLimpar} text="🗑️ Limpar grade" on:click={limpar} />
 </div>
 
 <style>
@@ -62,11 +72,10 @@
         flex-flow: column nowrap;
         justify-content: center;
         align-items: center;
-        gap: 10%;
+        gap: 5%;
 
         box-sizing: border-box;
         width: 100%;
         height: 100%;
-        background-color: cyan;
     }
 </style>

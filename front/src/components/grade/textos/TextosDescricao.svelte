@@ -1,7 +1,7 @@
 <script lang="ts">
     import { calcularDiferenca } from "$lib/utils";
-	import type { Modificacao } from "../../types/data";
-	import Legenda from './botoes/Legenda.svelte';
+	import type { Modificacao } from "../../../types/data";
+	import Legenda from './Legenda.svelte';
 
     export let modificacao: Modificacao | null = null;
     $: console.log(modificacao);

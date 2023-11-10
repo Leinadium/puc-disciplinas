@@ -6,7 +6,12 @@
     export let color: GenericColor = "white";
 </script>
 
-<button type="button" class="{color}" on:click|preventDefault disabled={!enable}>
+<button
+    type="button" 
+    class="{color}"
+    on:click|preventDefault
+    disabled={!enable}
+>
     {text}
 </button>
 
@@ -18,39 +23,27 @@
         padding: 3%;
         border-radius: var(--border-radius);
 
-        font-size: 0.8em;
+        font-size: 0.75em;
+        font-weight: bold;
         cursor: pointer;
+        border: none;
+        color: var(--color-whitef);
     }
 
     button:disabled {
         cursor: not-allowed;
+        background: transparent !important;
     }
 
-    .green {
-        background: #33ff33;
-        border: 1px solid #33cc33;
-    }
-    .green:hover {
-        background: #33cc33;
-        border: 1px solid #339933;
+
+    .blue {
+        background: var(--color-anal-4);
+        border: 3px solid var(--color-anal-4);
+        
     }
 
     .red {
-        background: #ff3333;
-        border: 1px solid #cc3333;
-    }
-    .red:hover {
-        background: #cc3333;
-        border: 1px solid #993333;
-    }
-
-    .white {
-        background: #ffffff;
-        border: 1px solid #cccccc;
-        color: black;
-    }
-    .white:hover {
-        background: #cccccc;
-        border: 1px solid #999999;
+        background: var(--color-tria-2);
+        border: 3px solid var(--color-tria-2);
     }
 </style>

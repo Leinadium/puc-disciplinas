@@ -4,6 +4,7 @@ export type EscolhaInfoExtra = {
     nome: string,
     codigo: string,
     turma: string,
+    creditos: number,
     professor: string,
     horarios: DisciplinaHorariosInfo[],
     shf: number,

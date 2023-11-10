@@ -12,7 +12,7 @@
 	import GrupoBotoes from "../../components/grade/botoes/GrupoBotoes.svelte";
 	import { criaTabelaHorarios, extractHorarios } from "$lib/utils";
 	import { userEvent, userStore } from "$lib/stores";
-	import TextosDescricao from "../../components/grade/TextosDescricao.svelte";
+	import TextosDescricao from "../../components/grade/textos/TextosDescricao.svelte";
 
     // variaveis principais
 	let codigoGrade: string | null = null;
@@ -51,6 +51,7 @@
         const escolhaInfoExtra: EscolhaInfoExtra = {
             codigo: escolha.disciplina,
             nome: disciplinas.get(escolha.disciplina)?.nome ?? "",
+            creditos: disciplinas.get(escolha.disciplina)?.creditos ?? 0,
             turma: escolha.turma.codigo,
             professor: escolha.turma.professor,
             horarios: escolha.turma.horarios,
@@ -157,6 +158,7 @@
     
         <GrupoBotoes
             {enableSalvar}
+            enableLimpar={enableSalvar}
             {gradeAtual}
             on:limpar={handleLimpar}
         />

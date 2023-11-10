@@ -9,6 +9,7 @@
         {
             codigo: "ENG4403",
             nome: "Engenharia de Dados",
+            creditos: 4,
             turma: "3WA",
             professor: "Marcos Villas",
             horarios: [

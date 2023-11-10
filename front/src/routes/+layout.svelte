@@ -50,6 +50,7 @@
         --color-quad-4: #6FC1DC;
 
         --color-main-4f: #B8DDD9;
+        --color-whitef: #ccc;
 
         --color-blackf: #777;
 
