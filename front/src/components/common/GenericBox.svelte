@@ -21,6 +21,7 @@
     }
 
     .generic-box {
+        position: relative;
         box-sizing: border-box;
         /* width: min(100px, 10vw); */
         /* height: var(--height); */
@@ -37,8 +38,9 @@
 
         display: flex;
         flex-flow: column nowrap;
-        justify-content: space-between;
+        justify-content: flex-start;
         align-items: center;
+        gap: 0.2rem;
     }
 
     .outline {

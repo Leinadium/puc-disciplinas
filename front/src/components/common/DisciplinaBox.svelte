@@ -28,76 +28,130 @@
 
 <GenericBox color="green" background={bkgd} clickCallback={popup}>
     <div class="textos">
-        <span id="codigo">{info.codigo.toUpperCase()}</span>
-        <span id="nome">{info.nome.toUpperCase()}</span>
+        <span class="codigo">{info.codigo.toUpperCase()}</span>
+        <span class="nome">{info.nome.toUpperCase()}</span>
+        {#if info.creditos > 0}
+            <span class="creditos">{info.creditos} créditos</span>
+        {:else}
+        <span class="creditos">1 créditos</span>
+        {/if}
+    </div>
+
+    <div class="quantidades">
+        <div class="quantidade">
+            <div class="numero">{info.qtdTurmas}</div>
+            <span class="quantidade-texto">Turmas</span>
+        </div>
+        {#if info.qtdVagas >= 0}
+            <div class="quantidade">
+                <div class="numero">{info.qtdVagas}</div>
+                <span class="quantidade-texto">Vagas</span>
+            </div>
+        {/if}
     </div>
     
     <div class="icones">
-        <div class="quantidades">
-            <div class="num yellow" id="creditos" title="Quantidade de créditos">{info.creditos}</div>
-            <div class="num white"  id="turmas" title="Quantidade de turmas">{info.qtdTurmas}</div>
-            <div class="num green"  id="vagas" title="Quantidade de vagas">{info.qtdVagas}</div>
-            {#each pesos as p}
-                <div class="num {pesosCores[p]}" title={pesosDescricao[p]}>{p.toUpperCase()}</div>
-            {/each}
-        </div>
+        {#each pesos as p}
+            <div class="num num-{p}" title={pesosDescricao[p]}>{p.toUpperCase()}</div>
+        {/each}
     </div>
 </GenericBox>
 
 <style>
     .textos {
+        box-sizing: border-box;
         display: flex;
         flex-flow: column nowrap;
         justify-content: flex-start;
+        
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        color: #111;
+        overflow-y: hidden;
     }
 
-    .num {
-        display: block;
-        box-sizing: border-box;
-        min-width: 1.5rem;
-        width: fit-content;
-        height: 1.5rem;
-        padding: 0.2rem 0.3rem 0.2rem 0.3rem;
-        border-radius: var(--border-radius);
-
-        margin: 0 0.4rem;
-
-        font-size: 0.8rem;
-        text-align: center;
+    .codigo {
+        font-size: 0.85rem;
         font-weight: bold;
     }
 
-    #nome {
-        font-size: 0.65rem;
-        overflow-x: hidden;
-        /* white-space: nowrap; */
-        text-overflow: ellipsis;
+    .nome {
+        font-size: 0.75rem;
     }
 
-    .icones {
-        width: 100%;
-        font-size: 0.5rem;
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: space-around;
-        align-items: flex-end;   
+    .creditos {
+        font-size: 0.75rem;
+        font-style: italic;
     }
 
     .quantidades {
         width: 100%;
         display: flex;
         flex-flow: row nowrap;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .quantidade {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 0.2rem;
+    }
+
+    .quantidade-texto {
+        font-size: 0.65rem;
+        padding-bottom: 0.15rem;
+    }
+
+    .numero {
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
+    .icones {
+        display: flex;
+        flex-flow: row nowrap;
         justify-content: center;
         align-items: center;
     }
 
+    .num {
+        display: block;
+        box-sizing: border-box;
+        min-width: 1.3rem;
+        width: fit-content;
+        height: 1.3rem;
+        padding: 0.1rem 0.3rem 0.2rem 0.3rem;
+        border-radius: var(--border-radius);
 
-    .yellow { background: #aa0; color: #000; }
-    .green { background: #0a0; color: #000;}
-    .red { background: #a00; color: #fff;}
-    .blue { background: #00a; color: #fff;}
-    .white { background: #ccc; color: #000;}
-    .orange { background: #a50; color: #000;}
-    .purple { background: #a0a; color: #fff;}
-    .pink { background: #f0a; color: #fff;}
+        margin: 0 0.4rem;
+
+        font-size: 0.75rem;
+        text-align: center;
+        font-weight: bold;
+        color: #EEE;
+    }
+
+    .num-c {
+        background-color: var(--color-tria-2);
+    }
+
+    .num-h {
+        background-color: var(--color-tria-3);
+    }
+
+    .num-o {
+        background-color: var(--color-quad-3);
+    }
+
+    .num-p {
+        background-color: var(--color-tria-1);
+    }
+
+    .num-a {
+        background-color: var(--color-quad-4);
+    }
+
 </style>

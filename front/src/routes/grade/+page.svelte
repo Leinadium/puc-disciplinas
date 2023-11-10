@@ -184,11 +184,11 @@
 
         display: inline-grid;
         grid-template-columns: 84% 15%;
-        grid-template-rows: 12% 87%;
+        grid-template-rows: 14% 85%;
         place-content: stretch;
         gap: 1%;
 
-        background: var(--color-mono-2);
+        background: var(--color-mono-1);
         padding: 1%;
         border-radius: var(--border-radius);
 

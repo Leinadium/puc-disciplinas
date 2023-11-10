@@ -93,7 +93,7 @@
 
 <div id="lista-recomendacao">
     <div id="recomendacao-upper">
-        <span>Recomendações</span>
+        <span id="titulo-recomendacao">Recomendações</span>
         {#if showPedido}
             <span id="pedido">Carregue seu currículo para melhorar as recomendações.</span>
         {/if}
@@ -131,13 +131,14 @@
 
         height: 100%;
         position: relative;
+        padding: 0.2rem 0;
 
         display: flex;
         flex-flow: column nowrap;
         justify-content: flex-start;
         align-items: center;
         
-        background: var(--color-anal-2);
+        background: var(--color-main-2);
         border-radius: var(--border-radius);
     }
 
@@ -190,5 +191,11 @@
         font-size: 0.85rem;
         font-weight: bold;
         color: var(--color-tria-1);
+    }
+
+    #titulo-recomendacao {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--color-mono-2);
     }
 </style>

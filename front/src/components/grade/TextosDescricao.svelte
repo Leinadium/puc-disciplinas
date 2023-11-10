@@ -24,15 +24,15 @@
     </p>
 
     <div class="modificacao">
+        <span>Última atualização: {diferenca} {modificacao ? 'atrás' : ""}</span>
         {#if modificacao?.modoFallback}
             <span class="modo-fallback">
                 ⚠️
                 O microhorário está em manutenção. 
-                A quantidade de vagas e créditos está indisponível.
+                A quantidade de vagas e créditos pode estar indisponível.
                 ⚠️
             </span>
         {/if}
-        <span>Última atualização: {diferenca} {modificacao ? 'atrás' : ""}</span>
     </div>
 </div>
 
@@ -65,7 +65,7 @@
         
         display: flex;
         flex-flow: column nowrap;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         gap: 0.1rem;
     }
