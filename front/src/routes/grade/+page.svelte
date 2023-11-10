@@ -112,7 +112,6 @@
         userEvent.subscribe(async () => {
             // pega as informacoes atualizadas,
             // mesmo que o usuario nao esteja mais logado
-            console.log("userStore subscribe");
             faltaCursar = await getDisciplinasFaltaCursar();
             podeCursar = await getDisciplinasPodeCursar();
             cursadas = await getDisciplinasCursadas();

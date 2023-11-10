@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { calcularDiferenca } from "$lib/utils";
+    import { calcularDiferenca } from "$lib/utils";
 	import type { Modificacao } from "../../types/data";
+	import Legenda from './botoes/Legenda.svelte';
 
     export let modificacao: Modificacao | null = null;
+    $: console.log(modificacao);
 
     let diferenca: string = "";
-    $: diferenca = modificacao ? calcularDiferenca(new Date(modificacao.dataGeral)) : "Não disponível";
+    $: diferenca = modificacao?.dataGeral ? calcularDiferenca(new Date(modificacao.dataGeral)) + " atrás" : "Não disponível";
+
+    
+
 </script>
 
 
@@ -23,8 +28,10 @@
         personalizadas e filtros de acordo com o seu currículo.
     </p>
 
+    <Legenda />
+
     <div class="modificacao">
-        <span>Última atualização: {diferenca} {modificacao ? 'atrás' : ""}</span>
+        <span>Última atualização: {diferenca}</span>
         {#if modificacao?.modoFallback}
             <span class="modo-fallback">
                 ⚠️
@@ -34,6 +41,7 @@
             </span>
         {/if}
     </div>
+
 </div>
 
 <style>

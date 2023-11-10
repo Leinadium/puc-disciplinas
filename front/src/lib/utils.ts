@@ -63,6 +63,14 @@ export function hasConflitoHorario(
     return false;
 }
 
+export const codigoCores = {
+    c: "C",
+    h: "A",
+    o: "A",
+    p: "P",
+    a: "N",
+}
+
 export const pesosCores = {
     c: "red",
     h: "blue",

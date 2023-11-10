@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pesosCores, pesosDescricao } from "$lib/utils";
+	import { codigoCores, pesosCores, pesosDescricao } from "$lib/utils";
     import type { GenericBackground, GenericColor } from "../../types/style";
 	import type { UIDisciplinaResumo, UIPeso, UITag } from "../../types/ui";
     import GenericBox from "./GenericBox.svelte";
@@ -60,7 +60,7 @@
     
     <div class="icones">
         {#each pesos as p}
-            <div class="num num-{p}" title={pesosDescricao[p]}>{p.toUpperCase()}</div>
+            <div class="num num-{p}" title={pesosDescricao[p]}>{codigoCores[p]}</div>
         {/each}
     </div>
 </GenericBox>

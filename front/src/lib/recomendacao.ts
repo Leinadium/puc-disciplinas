@@ -2,7 +2,7 @@ import type { DisciplinaRecomendacao, EscolhasSimples, PesosRecomendacao } from 
 import type { GenericColor } from "../types/style";
 import type { UIPeso, UITag } from "../types/ui";
 
-export type ModoRecomendacao = "todas" | "eletivas" | "faltacursar";
+export type ModoRecomendacao = "todas" | "eletivas" | "curriculares";
 
 function filtroRecomendacoes(
     r: DisciplinaRecomendacao,

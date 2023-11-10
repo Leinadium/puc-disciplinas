@@ -6,7 +6,7 @@
 
 <select bind:value={value}>
     <option value="eletivas">Eletivas</option>
-    <option value="obrigatorias">Obrigatórias</option>
+    <option value="curriculares">Curriculares</option>
     <option value="todas">Todas</option>
 </select>
 

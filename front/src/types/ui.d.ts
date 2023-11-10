@@ -30,3 +30,5 @@ export type UITag = {
 export type UIPeso = "c" | "h" | "o" | "p" | "a";
 
 export type UITipoAvaliacao = "professor" | "disciplina";
+
+export type UINota = 1 | 2 | 3 | 4 | 5;
