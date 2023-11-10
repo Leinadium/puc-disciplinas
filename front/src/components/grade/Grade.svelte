@@ -41,6 +41,7 @@
 
 
 <div id="grade">
+    <span id="titulo-grade">Grade Horária</span>
     <table class:com-shf={shf.length > 0}>
         <thead>
             <tr>
@@ -110,12 +111,26 @@
         border-radius: var(--border-radius);
         --border-row: 1px solid var(--color-main-3);
 
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #titulo-grade {
+        height: 3%;
+        align-self: flex-start;
+        margin-left: 0.2rem;
+        
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--color-mono-2);
     }
 	table {
         box-sizing: border-box;
         table-layout: fixed;
         border-collapse: collapse;
-		height: 100%;
+		height: 97%;
         width: 100%;
 	}
 
