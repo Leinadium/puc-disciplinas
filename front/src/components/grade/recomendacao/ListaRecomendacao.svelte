@@ -79,6 +79,10 @@
         }
     }
 
+    const isEletiva = (cod: string): boolean | null => {
+        return faltaCursar ? !faltaCursar.has(cod) : null;
+    }
+
     onMount(() => {
         hasMounted = true;
         atualizarRecomendacoes();
@@ -108,6 +112,7 @@
                         <DisciplinaBox
                             info={disciplinas.get(disciplina.cod)}
                             pesos={filtrarPesos(disciplina.pes)}
+                            eletiva={isEletiva(disciplina.cod)}
                             on:popup
                         />
                     </div>

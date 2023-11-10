@@ -18,6 +18,10 @@
     export let cursada: boolean = false;
     let bkgd: GenericBackground = cursada ? "outline" : "fill";
 
+    export let eletiva: boolean | null = null;
+    let color: GenericColor;
+    $: color = eletiva ? "green" : "blue";
+
     let dispatch = createEventDispatcher<{popup: string}>();
 
     const popup = () => {
@@ -26,14 +30,18 @@
 
 </script>
 
-<GenericBox color="green" background={bkgd} clickCallback={popup}>
+<GenericBox color={color} background={bkgd} clickCallback={popup}>
     <div class="textos">
-        <span class="codigo">{info.codigo.toUpperCase()}</span>
+        <span class="codigo">
+            {info.codigo.toUpperCase()}
+        </span>
+        
         <span class="nome">{info.nome.toUpperCase()}</span>
+        
         {#if info.creditos > 0}
             <span class="creditos">{info.creditos} créditos</span>
         {:else}
-        <span class="creditos">1 créditos</span>
+            <span class="creditos">1 créditos</span>
         {/if}
     </div>
 
@@ -73,6 +81,16 @@
     .codigo {
         font-size: 0.85rem;
         font-weight: bold;
+        height: 1.2rem;
+    }
+
+    .marca {
+        position: absolute;
+        top: 5%;
+        right: 10%;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: var(--color-blackf);
     }
 
     .nome {
@@ -151,7 +169,7 @@
     }
 
     .num-a {
-        background-color: var(--color-quad-4);
+        background-color: var(--color-quad-2);
     }
 
 </style>

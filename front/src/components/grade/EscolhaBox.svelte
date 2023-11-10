@@ -31,7 +31,7 @@
 
 </script>
 
-<GenericBox clickCallback={toggleBtn}>
+<GenericBox color="white" clickCallback={toggleBtn}>
     <div class="wrapper">
         <div class="upper">
             <span id="codigo">{info.codigo.toUpperCase()}</span>

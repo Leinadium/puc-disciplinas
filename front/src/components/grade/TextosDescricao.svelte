@@ -16,8 +16,8 @@
     
     <p class="descricao">
         Crie sua grade horária para o seu próximo semestre. <b>Macro</b> disponibiliza
-        todas as informações necessárias para você montar sua grade de forma rápida e
-        fácil. Além disso, você pode salvar sua grade e acessá-la a qualquer momento.
+        todas as informações necessárias para você montar sua grade
+        de forma rápida e fácil. Além disso, você pode salvar sua grade e acessá-la a qualquer momento.
         <br><br>
         Entre com sua conta do SAU e cadastre seu histórico escolar para obter recomendações
         personalizadas e filtros de acordo com o seu currículo.
@@ -38,7 +38,7 @@
 
 <style>
     #textos-descricao {
-        width: 60%;
+        width: 50%;
         text-align: center;
         padding-top: 1%;
 

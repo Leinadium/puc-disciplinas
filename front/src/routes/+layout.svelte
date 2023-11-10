@@ -51,6 +51,8 @@
 
         --color-main-4f: #B8DDD9;
 
+        --color-blackf: #777;
+
         --border-radius: 15px;
 
         /* font-family: Verdana, Geneva, Tahoma, sans-serif; */

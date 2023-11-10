@@ -49,14 +49,22 @@
     }
 
     .default {
-        background-color: #FFF69E;
+        background-color: var(--color-quad-4);
     }
 
     .yellow {
         background-color: var(--color-tria-1);
     }
 
+    .white {
+        background-color: var(--color-tria-4);
+    }
+
     .green {
         background-color: var(--color-anal-3);
+    }
+
+    .blue {
+        background-color: var(--color-quad-4);
     }
 </style>
