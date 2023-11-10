@@ -20,7 +20,7 @@ func GetModificacao(c *gin.Context) {
 	}
 
 	// pega as modificacoes (se der erro, tudo bem)
-	var modificacao models.Modificacao
+	var modificacao *models.Modificacao
 	db.First(&modificacao)
 
 	// retorna a modificacao
