@@ -12,27 +12,25 @@
     import est10 from "$lib/images/estrela-10.png";
 
     import { createEventDispatcher } from "svelte";
-	import type { UINota } from "../../types/ui";
 
     const estrelasImg = [
         est1, est2, est3, est4, est5,
         est6, est7, est8, est9, est10
     ];
 
-    export let nota: UINota | 0 = 0;
+    export let nota: number = 0;
     export let enable: boolean = false;
 
     let estrelas: string[] = [];
     $: {
-        if (nota == 0) {
-            estrelas = [est0, est0, est0, est0, est0];
-        } else {
+        estrelas = [est0, est0, est0, est0, est0];
+        if (nota > 0) {
             estrelas = [];
             for (let i = 1; i <= 5; i++) {
                 if (nota >= i ) {
                     estrelas.push(estrelasImg[9]);
                 } else if (i > nota && i < nota + 1) {
-                    estrelas.push(estrelasImg[Math.floor((nota - i + 1) * 10)]);    
+                    estrelas.push(estrelasImg[Math.floor((i - nota) * 10) - 1]);    
                 } else if (enable) {
                     estrelas.push(est0);
                 }
@@ -74,8 +72,12 @@
         align-items: center;
     }
 
+    a {
+        height: 100%;
+    }
+
     img {
         height: 100%;
-        aspect-ratio: 1/1;
     }
+
 </style>

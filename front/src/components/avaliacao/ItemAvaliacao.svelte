@@ -2,6 +2,7 @@
 	import type { ItemDisciplina, ItemGenerico, SelectAvaliacaoEvent } from "../../types/data";
     import { createEventDispatcher } from "svelte";
 	import type { UITipoAvaliacao } from "../../types/ui";
+	import Estrelas from "../common/Estrelas.svelte";
 
     export let info: ItemGenerico;
     export let tipo: UITipoAvaliacao;
@@ -25,18 +26,18 @@
         {info.nome}
     </span>
     <div class="outros">
-        {#if info.nota != null}
-            <span class="nota">{info.nota.toFixed(1)}</span>
-        {:else}
-            <span class="nota">Não avaliada</span>
-        {/if}
-
-        <span class="nota-media">
-            {#if info.media != null}    
-                {info.media.toFixed(1)}
-                ({info.qtd})
+        <div class="nota">
+            {#if info?.nota}
+                <Estrelas nota={info.nota} enable={false} />  {info.nota}  
             {:else}
-                -
+                <span> - </span>
+            {/if}
+        </div>
+        <span class="nota">
+            {#if info?.media}
+                <Estrelas nota={info.media} enable={false} /> {info.media}
+            {:else}
+                <span> - </span>
             {/if}
         </span>
     </div>
@@ -44,6 +45,7 @@
 
 <style>
     .item-avaliacao {
+        height: 8%;
         width: 100%;
         display: flex;
         flex-flow: row nowrap;
@@ -52,14 +54,14 @@
         gap: 5%;
 
         text-decoration: none;
-        background: #eee;
+        background: #333;
         box-sizing: border-box;
         padding: 0.5rem;
         border-radius: var(--border-radius);
     }
 
     .item-avaliacao.disable {
-        background: #faa !important;
+        background: #f33 !important;
         cursor: not-allowed !important;
     }
 
@@ -73,6 +75,7 @@
 
     .outros {
         width: 40%;
+        height: 70%;
 
         display: flex;
         flex-flow: row nowrap;
@@ -81,9 +84,14 @@
         color: #000;
     }
 
-    .outros > span {
+    .nota {
         width: 50%;
+        height: 100%;
         text-align: center;
+
+        display: flex;
+        flex-flow: column;
+        justify-content: center;
     }
 
 </style>
