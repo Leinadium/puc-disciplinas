@@ -4,11 +4,14 @@
     
     export let status: LoadingStatus = "loading";
     export let link: string | null;
+
+    let trueLink: string;
+    $: trueLink = link ? window.location.href + link: "Link inválido";
     
     let copyStatus: boolean = false;
     function copyLink() {
         if (link != null) {
-            navigator.clipboard.writeText(link);
+            navigator.clipboard.writeText(trueLink);
             copyStatus = true;
             setTimeout(() => {copyStatus = false}, 2000);
         }
@@ -26,7 +29,7 @@
             </div>
             
             <div id="div-link">
-                <input type="text" id="link" value={link}>
+                <input type="text" id="link" value={trueLink}>
 
                 {#if copyStatus}
                     <span id="texto-minusculo">Copiado!</span>
@@ -52,9 +55,8 @@
         justify-content: center;
         align-items: center;
 
-        background: #eee;
-        border: 5px solid #aaa;
-        border-radius: 30px;
+        background: var(--color-main-2);
+        border-radius: var(--border-radius);
         gap: 10px;
     }
 
@@ -67,6 +69,7 @@
     }
 
     #texto-grande {
+        padding: 0 2rem;
         font-size: 1.5rem;
         font-weight: bold;
     }
@@ -78,12 +81,12 @@
 
     #texto-minusculo {
         font-size: 0.8rem;
-        color: #444;
+        color: var(--color-whitef);
         text-decoration: none;
 
         box-sizing: border-box;
         padding: 5px;
-        border: 1px solid #444;
+        border: 1px solid var(--color-whitef);
         border-radius: 5px;
     }
     

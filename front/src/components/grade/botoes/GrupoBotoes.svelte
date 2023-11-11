@@ -5,7 +5,6 @@
 	import type { GradeAtualExtra, SalvarGradeEvent } from "../../../types/data";
 	import { armazenarGrade } from "$lib/api";
 	import type { LoadingStatus } from "../../../types/api";
-	import { page } from "$app/stores";
 	import { userStore } from "$lib/stores";
 	import TextoAcima from "./TextoAcima.svelte";
 
@@ -15,8 +14,6 @@
 
     let status: LoadingStatus | null = null;
     let linkCodigo: string | null = null;
-
-    const currentUrl = $page.url.pathname;
 
     let dispatch = createEventDispatcher();
     async function salvar() {
@@ -29,7 +26,7 @@
         try {
             let codigo = await armazenarGrade(gradeAtual);
             if (codigo !== null) {
-                linkCodigo = currentUrl + "?g=" + codigo;
+                linkCodigo = "?g=" + codigo;
                 status = "success";
             } else {
                 status = "error";
