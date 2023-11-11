@@ -16,11 +16,10 @@
     export let pesos: UIPeso[] = [];    // lista com os pesos a serem mostrados
 
     export let cursada: boolean = false;
-    let bkgd: GenericBackground = cursada ? "outline" : "fill";
 
     export let eletiva: boolean | null = null;
     let color: GenericColor;
-    $: color = eletiva ? "green" : "blue";
+    $: color = cursada ? "yellow" : (eletiva ? "green" : "blue");
 
     let dispatch = createEventDispatcher<{popup: string}>();
 
@@ -30,7 +29,7 @@
 
 </script>
 
-<GenericBox color={color} background={bkgd} clickCallback={popup}>
+<GenericBox color={color} clickCallback={popup}>
     <div class="textos">
         <span class="codigo">
             {info.codigo.toUpperCase()}

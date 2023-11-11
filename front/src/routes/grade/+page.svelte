@@ -179,7 +179,7 @@
 
     #grade-container {
         box-sizing: border-box;
-        max-width: min(80vw, 1000px);
+        max-width: min(80vw, 1200px);
         height: 1200px;
         width: 100%;
 

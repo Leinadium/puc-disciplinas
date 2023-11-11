@@ -84,12 +84,10 @@
         pesquisar('');
     }
     $: disciplinas, refresh();
-
-    let dispatch = createEventDispatcher();
-
 </script>
 
 <div id="lista-selecao">
+    <span id="titulo-selecao">Disciplinas</span>
     <div id="pesquisa">
         <input
             type="text" placeholder="ENGXXXX"
@@ -115,11 +113,21 @@
 
 
 <style>
+    #titulo-selecao {
+        height: 3%;
+        align-self: center;
+        
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--color-mono-2);
+    }
+
     #lista-selecao {
         /* posicionamento da grade no container */
         grid-column: 2 / span 1;
         grid-row: 2 / span 1;
 
+        position: relative;
         box-sizing: border-box;
         width: 100%;
         height: 100%;
@@ -131,17 +139,24 @@
         align-items: stretch;
         gap: 1rem;
 
-        border: 1px solid black;
+        background: var(--color-main-2);
+        border-radius: var(--border-radius);
+        padding: 5%;
     }
 
     #pesquisa {
         width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 2;
     }
 
     input {
         box-sizing: border-box;
         margin: 0% 5%;
         width: 90%;
+        border-radius: var(--border-radius);
+        font-weight: bold;
     }
 
     #resultados {
@@ -157,8 +172,7 @@
 
     .disciplina-selecao {
         width: 100%;
-        height: 20%;
+        max-height: 18%;
     }
-
     
 </style>
