@@ -27,7 +27,7 @@ def index():
 
 @app.post("/")
 def submit():
-    usuario = request.args.get("usuario")
+    usuario = request.form.get("usuario")
     if usuario is None:
         print('usuario nao informado')
         return {"message": "Usuário não informado"}, 400
