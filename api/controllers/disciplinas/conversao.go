@@ -24,7 +24,10 @@ func (r *RespostaDisciplina) From(infos []ResultInfo, turmas []ResultTurmas) {
 	// cria um mapa de grupoId -> preReqs
 	var preReqs = make(map[int][]string)
 	for _, info := range infos {
-		preReqs[info.GrupoPrereq] = append(preReqs[info.GrupoPrereq], info.CodDiscDepen)
+		if info.GrupoPrereq.Valid && info.CodDiscDepen.Valid {
+			preReqs[int(info.GrupoPrereq.Int64)] = append(preReqs[int(info.GrupoPrereq.Int64)], info.CodDiscDepen.String)
+		}
+
 	}
 	// converte o mapa para um slice
 	for grupoId, preReqs := range preReqs {

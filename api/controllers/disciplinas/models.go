@@ -2,6 +2,7 @@ package disciplinas
 
 import (
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
+	"gopkg.in/guregu/null.v3"
 )
 
 type ResultCodigo struct {
@@ -17,16 +18,16 @@ type ResultLista struct {
 }
 
 type ResultInfo struct {
-	CodDisciplina  string  `json:"codigo" gorm:"column:cod_disciplina"`
-	NomeDisciplina string  `json:"nome" gorm:"column:nome_disciplina"`
-	Creditos       int     `json:"creditos" gorm:"column:creditos"`
-	Ementa         string  `json:"ementa" gorm:"column:ementa"`
-	GrupoPrereq    int     `json:"grupoPrereq" gorm:"column:grupo_prereq"`
-	CodDiscDepen   string  `json:"codDiscDepen" gorm:"column:cod_disc_depen"`
-	MediaGrau      float64 `json:"mediaGrau" gorm:"column:media_grau"`
-	QtdAlunos      int     `json:"qtdAlunos" gorm:"column:qtd_alunos"`
-	MediaAvaliacao float64 `json:"mediaAvaliacao" gorm:"column:media_avaliacao"`
-	QtdAvaliacoes  int     `json:"qtdAvaliacoes" gorm:"column:qtd_avaliacoes"`
+	CodDisciplina  string      `json:"codigo" gorm:"column:cod_disciplina"`
+	NomeDisciplina string      `json:"nome" gorm:"column:nome_disciplina"`
+	Creditos       int         `json:"creditos" gorm:"column:creditos"`
+	Ementa         string      `json:"ementa" gorm:"column:ementa"`
+	GrupoPrereq    null.Int    `json:"grupoPrereq" gorm:"column:grupo_prereq"`
+	CodDiscDepen   null.String `json:"codDiscDepen" gorm:"column:cod_disc_depen"`
+	MediaGrau      float64     `json:"mediaGrau" gorm:"column:media_grau"`
+	QtdAlunos      int         `json:"qtdAlunos" gorm:"column:qtd_alunos"`
+	MediaAvaliacao float64     `json:"mediaAvaliacao" gorm:"column:media_avaliacao"`
+	QtdAvaliacoes  int         `json:"qtdAvaliacoes" gorm:"column:qtd_avaliacoes"`
 }
 
 type ResultTurmas struct {
