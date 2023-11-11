@@ -9,10 +9,10 @@
 </svelte:head>
 
 <Header titulo="Macro" />
-    <CheckLogin />
-    <main>
-        <slot></slot>
-    </main>
+<CheckLogin />
+<main>
+    <slot></slot>
+</main>
 <Footer />
 
 <style>
@@ -56,6 +56,7 @@
         --color-whiteff: #aaa;
 
         --color-blackf: #777;
+        --color-black3: #333;
 
         --border-radius: 15px;
 
