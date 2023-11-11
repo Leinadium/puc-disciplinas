@@ -110,7 +110,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                 )
                 stmt = stmt.on_conflict_do_update(
                     index_elements=['cod_disciplina'],
-                    set_=dict(creditos=d.creditos, ementa=ementa)
+                    set_=dict(creditos=creditos, ementa=ementa)
                 )
                 session.execute(stmt)
 
@@ -163,7 +163,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
                     destino = f"{alocacao.destino.codigo} ({alocacao.destino.nome})"
                     if m.is_modo_fallback:
                         vagas = -1
-                        destino = "n/a"
+                        destino = "Sem destino definido"
 
                     session.add(Alocacao(
                         cod_disciplina=disc.codigo,
