@@ -84,11 +84,10 @@
         align-items: center;
         gap: 30px;
 
-        background: #eee;
-        border: 5px solid #aaa;
-        border-radius: 30px;
+        background: var(--color-main-1);
+        border-radius: var(--border-radius);
 
-        color: #111;
+        color: var(--color-whitef);
     }
 
     #login-textos {
@@ -114,6 +113,7 @@
         justify-content: center;
         align-items: center;
         gap: 10px;
+
     }
 
     .login-field {
@@ -129,7 +129,9 @@
         width: 30%;
     }
     input {
+        border: none;
         width: 70%;
+        background: var(--color-mono-3);
     }
 
     #login-submit {
@@ -145,10 +147,11 @@
         box-sizing: border-box;
         padding: 1% 5%;
         border-radius: 10px;
-        background: #fff;
+        border: none;
+        background: var(--color-anal-3);
         font-size: 0.9rem;
         font-weight: 100;
-        color: #444;
+        color: var(--color-whitef);
     }
 
     .status {
@@ -163,7 +166,7 @@
     }
 
     .loading {
-        color: #aaa;
+        color: var(--color-whiteff);
     }
 
     .success {

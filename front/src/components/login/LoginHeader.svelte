@@ -62,7 +62,7 @@
         color: var(--color-main-4);
         box-sizing: border-box;
         padding: 2%;
-        border-radius: 0.5rem;
+        border-radius: var(--border-radius);
         background: transparent;
 
         transition: background 0.2s;

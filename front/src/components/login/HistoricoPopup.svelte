@@ -52,7 +52,7 @@
                 Envie seu histórico escolar.
             </p>
             <p class="small">
-                Acesse o <a href={SAU_URL}>SAU</a> e clique em "Histórico Escolar".<br>
+                Acesse o <a id="sau" href={SAU_URL}>SAU</a> e clique em "Histórico Escolar".<br>
                 Clique com o botão direito em qualquer lugar da página, selecione "Salvar como..." e salve o arquivo em seu computador.<br>
                 Envie o arquivo .htm ou .html gerado. 
             </p>
@@ -69,7 +69,7 @@
             </button>
         </div>
 
-        <a id="historico-close" href="/#" on:click|preventDefault={close}>Voltar</a>
+        <!-- <a id="historico-close" href="/#" on:click|preventDefault={close}>Voltar</a> -->
     </form>
 </Popup>
 
@@ -83,11 +83,14 @@
         justify-content: center;
         align-items: center;
 
-        background: #eee;
-        border: 5px solid #aaa;
-        border-radius: 30px;
+        background: var(--color-main-1);
+        border-radius: var(--border-radius);
         gap: 10px;
-        color: #111;
+        color: var(--color-whitef);
+    }
+
+    #sau {
+        color: var(--color-anal-3)
     }
 
     #historico-textos {
@@ -97,15 +100,15 @@
     }
 
     #historico-textos p.small {
-        font-size: 0.8rem;
+        font-size: 0.86rem;
     }
 
     #file-input {
         width: 100%;
         padding: 10px;
         border-radius: 10px;
-        border: 1px solid #aaa;
-        background: #ccc;
+        color: var(--color-whitef);
+        background: var(--color-anal-1);
     }
 
     #historico-submit {
@@ -120,11 +123,12 @@
     button {
         box-sizing: border-box;
         padding: 1% 5%;
-        border-radius: 10px;
-        background: #fff;
+        border-radius: var(--border-radius);
+        border: none;
+        background: var(--color-anal-3);
         font-size: 0.9rem;
         font-weight: 100;
-        color: #444;
+        color: var(--color-whitef);
     }
 
     .status {
@@ -135,15 +139,15 @@
     }
 
     .error {
-        color: #f33;
+        color: var(--color-tria-2);
     }
 
     .loading {
-        color: #aaa;
+        color: var(--color-whiteff);
     }
 
     .success {
-        color: #3c3;
+        color: var(--color-anal-3);
     }
 
     #historico-close {
