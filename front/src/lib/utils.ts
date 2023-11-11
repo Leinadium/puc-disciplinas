@@ -98,3 +98,12 @@ export function calcularDiferenca(h: Date) {
     if (diferenca > 24) return `${Math.floor(diferenca / 24)} dias`;
     return `${diferenca} horas`;
 }
+
+/**
+ * Converte um dia da semana para um numero
+ * @param cod codigo da disciplina
+ * @returns um link para a ementa da disciplina
+ */
+export function geraLinkEmenta(cod: string): string {
+    return 'https://www.puc-rio.br/ferramentas/ementas/ementa.aspx?cd=' + cod;
+}

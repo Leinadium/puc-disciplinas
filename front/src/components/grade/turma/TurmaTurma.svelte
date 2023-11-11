@@ -23,6 +23,9 @@
 
     $: horariosFinal = horariosMapeado.join(", ") + (shf > 0 ? ` (${shf}h)`: '');
     
+    let trueVagas: string;
+    $: trueVagas = vagas > 0 ? vagas.toString() : "∞";
+
     let dispatch = createEventDispatcher<{click: void}>();
     function click() {
         if (!invalida)
@@ -36,7 +39,7 @@
     <span class="turma-dest overflow">{destino}</span>
 
     <span class="turma-vagas">
-        {vagas}
+        {trueVagas}
         <span class="turma-vagas-texto">vagas</span>
     </span>
     <span class="turma-medio overflow">{professor}</span>
@@ -74,18 +77,19 @@
         align-items: stretch;
         gap: 1%;
 
-        background: #eee;
-        border-radius: 15px;
+        background: var(--color-anal-2);
+        border-radius: var(--border-radius);
+        color: var(--color-whiteff);
     }
 
     .invalida {
-        background: #eeeeeecc;
-        color: #999;
+        background: var(--color-tria-2) !important;
+        color: var(--color-whiteff);
         cursor: not-allowed;
     }
 
     .turma-turma:hover {
-        background: #ddd;
+        background: var(--color-anal-2f);
     }
 
     .turma-grande {
@@ -94,7 +98,7 @@
     }
 
     .turma-dest {
-        font-size: 0.6rem;
+        font-size: 0.65rem;
         font-style: italic;
         margin-bottom: 0.1rem;
     }
@@ -110,7 +114,7 @@
     }
 
     .turma-vagas-texto {
-        font-size: 0.6rem;
+        font-size: 0.65rem;
         font-weight: normal;
     }
 

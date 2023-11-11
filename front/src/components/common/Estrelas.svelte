@@ -31,7 +31,7 @@
                     estrelas.push(estrelasImg[9]);
                 } else if (i > nota && i < nota + 1) {
                     estrelas.push(estrelasImg[Math.floor((i - nota) * 10) - 1]);    
-                } else if (enable) {
+                } else {
                     estrelas.push(est0);
                 }
                 

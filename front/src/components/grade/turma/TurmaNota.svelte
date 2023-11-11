@@ -1,9 +1,12 @@
 <script lang="ts">
+	import Estrelas from "../../common/Estrelas.svelte";
+
     export let descricao: string;
     export let nota: number;
     export let base: number;
     export let textoPequeno: string;
     export let isValid: boolean = true;
+    export let isEstrela: boolean = true;
 
     $: notaTrue = isValid ? nota.toFixed(1) : "-";
 </script>
@@ -11,8 +14,12 @@
 <div class="nota">
     <span class="descricao">{descricao}</span>
     <div class="notas">
-        <span class="nota-grande">{notaTrue}</span>
-        <span class="nota-pequena">/{base}</span>
+        {#if isEstrela}
+            <Estrelas nota={isValid ? nota : 0} enable={false}/>
+        {:else}
+            <span class="nota-grande">{notaTrue}</span>
+            <span class="nota-pequena">/{base}</span>
+        {/if}
     </div>
     <div class="texto-pequeno">{textoPequeno}</div>
 </div>
@@ -38,6 +45,8 @@
         justify-content: center;
         align-items: center;
         gap: 1%;
+
+        height: 2rem;
     }
 
     .nota-grande {

@@ -11,7 +11,10 @@
 
     // left pad
     function formatar(num: number): string {
-        if (num < 10) {
+        if (num < 0) {
+            return '?';
+        }
+        else if (num < 10) {
             return '0' + num;
         }
         return num + '';
@@ -45,6 +48,7 @@
                 base={5}
                 textoPequeno="a partir de {qtdAvaliacoes} avaliaç{qtdAvaliacoes != 1 ? 'ões' : 'ão'}"
                 isValid={qtdAvaliacoes > 0}
+                isEstrela={true}
             />
         </div>
         <div id="grau">
@@ -54,6 +58,7 @@
                 base={10}
                 textoPequeno="a partir de {qtdAlunos} {pluralize(qtdAlunos, "aluno")}"
                 isValid={qtdAlunos > 0}
+                isEstrela={false}
             />
         </div>
     </div>
@@ -65,7 +70,7 @@
     }
 
     #info {
-        width: 58%;
+        width: 48%;
         height: 100%;
 
         display: flex;
@@ -73,8 +78,9 @@
         justify-content: space-between;
         align-items: stretch;
 
-        background: #eee;
-        border-radius: 15px;
+        border-radius: var(--border-radius);
+        background-color: var(--color-mono-1);
+        color: var(--color-whitef);
     }
 
     #info-top {

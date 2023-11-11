@@ -97,7 +97,7 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
             print("[ADICIONA_NO_BANCO] Adicionando os disciplinas")
             for d in m.disciplinas:
                 ementa = d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA'
-                creditos = d.creditos if d.creditos > 0 else 0
+                creditos = d.creditos if d.creditos > 0 else -1
 
                 stmt = insert(
                     Disciplina

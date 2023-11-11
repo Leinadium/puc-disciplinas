@@ -65,6 +65,6 @@ export function filtrarRecomendacoes(
  * @param pesos Pesos da recomendação
  */
 export function filtrarPesos(pesos: PesosRecomendacao): UIPeso[] {
-    const corte = 0.6;
+    const corte = 60;
     return Object.entries(pesos).filter((v) => v[1] > corte).map((v) => v[0] as UIPeso);
 }

@@ -39,6 +39,8 @@
         --color-anal-3: #178759;
         --color-anal-4: #172487;
 
+        --color-anal-2f: #174887aa;
+
         --color-tria-1: #8C8111;
         --color-tria-2: #8C1140;
         --color-tria-3: #193237;
@@ -51,6 +53,7 @@
 
         --color-main-4f: #B8DDD9;
         --color-whitef: #ccc;
+        --color-whiteff: #aaa;
 
         --color-blackf: #777;
 

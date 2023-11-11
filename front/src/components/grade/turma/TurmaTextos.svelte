@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { geraLinkEmenta } from "$lib/utils";
 	import type { DisciplinaPreRequisitosInfo } from "../../../types/data";
 
     export let ementa: string;
     export let preReqs: DisciplinaPreRequisitosInfo[] | null = null;
+    export let codigo: string;
+    console.log(preReqs);
 
     const join = (arr: string[]) => arr.join(', ');
 </script>
@@ -11,17 +14,27 @@
     <span class="minititulo">Ementa</span>
     <span id="ementa">{ementa}</span>
     <span class="minititulo">Pré-requisitos</span>
-    <span id="prereqs">
-        {#if preReqs && preReqs.length > 0}
+    {#if preReqs && preReqs.length > 0}
+        <span id="prereqs">    
+            <a 
+                id="prereqs-explicacao"    
+                target="_blank"
+                href={geraLinkEmenta(codigo)}
+            >
+                Nem todas os códigos podem estar sendo exibidos corretamente. 
+                Confira aqui.
+            </a>
+            
             {#each preReqs as preReq}
                 <div class="prereq">
                     <span>{join(preReq.preReqs)}</span>
                 </div>
             {/each}
-        {:else}
-            <span>Sem pré-requisitos</span>
-        {/if}
-    </span>
+        </span>
+            {:else}
+        <span>Sem pré-requisitos</span>
+    {/if}
+    
 </div>
 
 <style>
@@ -30,9 +43,9 @@
     }
 
     #textos {
-        width: 40%;
+        width: 50%;
         height: 100%;
-        padding: 1%;
+        padding: 1rem;
         overflow-y: scroll;
 
         display: flex;
@@ -42,8 +55,9 @@
 
         text-align: justify;
 
-        background: #eee;
-        border-radius: 15px;
+        border-radius: var(--border-radius);
+        background-color: var(--color-mono-1);
+        color: var(--color-whitef);
     }
 
     .minititulo {
@@ -58,8 +72,8 @@
         font-size: 1.0em;
         overflow-y: scroll;
 
-        background: #bbb;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
+        border: 3px solid var(--color-main-2);
         padding: 3%;
         margin-bottom: 5%;
     }
@@ -69,8 +83,8 @@
         font-size: 1.0em;
         overflow-y: scroll;
 
-        background: #bbb;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
+        border: 3px solid var(--color-main-2);
         padding: 3%;
 
         display: flex;
@@ -79,14 +93,24 @@
         gap: 3%;
 
         font-size: 0.8em;
-
     }
 
     .prereq {
         width: fit-content;
         height: fit-content;
-        padding: 1%;
-        background: #ddd;
-        border-radius: 10px;
+        padding: 0.4rem;
+        background: var(--color-main-1);
+        border-radius: var(--border-radius);
     }
+
+    #prereqs-explicacao {
+        width: 100%;
+        text-align: center;
+        font-size: 0.8em;
+        font-style: italic;
+        text-decoration: none;
+        color: var(--color-whiteff) !important;
+        margin-bottom: 0.5rem;
+    }
+
 </style>

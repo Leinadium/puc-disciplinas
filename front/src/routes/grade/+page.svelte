@@ -5,7 +5,7 @@
 	import type { UIDisciplinaResumo } from "../../types/ui";
 	import type { EscolhaInfoExtra, EscolhasSimples, GradeAtualExtra, Modificacao, RemoveDisciplinaEvent, SubmitTurmaEvent, TabelaHorarios } from "../../types/data";
 	import { adicionarTurmaNaGrade, getDisciplinasCursadas, getDisciplinasFaltaCursar, getDisciplinasPodeCursar, loadAllInfos, removeDisciplinaNaGrade } from "$lib/grade";
-	import TurmaSelecao from "../../components/grade/turma/TurmaSelecao.svelte";
+	import Turma from "../../components/grade/turma/Turma.svelte";
 	import ListaRecomendacao from "../../components/grade/recomendacao/ListaRecomendacao.svelte";
 	import Grade from "../../components/grade/Grade.svelte";
 	import ListaPesquisa from "../../components/grade/lateral/ListaPesquisa.svelte";
@@ -126,7 +126,7 @@
 
     <div id="grade-container">
         {#if isTurmaOpen}
-            <TurmaSelecao 
+            <Turma 
                 codigoDisciplina={turmaCodigo}
                 tabelaHorariosUsados={tabelaHorariosUsados}
                 on:close={closePopup}

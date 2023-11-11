@@ -34,6 +34,7 @@
 
                 <div id="meio">
                     <TurmaTextos
+                        codigo={info.codigo}
                         ementa={info.ementa}
                         preReqs={info.preRequisitos}
                     />
@@ -77,8 +78,8 @@
         height: 600px;
         padding: 2%;
 
-        background: cyan;
-        border-radius: 30px;
+        background: var(--color-main-2);
+        border-radius: var(--border-radius);
 
         display: flex;
         flex-flow: column nowrap;
@@ -96,7 +97,9 @@
         justify-content: flex-start;
         align-items: center;
 
-        border: 3px solid red;
+        border-radius: var(--border-radius);
+        background-color: var(--color-mono-1);
+        color: var(--color-whitef);
     }
 
     #codigo {
@@ -113,32 +116,43 @@
     /* ------- meio --------*/
     #meio {
         width: 100%;
-        height: 60%;
+        height: 50%;
 
         display: flex;
         flex-flow: row nowrap;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: flex-start;
-        border: 3px solid red;
     }
 
     
 
     /* ------- turmas --------- */
     #turmas {
+        box-sizing: border-box;
+        padding: 0.1rem 1rem;
+
         width: 100%;
         height: 30%;
         flex-shrink: 0;
 
-        /* temporario */
         overflow-y: scroll;
-        border: 3px solid red;
 
         display: flex;
         flex-flow: column nowrap;
         justify-content: space-between;
         align-items: stretch;
+
+        border-radius: var(--border-radius);
+        background-color: var(--color-mono-1);
+        color: var(--color-whitef);
     }
+
+    #selecione {
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0.1rem;
+    }
+
 
     #no-info {
         padding: 2%;
