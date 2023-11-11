@@ -82,9 +82,9 @@ export const pesosCores = {
 export const pesosDescricao = {
     c: "Conteúdo relevante",
     h: "Muitos horários livres",
-    o: "Disciplina bem avaliada",
-    p: "Professor bem avaliado",
-    a: "Grau médio alto"
+    o: "Boas avaliações",
+    p: "Bons professores",
+    a: "Notas altas"
 }
 
 /**

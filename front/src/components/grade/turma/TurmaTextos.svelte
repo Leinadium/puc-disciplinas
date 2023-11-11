@@ -15,7 +15,7 @@
     <span id="ementa">{ementa}</span>
     <span class="minititulo">Pré-requisitos</span>
     {#if preReqs && preReqs.length > 0}
-        <span id="prereqs">    
+        <div id="prereqs">    
             <a 
                 id="prereqs-explicacao"    
                 target="_blank"
@@ -30,7 +30,7 @@
                     <span>{join(preReq.preReqs)}</span>
                 </div>
             {/each}
-        </span>
+        </div>
             {:else}
         <span>Sem pré-requisitos</span>
     {/if}
@@ -79,6 +79,8 @@
     }
 
     #prereqs {
+        box-sizing: border-box;
+
         height: 30%;
         font-size: 1.0em;
         overflow-y: scroll;
@@ -90,7 +92,7 @@
         display: flex;
         flex-flow: column nowrap;
         justify-content: flex-start;
-        gap: 3%;
+        gap: 0.5rem;
 
         font-size: 0.8em;
     }

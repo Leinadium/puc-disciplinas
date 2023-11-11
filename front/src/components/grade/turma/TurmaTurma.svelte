@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
     import type { DisciplinaHorariosInfo } from "../../../types/data";
+	import Estrelas from "../../common/Estrelas.svelte";
 
     export let codigo: string;
     export let professor: string;
@@ -43,7 +44,9 @@
         <span class="turma-vagas-texto">vagas</span>
     </span>
     <span class="turma-medio overflow">{professor}</span>
-    <span class="turma-medio">{nota}</span>
+    <div class="turma-medio estrelas">
+        <Estrelas nota={nota} enable={false}/>
+    </div>
     
     <span class="turma-horarios">{horariosFinal}</span>
     
@@ -105,6 +108,14 @@
 
     .turma-medio {
         font-size: 0.9rem;
+    }
+
+    .estrelas {
+        height: 0.9rem;
+        width: 100%;
+        display: flex;
+        flex-flow: row;
+        justify-content: center;
     }
 
     .turma-vagas {
