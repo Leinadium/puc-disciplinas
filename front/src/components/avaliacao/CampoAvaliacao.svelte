@@ -1,13 +1,21 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte";
 	import type { ItemGenerico, SubmitAvaliacaoEvent } from "../../types/data";
+	import Estrelas from "../common/Estrelas.svelte";
 
     export let info: ItemGenerico | null = null;
     export let statusMessage: string | null = null;
-    let notaAtual: number | null;
+
+    let notaAtual: number = 0;
+    $: notaAtual = info?.nota || 0;
+    $: console.log(notaAtual);
 
     let placeHolder: string;
     $: placeHolder = info?.nota?.toString() ?? "-"
+
+    function atualizar(e: CustomEvent<number>) {
+        notaAtual = e.detail;
+    }
 
     // eventos
     let dispatch = createEventDispatcher<{submit: SubmitAvaliacaoEvent, remove: null}>();
@@ -24,44 +32,29 @@
         }
     }
 
-    const limpar = () => {
-        notaAtual = null;
-    }
-    $: info, limpar();
 </script>
 
 <form id="campo-avaliacao" on:submit|preventDefault={submit}>
     {#if info !== null}
         <div id="avaliacao-nome">
-            {#if info.codigo != info.nome}
-                <span id="avaliacao-codigo">{info.codigo}</span>
-            {/if}
             {info.nome}
         </div>
 
         <div id="avaliacao-atual">
             <span class="descricao">Avaliação atual:</span>
             {#if info.media !== null}
-                <span id="avaliacao-avaliacao">
-                    <span class="grande">{info.media?.toFixed(1)}</span> / 5.0
-                </span>
-                <span id="avaliacao-qtd">
-                    de um total de {info.qtd.toFixed(0)} avaliações
-                </span>
+                <div class="avaliacao-avaliacao"><Estrelas nota={info.media} enable={false}/></div>
+                <span class="avaliacao-qtd">de um total de {info.qtd.toFixed(0)} avaliações</span>
             {:else}
-                <span id="avaliacao-avaliacao">
-                    <span class="grande">-</span> / 5.0
-                </span>
-                <span id="avaliacao-qtd">
-                    Nenhuma avaliação
-                </span>
+                <div class="avaliacao-avaliacao"><Estrelas nota={0} enable={false} /></div>
+                <span class="avaliacao-qtd">Nenhuma avaliação</span>
             {/if}
         </div>
 
         <div id="avaliacao-atual">
             <span class="descricao">Sua avaliação:</span>
-            <span id="avaliacao-avaliacao">
-                <input type="number" placeholder={placeHolder} min=0 max=5 step=1 bind:value={notaAtual}> / 5
+            <span class="avaliacao-avaliacao grande">
+                <Estrelas nota={notaAtual} enable={true} on:nota={atualizar}/>
             </span>
         </div>
 
@@ -97,7 +90,11 @@
         justify-content: center;
         align-items: center;
         padding: 15% 5%;
-        gap: 10%
+        gap: 10%;
+
+        background: var(--color-tria-3);
+        color: var(--color-whitef);
+        border-radius: var(--border-radius);
     }
 
     #avaliacao-nome {
@@ -112,11 +109,6 @@
         font-size: 1.3rem;
     }
 
-    #avaliacao-codigo {
-        font-size: 1.5rem;
-        font-weight: bold;
-    }
-
     #avaliacao-atual {
         width: 100%;
 
@@ -126,25 +118,19 @@
         align-items: center;
     }
 
-    #avaliacao-avaliacao {
-        font-size: 1.5rem;
-        font-weight: bold;
+    .avaliacao-avaliacao {
+        height: 1.5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.3rem;
     }
 
     .grande {
-        font-size: 2rem;
+        height: 2.5rem;
     }
 
-    #avaliacao-qtd {
+    .avaliacao-qtd {
         font-size: 0.9rem;
         font-style: italic;
-    }
-
-    input[type="number"] {
-        width: 4rem;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-align: center;
     }
 
     .submit {
@@ -173,8 +159,9 @@
         font-size: 1.0rem;
         font-weight: bold;
         text-align: center;
-        background: #fff;
-        border: 1px solid #444;
+        color: var(--color-whitef);
+        background: var(--color-mono-1);
+        border: none;
         border-radius: var(--border-radius);
         cursor: pointer;
 
@@ -182,16 +169,16 @@
     }
 
     .submit-botao:hover {
-        background: #ccc;
+        background: var(--color-main-2);
     }
 
     .explicacao {
         text-align: center;
-        color: #333;
+        color: var(--color-whiteff);
     }
 
     .status {
-        color: #ccc;
+        color: var(--color-whiteff);
         text-align: center;
         font-size: 0.8rem;
     }

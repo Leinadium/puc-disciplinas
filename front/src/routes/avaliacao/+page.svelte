@@ -7,6 +7,7 @@
 	import type { UITipoAvaliacao } from "../../types/ui";
 	import { userStore } from "$lib/stores";
 	import { getDisciplinasCursadas } from "$lib/grade";
+	import TextoAvaliacao from "../../components/avaliacao/TextoAvaliacao.svelte";
 
     let disciplinas: ItemDisciplina[] = [];
     let professores: ItemProfessor[] = [];
@@ -115,6 +116,8 @@
 </script>
 
 <div id="avaliacao-page">
+    <TextoAvaliacao />
+
     <div id="avaliacao-container">
         {#if isLogged}
             <CampoAvaliacao 
@@ -147,6 +150,7 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
+
     }
 
     #avaliacao-container {
@@ -161,7 +165,9 @@
         place-content: stretch;
         gap: 1%;
 
-        border: 3px solid blue;
+        background: var(--color-mono-1);
+        padding: 1%;
+        border-radius: var(--border-radius);
     }
 
     #precisa-login {
@@ -181,5 +187,6 @@
         text-align: center;
         font-size: 1.8rem;
         font-weight: bold;
+        color: var(--color-whiteff);
     }
 </style>

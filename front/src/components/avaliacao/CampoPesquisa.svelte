@@ -34,10 +34,10 @@
     // (talvez nao seja a maneira mais eficiente)
     function mySort(a: ItemGenerico, b: ItemGenerico) {
         let x: string = a.nome;
-        let y: string = a.nome;
+        let y: string = b.nome;
         if (tipo == "disciplina") {
-            x += (cursadas?.has(a.codigo) ? "0" : "1") || "1";
-            y += (cursadas?.has(b.codigo) ? "0" : "1") || "1";
+            x = (cursadas?.has(a.codigo) ? "0" : "1") || "1" + x;
+            y = (cursadas?.has(b.codigo) ? "0" : "1") || "1" + y;
         }
         return x.localeCompare(y);
     }
@@ -71,14 +71,14 @@
 
 <div id="campo-pesquisa">
     <div id="inputs-pesquisa">
-        <input 
-            type="text" placeholder="Pesquisar"
-            bind:value={texto}
-        />
         <select name="tipo" id="semestre" bind:value={tipo}>
             <option value="disciplina">Disciplina</option>
             <option value="professor">Professor</option>
         </select>
+        <input 
+            type="text" placeholder="Pesquisar"
+            bind:value={texto}
+        />
     </div>
     
 
@@ -121,12 +121,11 @@
         justify-content: flex-start;
         align-items: stretch;
         gap: 1rem;
-
-        border: 1px solid black;
     }
 
     #inputs-pesquisa {
         box-sizing: border-box;
+        padding: 0 0.5rem;
         width: 100%;
         margin-top: 2%;
 
@@ -139,18 +138,24 @@
 
     input {
         box-sizing: border-box;
-        width: 70%;
+        width: 80%;
         height: 100%;
         padding: 0.5rem;
         border-radius: var(--border-radius);
-        border: 1px solid #aaa;
+        border: none;
+        color: var(--color-whitef);
+        background: var(--color-tria-3);
     }
     select {
         box-sizing: border-box;
         width: 20%;
         height: 100%;
         padding: 0.5rem;
-        
+        border-radius: var(--border-radius);
+        border: none;
+        font-weight: bold;
+        color: var(--color-whitef);
+        background: var(--color-tria-3);
     }
 
 
@@ -167,7 +172,6 @@
         gap: 1rem;
 
         overflow-y: scroll;
-        border: 1px solid purple;
     }
 
     .header {
@@ -182,13 +186,13 @@
         width: 100%;
         padding: 0.6rem 0.5rem;
         border-radius: var(--border-radius);
-        background: #aaa;
+        background: var(--color-mono-4);
     }
     .explicacao {
         box-sizing: border-box;
         width: 100%;
         text-align: center;
-        color: #777;
+        color: var(--color-whiteff);
     }
 
     .nome {

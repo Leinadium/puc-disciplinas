@@ -28,14 +28,14 @@
     <div class="outros">
         <div class="nota">
             {#if info?.nota}
-                <Estrelas nota={info.nota} enable={false} />  {info.nota}  
+                <Estrelas nota={info.nota} enable={false} />  
             {:else}
                 <span> - </span>
             {/if}
         </div>
         <span class="nota">
             {#if info?.media}
-                <Estrelas nota={info.media} enable={false} /> {info.media}
+                <Estrelas nota={info.media} enable={false} />
             {:else}
                 <span> - </span>
             {/if}
@@ -54,14 +54,15 @@
         gap: 5%;
 
         text-decoration: none;
-        background: #333;
+        background: var(--color-main-2);
+        color: var(--color-whitef);
         box-sizing: border-box;
         padding: 0.5rem;
         border-radius: var(--border-radius);
     }
 
     .item-avaliacao.disable {
-        background: #f33 !important;
+        background: var(--color-tria-2) !important;
         cursor: not-allowed !important;
     }
 
@@ -70,7 +71,6 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        color: #111;
     }
 
     .outros {
@@ -81,7 +81,6 @@
         flex-flow: row nowrap;
         justify-content: space-around;
         align-items: center;
-        color: #000;
     }
 
     .nota {

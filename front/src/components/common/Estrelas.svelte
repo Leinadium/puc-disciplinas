@@ -22,7 +22,8 @@
     export let enable: boolean = false;
 
     let estrelas: string[] = [];
-    $: {
+    $: nota, atualizar();
+    function atualizar() {
         estrelas = [est0, est0, est0, est0, est0];
         if (nota > 0) {
             estrelas = [];
