@@ -3,7 +3,7 @@ FROM ubuntu:latest
 
 # instala dependencias
 RUN apt-get update \ 
-    && DEBIAN_FRONTEND=noninteractive apt-get -y install python3 python3-pip cron \
+    && apt-get -y install python3 python3-pip cron \
     # Remove package lists for smaller image sizes
     && rm -rf /var/lib/apt/lists/* \
     && which cron \
