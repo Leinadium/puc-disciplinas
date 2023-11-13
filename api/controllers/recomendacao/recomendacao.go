@@ -56,9 +56,9 @@ func GetRecomendacao(c *gin.Context) {
 			escolhas += " OR "
 		}
 	}
-	// se nao tiver ainda nenhuma escolha, coloca 1 = 1 para retorna todas as escolhas
+	// se nao tiver ainda nenhuma escolha, coloca 0 = 1 para retorna todas as escolhas
 	if escolhas == "" {
-		escolhas = "1 = 1"
+		escolhas = "0 = 1"
 	}
 
 	// fazendo a substituicao das escolhas na query
