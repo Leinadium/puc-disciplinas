@@ -16,4 +16,4 @@ EXPOSE 5000
 
 ENV POSTGRES_CONN "postgresql+psycopg2://tcc:tcc@127.0.0.1:5432/tcc"
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5001", "main:app"]

@@ -72,6 +72,40 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
         # atualiza o banco para poder adicionar o resto
         session.commit()
 
+                # adiciona os departamentos (modo upsert)
+        print("[ADICIONA_NO_BANCO] Adicionando os departamentos")
+        for d in m.departamentos:
+            smtm = insert(
+                Departamento
+            ).values(
+                cod_depto=d.codigo,
+                nome_depto=normaliza(d.nome)
+            ).on_conflict_do_nothing(
+                index_elements=['cod_depto']
+            )
+            session.execute(smtm)
+
+        # adiciona as disciplinas (modo upsert)
+        print("[ADICIONA_NO_BANCO] Adicionando os disciplinas")
+        for d in m.disciplinas:
+            ementa = d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA'
+            creditos = d.creditos if d.creditos > 0 else -1
+
+            stmt = insert(
+                Disciplina
+            ).values(
+                cod_disciplina=d.codigo,
+                cod_depto=d.departamento.codigo,
+                nome_disciplina=normaliza(d.nome),
+                ementa=ementa,
+                creditos=creditos
+            )
+            stmt = stmt.on_conflict_do_update(
+                index_elements=['cod_disciplina'],
+                set_=dict(creditos=creditos, ementa=ementa)
+            )
+            session.execute(stmt)
+
         if is_full:
             print("[ADICIONA_NO_BANCO] Deletando os dados antigos")
             # OBS (POS REUNIAO 08/11): Nao deleta os departamentos e disciplinas, mas faz um upsert apenas
@@ -79,40 +113,6 @@ def adiciona_no_banco(m: Microhorario, eng: Engine, is_full: bool = False):
             # session.execute(text(f'TRUNCATE TABLE {Disciplina.__tablename__} CASCADE'))
             session.execute(text(f'TRUNCATE TABLE {Prerequisitos.__tablename__} CASCADE'))
             session.commit()
-
-            # adiciona os departamentos (modo upsert)
-            print("[ADICIONA_NO_BANCO] Adicionando os departamentos")
-            for d in m.departamentos:
-                smtm = insert(
-                    Departamento
-                ).values(
-                    cod_depto=d.codigo,
-                    nome_depto=normaliza(d.nome)
-                ).on_conflict_do_nothing(
-                    index_elements=['cod_depto']
-                )
-                session.execute(smtm)
-
-            # adiciona as disciplinas (modo upsert)
-            print("[ADICIONA_NO_BANCO] Adicionando os disciplinas")
-            for d in m.disciplinas:
-                ementa = d.ementa[:1000] if d.ementa is not None else 'SEM EMENTA CADASTRADA'
-                creditos = d.creditos if d.creditos > 0 else -1
-
-                stmt = insert(
-                    Disciplina
-                ).values(
-                    cod_disciplina=d.codigo,
-                    cod_depto=d.departamento.codigo,
-                    nome_disciplina=normaliza(d.nome),
-                    ementa=ementa,
-                    creditos=creditos
-                )
-                stmt = stmt.on_conflict_do_update(
-                    index_elements=['cod_disciplina'],
-                    set_=dict(creditos=creditos, ementa=ementa)
-                )
-                session.execute(stmt)
 
             # atualiza o banco para poder adicionar o resto
             session.commit()

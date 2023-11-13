@@ -4,7 +4,7 @@ services:
   data:
     build: ./data
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     environment:
@@ -38,11 +38,6 @@ services:
     build: ./micro/historico
     ports:
       - "5001:5001"
-    environment:
-      - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
-
-  microhorario:
-    build: ./services/microhorario
     environment:
       - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
 
