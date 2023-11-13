@@ -65,7 +65,7 @@ export function hasConflitoHorario(
 
 export const codigoCores = {
     c: "C",
-    h: "A",
+    h: "H",
     o: "A",
     p: "P",
     a: "N",

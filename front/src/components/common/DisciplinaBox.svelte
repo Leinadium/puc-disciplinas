@@ -140,7 +140,7 @@
         min-width: 1.3rem;
         width: fit-content;
         height: 1.3rem;
-        padding: 0.1rem 0.3rem 0.2rem 0.3rem;
+        padding: 0.15rem 0.3rem 0.2rem 0.2rem;
         border-radius: var(--border-radius);
 
         margin: 0 0.4rem;
