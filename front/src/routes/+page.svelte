@@ -14,11 +14,11 @@
     </p>
 
     <div id="opcoes">
-        <NavGrande color={1}>
+        <NavGrande color={1} link="/grade">
             <h3>Grade</h3>
             <p class="menor">Monte sua grade se utilizando de diversas informações e recomendações</p>
         </NavGrande>
-        <NavGrande color={2}>
+        <NavGrande color={2} link="/avaliacao">
             <h3>Avaliação</h3>
             <p class="menor">Pesquise e avalie professores e suas disciplinas já cursadas</p>
         </NavGrande>

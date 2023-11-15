@@ -1,15 +1,19 @@
 <script lang="ts">
     export let color: number = 1 | 2;
+    export let link: string = "/#";
+
+    let click = () => window.location.href = link;
 </script>
 
-<button class="color-{color}">
+<button class="nav-grande color-{color}" on:click|preventDefault={click}>
     <slot></slot>
 </button>
 
 <style>
-    button {
+    .nav-grande {
         border: none;
         cursor: pointer;
+        text-decoration: none;
 
         box-sizing: border-box;
         border-radius: var(--border-radius);
@@ -28,7 +32,7 @@
         transition: all 0.2s ease-in-out;
     }
 
-    button:hover {
+    .nav-grande:hover {
         transform: scale(1.05);
     }
 
