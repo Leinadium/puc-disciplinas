@@ -8,8 +8,9 @@
 # |  |  |  |  |
 # *  *  *  *  * user-name command to be executed
 
-0 0 * * * root python3 main.py -f > /proc/1/fd/1 2>/proc/1/fd/2
+0 0 * * * root python3 /var/scripts/main.py -f > /proc/1/fd/1 2>/proc/1/fd/2
 
-0 * * * * root python3 main.py > /proc/1/fd/1 2>/proc/1/fd/2
+0/5 * * * * root python3 /var/scripts/main.py > /proc/1/fd/1 2>/proc/1/fd/2
 
 # An empty line is required at the end of this file for a valid cron file.
+

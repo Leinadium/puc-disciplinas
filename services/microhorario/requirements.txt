@@ -3,3 +3,4 @@ SQLAlchemy
 pyscopg2
 psycopg2-binary
 unidecode
+python-dotenv
