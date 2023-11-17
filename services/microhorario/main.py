@@ -24,6 +24,10 @@ parser.add_argument("-f", "--full",
                     action="store_true",
                     help="Baixa todos os dados do microhorario novamente")
 
+parser.add_argument('-r', '--retry',
+                   action="store_true",
+                   help="Tenta conectar no banco até 5 vezes.")
+
 
 def baixa_microhorario(full: bool = False) -> Microhorario:
     """Baixa todos os dados do microhorario"""
@@ -247,13 +251,23 @@ def atualiza_curriculos(engine: Engine):
             session.commit()
 
 
-def main(full: bool = False):
+def main(full: bool = False, retry: bool = False):
     from sqlalchemy import create_engine
     conn_str = getenv("POSTGRES_CONN")
 
     # conecta ao banco
     print("[MAIN] Conectando no banco")
-    engine = create_engine(conn_str, echo=False)
+    i = 0
+    while True:
+        try:
+            engine = create_engine(conn_str, echo=False)
+            engine.connect()
+            break
+        except Exception as e:
+            if i >= 5:
+                raise e
+            print(f"[MAIN] Erro ao conectar no banco, tentando novamente ({i+1}/5)")
+            i += 1
 
     # baixa os dados
     print("[MAIN] Baixando o microhorario")
@@ -275,4 +289,4 @@ def main(full: bool = False):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    main(args.full)
+    main(args.full, args.retry)
