@@ -11,6 +11,8 @@ package main
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/Leinadium/puc-disciplinas/api/controllers"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/avaliacoes"
 	"github.com/Leinadium/puc-disciplinas/api/controllers/disciplinas"
@@ -21,9 +23,8 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/swaggo/files"
-	"github.com/swaggo/gin-swagger"
-	"os"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func main() {
@@ -34,16 +35,24 @@ func main() {
 	if !ok {
 		panic("SECRET_KEY nao encontrada")
 	}
+	// pega a url do front
+	frontUrl, ok := os.LookupEnv("URL_FRONT")
+	if !ok {
+		frontUrl = "http://localhost:5173"
+	}
 
 	// construtor do gin
 	r := gin.Default()
+
+	// remove warning de trusted proxies
+	r.SetTrustedProxies(nil)
 
 	// para sessoes
 	r.Use(sessions.Sessions("loginsession", cookie.NewStore([]byte(secretKey))))
 
 	// configuracao do cors
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:5173"}, // temporario
+		AllowOrigins:     []string{frontUrl},
 		AllowCredentials: true,
 		AllowHeaders:     []string{"Origin", "Content-Type"},
 		AllowMethods:     []string{"GET", "POST", "DELETE"},
