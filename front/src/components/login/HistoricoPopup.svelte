@@ -149,9 +149,4 @@
     .success {
         color: var(--color-anal-3);
     }
-
-    #historico-close {
-        font-size: 0.8rem;
-        color: #444;
-    }
 </style>
