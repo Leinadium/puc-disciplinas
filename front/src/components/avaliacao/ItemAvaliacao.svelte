@@ -27,7 +27,9 @@
     </span>
     <div class="outros">
         <div class="nota">
-            {#if info?.nota}
+            {#if !enable}
+                <span class="nao-cursada">Não cursada</span>
+            {:else if info?.nota}
                 <Estrelas nota={info.nota} enable={false} />  
             {:else}
                 <span> - </span>
@@ -45,6 +47,7 @@
 
 <style>
     .item-avaliacao {
+        position: relative;
         height: 8%;
         width: 100%;
         display: flex;
@@ -91,6 +94,11 @@
         display: flex;
         flex-flow: column;
         justify-content: center;
+    }
+
+    .nao-cursada {
+        font-size: 0.8rem;
+        text-align: center;
     }
 
 </style>

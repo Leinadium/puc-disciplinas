@@ -161,6 +161,7 @@
 
     #resultados-pesquisa {
         box-sizing: border-box;
+        position: relative;
         width: 100%;
         height: 100%;
         padding: 1%;
@@ -175,11 +176,15 @@
     }
 
     .header {
+        position: sticky;
+        top: 0;
         width: 100%;
         display: flex;
         flex-flow: row nowrap;
         justify-content: space-around;
         align-items: center;
+
+        z-index: 2;
 
         font-weight: bold;
         box-sizing: border-box;
