@@ -1,16 +1,9 @@
 <script lang="ts">
-    import { calcularDiferenca } from "$lib/utils";
 	import type { Modificacao } from "../../../types/data";
+	import TextoModificacao from "../../common/TextoModificacao.svelte";
 	import Legenda from './Legenda.svelte';
 
     export let modificacao: Modificacao | null = null;
-    $: console.log(modificacao);
-
-    let diferenca: string = "";
-    $: diferenca = modificacao?.dataGeral ? calcularDiferenca(new Date(modificacao.dataGeral)) + " atrás" : "Não disponível";
-
-    
-
 </script>
 
 
@@ -31,7 +24,7 @@
     <Legenda />
 
     <div class="modificacao">
-        <span>Última atualização: {diferenca}</span>
+        <span><TextoModificacao {modificacao} /></span>
         {#if modificacao?.modoFallback}
             <span class="modo-fallback">
                 ⚠️

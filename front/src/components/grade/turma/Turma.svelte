@@ -1,21 +1,18 @@
 <script lang="ts">
-	import { onMount, createEventDispatcher } from "svelte";
+	import { onMount } from "svelte";
 	import Popup from "../../common/Popup.svelte";
-	import type { DisciplinaInfo, TabelaHorarios } from "../../../types/data";
+	import type { DisciplinaInfo, Modificacao, TabelaHorarios } from "../../../types/data";
 	import { coletarDisciplinaInfo } from "$lib/api";
 	import ContainerTurmas from "./ContainerTurmas.svelte";
 	import TurmaTextos from "./TurmaTextos.svelte";
 	import TurmaInfo from "./TurmaInfo.svelte";
+	import TextoModificacao from "../../common/TextoModificacao.svelte";
 
     export let codigoDisciplina: string;
     export let tabelaHorariosUsados: TabelaHorarios;
+    export let modificacao: Modificacao | null = null;
 
     let infoApi: Promise<DisciplinaInfo | null>;
-    let dispatch = createEventDispatcher();
-
-    function close() {
-        dispatch("close");
-    }
 
     onMount(() => {
         infoApi = coletarDisciplinaInfo(codigoDisciplina);
@@ -56,8 +53,10 @@
                         {tabelaHorariosUsados}
                         on:submit
                     />
-                    <a id="voltar" href="/#" on:click|preventDefault={close}>Voltar à grade</a>
                 </div>
+                <span id="atualizacao-turma">
+                    <TextoModificacao {modificacao} />
+                </span>
             </div>
         {:else}
             <div id="no-info">Disciplina {codigoDisciplina} não encontrada</div>
@@ -75,7 +74,7 @@
 
     #turma-selecao {
         width: min(80vw, 1000px);
-        height: 600px;
+        height: 650px;
         padding: 2%;
 
         background: var(--color-main-2);
@@ -159,5 +158,13 @@
         background: #aaa;
         border-radius: var(--border-radius);
         text-align: center;
+    }
+
+    #atualizacao-turma {
+        width: 100%;
+        text-align: right;
+        font-size: 0.8em;
+        font-style: italic;
+        color: var(--color-whiteff);
     }
 </style>

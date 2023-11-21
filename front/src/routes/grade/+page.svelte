@@ -129,6 +129,7 @@
             <Turma 
                 codigoDisciplina={turmaCodigo}
                 tabelaHorariosUsados={tabelaHorariosUsados}
+                {modificacao}
                 on:close={closePopup}
                 on:submit={submitTurma}
             />
