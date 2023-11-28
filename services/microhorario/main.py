@@ -265,7 +265,9 @@ def main(full: bool = False, retry: bool = False):
             break
         except Exception as e:
             if i >= 5:
-                raise e
+                print("[MAIN] Não foi possivel conectar ao banco: ", e)
+                return 1
+
             print(f"[MAIN] Erro ao conectar no banco, tentando novamente ({i+1}/5)")
             i += 1
 
@@ -285,8 +287,18 @@ def main(full: bool = False, retry: bool = False):
     # atualiza a modificacao
     print("[MAIN] Atualizando a modificacao")
     atualiza_modificacao(engine, geral=full, modo_fallback=m.is_modo_fallback)
+    return 0
 
 
 if __name__ == "__main__":
+    import sys
+    import time
+
+    # esperando uns segundinhos
+    time.sleep(5)
+
     args = parser.parse_args()
-    main(args.full, args.retry)
+    sys.exit(
+        main(args.full, args.retry)
+    )
+

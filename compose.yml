@@ -28,6 +28,7 @@ services:
       - URL_FRONT=http://localhost:5173
       - URL_MICRO_LOGIN=http://login:5000
       - URL_MICRO_HISTORICO=http://historico:5001
+      - GIN_MODE=release
       - GORM_DSN=host=data user=tcc password=tcc dbname=tcc port=5432 sslmode=disable
       - SECRET_KEY=s902jgfkl2Wfdla9Gan
 
@@ -35,6 +36,8 @@ services:
     build: ./micro/login
     ports:
       - "5000:5000"
+    dns:
+      - 8.8.8.8
 
   historico:
     build: ./micro/historico
@@ -49,6 +52,8 @@ services:
       dockerfile: cron.Dockerfile 
     environment:
       - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
+    dns:
+      - 8.8.8.8
 
   sync-once:
     build:
@@ -57,6 +62,8 @@ services:
     environment:
       - POSTGRES_CONN=postgresql+psycopg2://tcc:tcc@data:5432/tcc
     restart: "on-failure"
+    dns:
+      - 8.8.8.8
 
 
 volumes:
