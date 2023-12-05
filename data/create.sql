@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS historicos (
     grau SMALLINT,  -- a disciplina pode nao ter nota
     PRIMARY KEY (cod_usuario, cod_disciplina, semestre),
     FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario),
-    FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_usuario)
+    FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina)
 );
 
 CREATE TABLE IF NOT EXISTS avaliacoes_disciplinas (
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS avaliacoes_disciplinas (
     nota_avaliacao SMALLINT NOT NULL,
     data_avaliacao DATE NOT NULL,
     PRIMARY KEY (cod_usuario, cod_disciplina),
-    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
+    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario),
     FOREIGN KEY (cod_disciplina) REFERENCES disciplinas(cod_disciplina)
 );
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS avaliacoes_professores (
     nota_avaliacao SMALLINT NOT NULL,
     data_avaliacao DATE NOT NULL,
     PRIMARY KEY (cod_usuario, nome_professor),
-    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario)
+    FOREIGN KEY (cod_usuario) REFERENCES usuarios(cod_usuario),
     FOREIGN KEY (nome_professor) REFERENCES professores(nome_professor)
 );
 
