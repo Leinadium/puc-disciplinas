@@ -49,7 +49,7 @@ def submit():
     try:
         lista, cod_curriculo = parse_historico(conteudo)
     except Exception as e:
-        print("erro ao processar o arquivo" + e)
+        print("erro ao processar o arquivo", e)
         return {"message": f"Erro ao processar o arquivo: {e}"}, 400
 
     # inserindo no banco
